@@ -33,7 +33,7 @@
         
         <div class="container-fluid">
             <div class="col-sm-12 text-center">
-                <button class="btn btn-primary btn-lg active" name="home" onclick="location.href = '/usermanagement/index.jsp';">Home</button>
+                <button class="btn btn-primary btn-lg active" name="home" onclick="location.href = 'index.jsp';">Home</button>
             </div>
         </div>
         <br><br>
