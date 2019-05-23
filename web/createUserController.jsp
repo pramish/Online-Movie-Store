@@ -11,11 +11,13 @@
     String password = (String) request.getParameter("password");
     String email = (String) request.getParameter("email");
     String phoneNumber = (String) request.getParameter("phoneNumber");
+    int key = (new Random()).nextInt(999999);
+    String ID = "" + key;
     if (manager.checkEmail(email)) {
         response.sendRedirect("index.jsp?failure1=User is already registered..");
     }
     if (!manager.checkEmail(email)) {
-        manager.addUser(email, name, password, phoneNumber);
+        manager.addUser(email, name, password, phoneNumber,ID);
         response.sendRedirect("index.jsp?success1=Registration Completed.");
     }
 %>

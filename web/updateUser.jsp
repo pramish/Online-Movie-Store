@@ -47,7 +47,8 @@
         
         <form action="updateUserController.jsp" method="post">
             <table>
-                    <%                        User user = (User) session.getAttribute("user");
+                    <%User user = (User) session.getAttribute("user");
+                    
                         if (user != null) {%>
                 <tr><td>Email:</td><td><input size="23" type="text" name="email" value=<%=user.getEmail()%> ></td></tr>
                 <tr><td>Name:</td><td><input size="23" type="text" name="name" value=<%=user.getName()%>></td></tr><br>

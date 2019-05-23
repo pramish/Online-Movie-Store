@@ -10,14 +10,17 @@
     String phone = (String) request.getParameter("phoneNumber");
     DatabaseManager manager = (DatabaseManager) session.getAttribute("manager");
     User newUser = manager.getUser(userEmail);
-
+    System.out.println(email);
+    System.out.println(name);
+    System.out.println(password);
+    System.out.println(phone);
    if(newUser!=null){
-       manager.updateUser(email, name, password, phone);
+//       manager.updateUser(email, name, password, phone);
        session.setAttribute("user", newUser);
-       response.sendRedirect("updateUser.jsp?success=User updated");
+       response.sendRedirect("updateUser.jsp?success=User Found.");
    }
    else{
-    response.sendRedirect("updateUser.jsp?failure= User didn't update");
+    response.sendRedirect("updateUser.jsp?failure= User not found.");
    }
 
 
