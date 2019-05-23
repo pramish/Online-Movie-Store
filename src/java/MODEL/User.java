@@ -1,28 +1,39 @@
 package MODEL;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 public class User implements Serializable {
 
+    private String ID;
     private String email;
     private String name;
     private String password;
     private String phoneNumber;
+    private String status;
     
-
     public User(String email, String name, String password, String phoneNumber) {
-
+        this.ID = UUID.randomUUID().toString().replaceAll("-", "");
         this.email = email;
         this.name = name;
         this.password = password;
         this.phoneNumber = phoneNumber;
-        
+        this.status = "ACTIVE";
     }
 
     public User() {
-
+        this.ID = UUID.randomUUID().toString().replaceAll("-", "");
+        this.email = "";
+        this.name = "";
+        this.password = "";
+        this.phoneNumber = "";
+        this.status = "ACTIVE";
     }
 
+    public String getID() {
+        return ID;
+    }
+    
     public String getEmail() {
         return email;
     }
@@ -71,4 +82,12 @@ public class User implements Serializable {
         return this.password.equals(password.trim());
     }
 
+    public String getStatus() {
+        return this.status;
+    }
+    
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    
 }
