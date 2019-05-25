@@ -6,14 +6,14 @@ import java.util.regex.Pattern;
 
 public class Validator implements Serializable {
 
-    private String emailPattern = "([a-zA-Z0-9]+)(([._-])([a-zA-Z0-9]+))*(@)([a-z]+)(.)([a-z]{3})((([.])[a-z]{0,2})*)";
-    private String namePattern = "([A-Z][a-z]+[\\s])+[A-Z][a-z]*";
-    private String passwordPattern = "[a-z]{6,}[0-9]+";
-    private String IDPattern = "[0-9]{6}";
+    private String emailPattern = "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$";
+    private String namePattern = "([a-zA-Z])*";
+    private String passwordPattern = "[a-zA-Z0-9]{6,}";
+    private String IDPattern = "[a-zA-Z0-9]{32}";
     private String yearsPattern = "([12]+[0-9]+[0-9]+[0-9])";
     private String numberPattern = "([0-9]+)";
     private String addressPattern = "(\"\\\\d+\\\\s+([a-zA-Z]+|[a-zA-Z]+\\\\s[a-zA-Z]+)\")";
-    private String phoneNumberPattern = "\\d{10}|(?:\\d{3}-){2}\\d{4}|\\(\\d{3}\\)\\d{3}-?\\d{4}";
+    private String phoneNumberPattern = "\\d{10}|\\d{8}|(?:\\d{3}-){2}\\d{4}|\\(\\d{3}\\)\\d{3}-?\\d{4}";
 
     public Validator() {
     }
