@@ -36,7 +36,7 @@
             <br><br><br>
             <div style="text-align: right;">
                 <form class="form-inline my-2 my-lg-0" action="readUserController.jsp" method="post">
-                <input class="form-control mr-sm-2" type="search" name="email" placeholder="enter email">
+                <input class="form-control mr-sm-2" type="search" name="name" placeholder="enter name">
                 <input class="form-control mr-sm-2" type="search" name="phoneNumber" placeholder="enter phonenumber">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>

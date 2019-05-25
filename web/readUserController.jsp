@@ -1,11 +1,11 @@
 <%@page import="MODEL.User"%>
 <%@page import="MODEL.DAO.DatabaseManager"%>
 <%
-    String email = request.getParameter("email");
+    String name = request.getParameter("name");
     String phoneNumber = request.getParameter("phoneNumber");
     DatabaseManager manager = (DatabaseManager) session.getAttribute("manager");
-    if (manager.findUser(email, phoneNumber) != null) {
-        User user1 = manager.getUser(email);
+    if (manager.findUser(name, phoneNumber) != null) {
+        User user1 = manager.getUser(name,phoneNumber);
         session.setAttribute("user1", user1);
         response.sendRedirect("listUser.jsp?success=User Found");
     } else {

@@ -50,19 +50,32 @@
             <table class="table table-borderless table-dark">
                 <caption><h2>Users Record</h2></caption>
                 <tr class="table-success">
+                    <th>User ID</th>
                     <th>Email</th>
                     <th>Name</th>
                     <th>Password</th>
                     <th>Phone Number</th>
+                    <th>Status</th>
                 </tr>
                 <tr class="table-success">
+                    <td> <%=user.getID()%> </td>
                     <td> <%=user.getEmail()%> </td>
                     <td> <%=user.getName()%> </td>
                     <td><%=user.getPassword()%></td>
                     <td><%=user.getPhoneNumber()%></td>
+                    <td> <%=user.getStatus()%> </td>
                 </tr>
             </table>
         </div>  
         <%}%>
+        
+        <%
+        System.out.println(user.getID());
+        System.out.println(user.getEmail());
+        System.out.println(user.getName());
+        %>
+        
+        
+        
     </body>
 </html>

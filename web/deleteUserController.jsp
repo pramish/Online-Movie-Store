@@ -1,7 +1,7 @@
 <%@page import="MODEL.DAO.DatabaseManager"%>
 <%
-    String email = (String) request.getParameter("email");
     DatabaseManager manager = (DatabaseManager) session.getAttribute("manager");
+    String email = (String) request.getParameter("email");
     if (!manager.checkEmail(email)) {
         response.sendRedirect("index.jsp?failure=User Not found");
     }

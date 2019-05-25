@@ -16,6 +16,7 @@
     <%
         String failure = (String) request.getParameter("failure");
         String success = (String) request.getParameter("success");
+        String success1 = (String) request.getParameter("success1");
     %>
     <%if (success != null) { %>
     <div class="alert alert-success">
@@ -30,6 +31,12 @@
     </div>
     <%  }
     %>
+    <%if (success1 != null) { %>
+    <div class="alert alert-success">
+        <%out.print(success1);%> 
+    </div>
+    <%  }
+    %>
     <body>
         <br><br>
         <div class="container-fluid">
@@ -39,7 +46,7 @@
         </div>
         <br>
         <form class="form-inline" action="updateUserController.jsp" method="post">
-            <input class="form-control mr-sm-2" type="search" name="email" placeholder="enter email address" cc aria-label="Search">
+            <input class="form-control mr-sm-2" type="search" name="ID" placeholder="enter user ID" cc aria-label="Search">
             <button class="btn btn-primary btn-lg active">Search</button>
             <br><br>
         </form>
@@ -47,25 +54,31 @@
         
         <form action="updateUserController.jsp" method="post">
             <table>
-                    <%User user = (User) session.getAttribute("user");
-                    
+                    <%
+                        User user = (User) session.getAttribute("user");
+
                         if (user != null) {%>
+                <tr><td>ID:</td><td><%=user.getID()%></td></tr>
                 <tr><td>Email:</td><td><input size="23" type="text" name="email" value=<%=user.getEmail()%> ></td></tr>
                 <tr><td>Name:</td><td><input size="23" type="text" name="name" value=<%=user.getName()%>></td></tr><br>
                 <tr><td>Password:</td><td><input size="23" type="password" name="password" value=<%= user.getPassword()%> ></td></tr>
                 <tr><td>Phone Number:</td><td><input size="23" type="text" name="phoneNumber" value=<%=user.getPhoneNumber()%> ></td></tr>
-                            <%} else {%>
-                <tr><td>Email:</td><td><input size="23" type="text" name="email" value="" ></td></tr>
-                <tr><td>Name:</td><td><input size="23" type="text" name="name" value="" ></td></tr><br>
+                <tr><td>Deactivate User:</td><td>
+<input type="radio" name="status" value="deactive"> Deactive
+                    </td></tr>
+                    <td>
+                        <input class="button" type="submit" name="save" value="Save"> 
+                        &nbsp; 
+                    </td>
+                    <%} else {%>
+                <tr><td>ID:</td><td></td></tr>
+                <tr><td>Email:</td><td><input size="23" type="text" name="email" value=""></td></tr>
+                <tr><td>Name:</td><td><input size="23" type="text" name="name" value=""></td></tr><br>
                 <tr><td>Password:</td><td><input size="23" type="password" name="password"value=""></td></tr>
                 <tr><td>Phone Number:</td><td><input size="23" type="text" name="phoneNumber"value=""></td></tr>
                             <%}%>
                 <tr><td></td>
-                    <td>
-                        <input type="hidden" value="updated" name="updated">
-                        <input class="button" type="submit" name="save" value="Save"> 
-                        &nbsp; 
-                    </td>
+                    
                 </tr>
             </table>
         </form>

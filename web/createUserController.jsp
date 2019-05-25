@@ -4,7 +4,7 @@
 <%@page contentType="text/html" import="java.util.*" import="MODEL.*" pageEncoding="UTF-8"%>
 <%@page import="java.sql.*"%>
 <%
-    Validator valid = new Validator();
+//    Validator valid = new Validator();
     DatabaseManager manager = (DatabaseManager) session.getAttribute("manager");
 
     String name = (String) request.getParameter("fullName");
@@ -13,12 +13,13 @@
     String phoneNumber = (String) request.getParameter("phoneNumber");
     int key = (new Random()).nextInt(999999);
     String ID = "" + key;
+    String status = "Active";
     if (manager.checkEmail(email)) {
         response.sendRedirect("index.jsp?failure1=User is already registered..");
     }
     if (!manager.checkEmail(email)) {
-        manager.addUser(email, name, password, phoneNumber,ID);
-        response.sendRedirect("index.jsp?success1=Registration Completed.");
+        manager.addUser(ID,email, name, password, phoneNumber,status);
+        response.sendRedirect("index.jsp?success1=User Added.");
     }
 %>
 
