@@ -35,11 +35,10 @@
                                 <label>Phone No.:</label>
                                 <p class="form-control-static"><%=user.getPhoneNumber()%></p>
                             </div>
-                            <div class="form-group">
+<!--                            <div class="form-group">
                                 <label>Password:</label>
                                 <p class="form-control-static"><%=user.getPassword()%></p>
-                            </div>
-                            
+                            </div>-->
                         </div>
                         <div class="col-sm-6">
                             <a href="/" class="btn btn-default btn-block">Home</a>
