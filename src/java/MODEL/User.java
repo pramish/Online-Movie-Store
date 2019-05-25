@@ -12,13 +12,13 @@ public class User implements Serializable {
     private String phoneNumber;
     private String status;
     
-    public User(String email, String name, String password, String phoneNumber) {
-        this.ID = UUID.randomUUID().toString().replaceAll("-", "");
+    public User(String id, String email, String name, String password, String phoneNumber, String status) {
+        this.ID = id;
         this.email = email;
         this.name = name;
         this.password = password;
         this.phoneNumber = phoneNumber;
-        this.status = "ACTIVE";
+        this.status = status;
     }
 
     public User() {
@@ -27,7 +27,7 @@ public class User implements Serializable {
         this.name = "";
         this.password = "";
         this.phoneNumber = "";
-        this.status = "ACTIVE";
+        this.status = "";
     }
 
     public String getID() {
