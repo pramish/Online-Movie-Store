@@ -4,14 +4,14 @@
     Author     : Photato
 --%>
 
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.sql.Array"%>
+<%@page import="java.util.List"%>
 <%@page import="MODEL.User"%>
-<%
-    User user = (User)session.getAttribute("user");
-    if(user == null) {
-        user = new User();
-    }
-%>
+<jsp:include page="/ConnServlet" flush="true" />
 
+<%User user = (User)session.getAttribute("registerUser");%>
+<%List<String> errors =(ArrayList)session.getAttribute("registerErrors");%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -20,19 +20,23 @@
     </head>
     <body>
         <div class="container">
-            <h1 class="text-center">Register</h1>
-            <hr />
+            <h1 class="text-center">Online Movie System</h1>
+            <h2 class="text-center">Register</h2>
+            <hr>
             <div class="row">
                 <div class="col-md-6 col-md-push-3">
-                    <form method="post" action="registerController">
+                    <form method="post" action="/register">
                         <div class="row">
-                            <div class="col-sm-6 col-sm-push-3 col-md-4 col-md-push-4">
+                            <div class="col-sm-6 col-sm-push-3">
+                                <ul>
+                                    <%for(String error: errors){%><li class="text-danger"><%=error%></li><%}%>
+                                </ul>
                                 <div class="form-group">
                                     <label>Email</label>
-                                    <input class="form-control" type="email" name="email" value="<%=user.getEmail()%>">
+                                    <input class="form-control" type="text" name="email" value="<%=user.getEmail()%>" required>
                                 </div>
                                 <div class="form-group">
-                                    <label>Name</label>
+                                    <label>Full Name</label>
                                     <input class="form-control" type="text" name="name" value="<%=user.getName()%>">
                                 </div>
                                 <div class="form-group">
@@ -41,13 +45,13 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Password</label>
-                                    <input class="form-control" type="text" name="password" value="<%=user.getPassword()%>">
+                                    <input class="form-control" type="password" name="password" value="<%=user.getPassword()%>" required>
                                 </div>
+                                <hr />
+                                <a href="/index.jsp" class="btn btn-default">Cancel</a>
+                                <input type="submit" class="btn btn-success pull-right" value="Submit">
                             </div>
                         </div>
-                        <hr />
-                        <a href="/index.jsp" class="btn btn-default">Cancel</a>
-                        <input type="submit" class="btn btn-success pull-right" value="Submit">
                     </form>
                 </div>
             </div>
