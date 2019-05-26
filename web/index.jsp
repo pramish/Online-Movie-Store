@@ -52,12 +52,27 @@
             <div class="row">
                 <div class="col-sm-6 col-md-4">
                     <ul class="list-group">
-                        <li class="list-group-item"><a href="/register">Register</a></li>
+                       
+                        
+                        
+                        
+                        
                         <%
                         User user = (User)session.getAttribute("user");
                         if(user != null && "ACTIVE".equals(user.getStatus())){
-                            %><li class="list-group-item"><a href="/myaccount">My Account</a></li><%
-                        }
+                            %>
+                            <li class="list-group-item"><a href="/myaccount">My Account</a></li>
+                            <li class="list-group-item"><form method="post" action="/logout"><input type="submit" value="Logout" /></form></li>
+                            <li class="list-group-item"><a href="/myaccesslogs">My Access Logs</a></li>
+                            
+                            <%
+                        }else{
+%>
+                            <li class="list-group-item"><a href="/login">Login</a></li>
+                             <li class="list-group-item"><a href="/register">Register</a></li>
+                            
+                            <%
+}
                         %>
                         
                     </ul>

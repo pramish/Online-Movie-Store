@@ -66,6 +66,41 @@ public class DatabaseManager {
         st.executeUpdate("delete from \"USER\" where id = '" + id + "'");
     }
     
+    public void addUserLogs(String ID, String userID, String accessType, String timeStamp) throws SQLException {
+        st.executeUpdate("INSERT INTO \"USERACCESSLOG\" ( "
+                + " id"
+                + " ,userid"
+                + " ,accesstype"
+                + " ,timestamp) "
+                + " VALUES ("
+                + "'" + ID + "'"
+                + ",'" + userID + "'"
+                + ",'" + accessType + "'"
+                + ",'" + timeStamp + "')");
+        
+            
+    }
+    
+    public User findUserLogin(String email, String password) throws SQLException {
+        String fetch = "select * from \"USER\" where email = '" + email + "' and password = '" + password + "'";
+        ResultSet rs = st.executeQuery(fetch);
+        while (rs.next()) {
+            String userEmail = rs.getString("EMAIL");
+            String userPassword = rs.getString("PASSWORD");
+            if (userEmail.equals(email) && userPassword.equals(password)) {
+                String userName = rs.getString("NAME");
+                String phonenumber = rs.getString("PHONENUMBER");
+                String status = rs.getString("STATUS");
+                String id = rs.getString("ID");
+               String name = rs.getString("NAME");
+                
+                return new User(id, email, name, password, phonenumber, status);
+//                return new User(userEmail, userName, userPassword, phonenumber);
+            }
+        }
+        return null;
+    }
+    
     public User findUser(String email, String phoneNumber) throws SQLException {
         String fetch = "select * from \"USER\" where email = '" + email + "' and phonenumber = '" + phoneNumber + "'";
         ResultSet rs = st.executeQuery(fetch);

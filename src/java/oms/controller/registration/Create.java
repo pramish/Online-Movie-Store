@@ -118,7 +118,7 @@ public class Create extends HttpServlet {
             throws ServletException, IOException {
         
         // Redirect to Create view
-        RequestDispatcher view = request.getRequestDispatcher("/Register/Register.jsp");
+        RequestDispatcher view = request.getRequestDispatcher("/Registration/Register.jsp");
         view.forward(request, response);
     }
 
