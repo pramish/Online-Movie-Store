@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package oms.controller.userAccessManagement;
+package oms.controller.registration;
 
 import MODEL.DAO.DatabaseManager;
 import MODEL.User;
@@ -131,7 +131,7 @@ public class Update extends HttpServlet {
             throws ServletException, IOException {
         
         // Redirect to Create view
-        RequestDispatcher view = request.getRequestDispatcher("/UserAccessManagement/UpdateRegistration.jsp");
+        RequestDispatcher view = request.getRequestDispatcher("/Registration/UpdateRegistration.jsp");
         view.forward(request, response);
     }
 

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package oms.controller.userAccessManagement;
+package oms.controller.registration;
 
 import MODEL.DAO.DatabaseManager;
 import MODEL.User;
@@ -60,7 +60,7 @@ public class Delete extends HttpServlet {
                 Logger.getLogger(Delete.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        RequestDispatcher view = request.getRequestDispatcher("/UserAccessManagement/CancelRegistration.jsp");
+        RequestDispatcher view = request.getRequestDispatcher("/Registration/CancelRegistration.jsp");
         view.forward(request, response);
     }
     

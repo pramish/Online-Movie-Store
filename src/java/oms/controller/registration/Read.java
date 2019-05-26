@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package oms.controller.userAccessManagement;
+package oms.controller.registration;
 
 /**
  *
@@ -44,7 +44,7 @@ public class Read extends HttpServlet {
         // Redirect to register if user is not registered.
         if(user == null || "".equals(user.getStatus())) response.sendRedirect("/login");
         else{
-            RequestDispatcher view = request.getRequestDispatcher("/UserAccessManagement/ViewRegistration.jsp");
+            RequestDispatcher view = request.getRequestDispatcher("/Registration/ViewRegistration.jsp");
             view.forward(request, response);    
         }
     }

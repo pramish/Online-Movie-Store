@@ -1,4 +1,4 @@
-package oms.controller.userAccessManagement;
+package oms.controller.registration;
 
 import MODEL.DAO.DatabaseManager;
 import MODEL.User;
@@ -118,7 +118,7 @@ public class Create extends HttpServlet {
             throws ServletException, IOException {
         
         // Redirect to Create view
-        RequestDispatcher view = request.getRequestDispatcher("/UserAccessManagement/Register.jsp");
+        RequestDispatcher view = request.getRequestDispatcher("/Register/Register.jsp");
         view.forward(request, response);
     }
 
