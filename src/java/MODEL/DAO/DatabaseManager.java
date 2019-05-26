@@ -55,6 +55,23 @@ public class DatabaseManager {
         return null;
     }
     
+       public User getUsers(String name, String phoneNumber) throws SQLException {
+        String queryString = "select * from \"USER\" where name = '" + name + "' and phonenumber = '" + phoneNumber + "'";
+        ResultSet rs = st.executeQuery(queryString);
+        while (rs.next()) {
+            if (name.equals(rs.getString("name"))&& phoneNumber.equals(rs.getString("phonenumber"))) {
+                return new User(rs.getString("id"),
+                        rs.getString("email"),
+                        rs.getString("name"),
+                        rs.getString("password"),
+                        rs.getString("phonenumber"),
+                        rs.getString("status"));
+            }
+        }
+        return null;
+    }
+    
+    
     public void updateUser(String id, String email, String name, String password, String phoneNumber, String status) throws SQLException {
         st.executeUpdate("update \"USER\" set "
                 + " email           = '" + email +          "'"

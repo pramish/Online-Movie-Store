@@ -10,7 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <%@include file="Header.html" %>
+        <%@include file="/Header.html" %>
     </head>
     <body>
         <%
@@ -38,7 +38,7 @@
         </div>
         <br><br>
         <pre>
-        <form class="form-inline" action="deleteUserController.jsp" method="post">
+        <form class="form-inline" action="/deleteUser" method="post">
             <input class="form-control mr-sm-2" type="search" name="email" placeholder="enter email address" cc aria-label="Search">
             <br>
             <button class="btn btn-primary btn-lg active">Delete</button>

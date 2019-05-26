@@ -12,7 +12,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
     </head>
-    <%@include file="Header.html" %>
+    <%@include file="/Header.html" %>
     <body>
         <%User user = (User) session.getAttribute("user1");
             String success = (String) request.getParameter("success");

@@ -13,7 +13,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Create User</title>
-        <%@include file="Header.html" %>
+        <%@include file="/Header.html" %>
     </head>
     <body>
         <h1>Create User</h1>
@@ -23,7 +23,7 @@
             </div>
         </div>
         <br><br>
-        <form action="createUserController.jsp" method="POST">
+        <form action="/createUser" method="POST">
             <div class="form-row">
                 <div class="col-md-4 mb-3">
 
