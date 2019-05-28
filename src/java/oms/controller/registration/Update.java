@@ -13,6 +13,7 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -30,21 +31,41 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "Update", urlPatterns = {"/myaccount/edit"})
 public class Update extends HttpServlet {
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        HttpSession session = request.getSession();
+        DatabaseManager manager = (DatabaseManager)session.getAttribute("manager");
+        
         // Get user from session
-        User user = getSessionUser(request);
+        User user = (User) session.getAttribute("user");
+        
+        //If user does not exist Create new user
+        if(user == null){
+            user = new User();
+            
+            boolean userIDExists = true;
+            try {
+                while(userIDExists)
+                {
+                    user.setID(""+((new Random()).nextInt(900000000)+ + 100000000));
+                    userIDExists = manager.getUser(user.getID()) != null;
+                }
+                manager.addAnonymousUser(user.getID());
+            } catch (SQLException ex) {
+                Logger.getLogger(Create.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            // Store user in session
+            session.setAttribute("user", user);
+        }
+        
         User editUser = new User(user.getID(), user.getEmail(), user.getName(), user.getPassword(), user.getPhoneNumber(), user.getStatus());
         
         // Redirect to register if user is not registered.
         if("".equals(user.getStatus())) response.sendRedirect("/login");
         else{
-            HttpSession session = request.getSession();
-        
             // Set editMyAccountUser as user
             session.setAttribute("editMyAccountUser", editUser);
 
@@ -52,20 +73,43 @@ public class Update extends HttpServlet {
             session.setAttribute("editMyAccountErrors", new ArrayList<>());
 
             // Process Request
-            processRequest(request, response);
+            // Redirect to Create view
+            RequestDispatcher view = request.getRequestDispatcher("/Registration/UpdateRegistration.jsp");
+            view.forward(request, response);
         }
     }
 
-    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
         // Get Session
         HttpSession session = request.getSession();
+        DatabaseManager manager = (DatabaseManager)session.getAttribute("manager");
         
         // Get User
-        User user = getSessionUser(request);
+        User user = (User) session.getAttribute("user");
+        
+        //If user does not exist Create new user
+        if(user == null){
+            user = new User();
+            
+            boolean userIDExists = true;
+            try {
+                while(userIDExists)
+                {
+                    user.setID(""+((new Random()).nextInt(900000000)+ + 100000000));
+                    userIDExists = manager.getUser(user.getID()) != null;
+                }
+                manager.addAnonymousUser(user.getID());
+            } catch (SQLException ex) {
+                Logger.getLogger(Create.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            // Store user in session
+            session.setAttribute("user", user);
+        }
+        
         if("".equals(user.getStatus())) response.sendRedirect("/login");
         
         User editUser =  (User) session.getAttribute("editMyAccountUser");
@@ -93,16 +137,27 @@ public class Update extends HttpServlet {
         if(!v.validatePassword(editUser.getPassword())) 
             errors.add("Password is not valid.");
         
+        
+        try {
+            if(!editUser.getEmail().toLowerCase().equals(user.getEmail().toLowerCase()) && manager.getUserByEmail(editUser.getEmail()) != null){
+                errors.add("This email address is registered to another user!");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Create.class.getName()).log(Level.SEVERE, null, ex);
+            errors.add(ex.getMessage());
+        }
+        
         // IF there are errors
         if(errors.size() > 0){
             
             //Store errors in session
             session.setAttribute("editMyAccountErrors", errors);
-            processRequest(request, response);
+            // Redirect to Create view
+            RequestDispatcher view = request.getRequestDispatcher("/Registration/UpdateRegistration.jsp");
+            view.forward(request, response);
         }else{
             try {
                 // Add user
-                DatabaseManager manager = (DatabaseManager)session.getAttribute("manager");
                 manager.updateUser(editUser.getID(), editUser.getEmail(), editUser.getName(), editUser.getPassword(), editUser.getPhoneNumber(), editUser.getStatus());
                 
                 user = manager.getUser(editUser.getID());
@@ -113,46 +168,10 @@ public class Update extends HttpServlet {
                 Logger.getLogger(Create.class.getName()).log(Level.SEVERE, null, ex);
                 errors.add(ex.getMessage());
                 session.setAttribute("editMyAccountErrors", errors);
-                processRequest(request, response);
+                // Redirect to Create view
+                RequestDispatcher view = request.getRequestDispatcher("/Registration/UpdateRegistration.jsp");
+                view.forward(request, response);
             }
         }
     }
-    
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }
-    
-    //</editor-fold>
-
-    
-    // <editor-fold defaultstate="collapsed" desc="Helpful functions. Click on the + sign on the left to edit the code.">
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-        // Redirect to Create view
-        RequestDispatcher view = request.getRequestDispatcher("/Registration/UpdateRegistration.jsp");
-        view.forward(request, response);
-    }
-
-    private User getSessionUser(HttpServletRequest request){
-        
-        
-        HttpSession session = request.getSession();
-        
-        // Get user from session
-        User user = (User) session.getAttribute("user");
-        
-        //If user does not exist Create new user
-        if(user == null){
-            user = new User();
-            
-            // Store user in session
-            session.setAttribute("user", user);
-        }
-        
-        return user;
-    }
-    //</editor-fold>
-    
 }

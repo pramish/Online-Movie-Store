@@ -1,7 +1,7 @@
 package MODEL;
 
 public class Admin {
-
+    
     private String name;
     private String password;
     private String email;

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -20,15 +21,36 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "Create", urlPatterns = {"/register"})
 public class Create extends HttpServlet {
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        // Get user from session
-        User user = getSessionUser(request);
-        User registerUser = new User(user.getID(), user.getEmail(), user.getName(), user.getPassword(), user.getPhoneNumber(), user.getStatus());
         HttpSession session = request.getSession();
+        DatabaseManager manager = (DatabaseManager)session.getAttribute("manager");
+        
+        // Get user from session
+        User user = (User) session.getAttribute("user");
+        
+        //If user does not exist Create new user
+        if(user == null){
+            user = new User();
+            
+            boolean userIDExists = true;
+            try {
+                while(userIDExists)
+                {
+                    user.setID(""+((new Random()).nextInt(900000000)+ + 100000000));
+                    userIDExists = manager.getUser(user.getID()) != null;
+                }
+                manager.addAnonymousUser(user.getID());
+            } catch (SQLException ex) {
+                Logger.getLogger(Create.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            // Store user in session
+            session.setAttribute("user", user);
+        }
+        User registerUser = new User(user.getID(), user.getEmail(), user.getName(), user.getPassword(), user.getPhoneNumber(), user.getStatus());
         
         // Set registeruser as user
         session.setAttribute("registerUser", registerUser);
@@ -37,7 +59,8 @@ public class Create extends HttpServlet {
         session.setAttribute("registerErrors", new ArrayList<>());
         
         // Process Request
-        processRequest(request, response);
+        RequestDispatcher view = request.getRequestDispatcher("/Registration/Register.jsp");
+        view.forward(request, response);
     }
     
     @Override
@@ -46,9 +69,30 @@ public class Create extends HttpServlet {
         
         // Get Session
         HttpSession session = request.getSession();
+        DatabaseManager manager = (DatabaseManager)session.getAttribute("manager");
         
-        // Get User
-        User user = getSessionUser(request);
+        // Get user from session
+        User user = (User) session.getAttribute("user");
+        
+        //If user does not exist Create new user
+        if(user == null){
+            user = new User();
+            
+            boolean userIDExists = true;
+            try {
+                while(userIDExists)
+                {
+                    user.setID(""+((new Random()).nextInt(900000000)+ + 100000000));
+                    userIDExists = manager.getUser(user.getID()) != null;
+                }
+                manager.addAnonymousUser(user.getID());
+            } catch (SQLException ex) {
+                Logger.getLogger(Create.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            // Store user in session
+            session.setAttribute("user", user);
+        }
         
         User registerUser =  (User) session.getAttribute("registerUser");
         if(registerUser == null)
@@ -56,6 +100,7 @@ public class Create extends HttpServlet {
             registerUser = new User(user.getID(), user.getEmail(), user.getName(), user.getPassword(), user.getPhoneNumber(), user.getStatus());
             session.setAttribute("registerUser", registerUser);
         }
+        
         // Get form variables
         registerUser.setEmail(request.getParameter("email"));
         registerUser.setName(request.getParameter("name"));
@@ -74,71 +119,38 @@ public class Create extends HttpServlet {
         if(!v.validatePassword(registerUser.getPassword())) 
             errors.add("Password is not valid.");
         
+        try {
+            if(manager.getUserByEmail(registerUser.getEmail()) != null){
+                errors.add("This email address is already registered.");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Create.class.getName()).log(Level.SEVERE, null, ex);
+            errors.add(ex.getMessage());
+        }
+        
         // IF there are errors
         if(errors.size() > 0){
             
             //Store errors in session
             session.setAttribute("registerErrors", errors);
-            processRequest(request, response);
+            RequestDispatcher view = request.getRequestDispatcher("/Registration/Register.jsp");
+            view.forward(request, response);
         }else{
             try {
                 // Add user
-                DatabaseManager manager = (DatabaseManager)session.getAttribute("manager");
-                manager.addUser(registerUser.getID(), registerUser.getEmail(), registerUser.getName(), registerUser.getPassword(), registerUser.getPhoneNumber());
-                
+                manager.registerUser(registerUser.getID(), registerUser.getEmail(), registerUser.getName(), registerUser.getPassword(), registerUser.getPhoneNumber());
                 
                 user = manager.getUser(registerUser.getID());
                 session.setAttribute("user", user);
                 response.sendRedirect("/");
                 
-                
-                
             } catch (SQLException ex) {
                 Logger.getLogger(Create.class.getName()).log(Level.SEVERE, null, ex);
                 errors.add(ex.getMessage());
                 session.setAttribute("registerErrors", errors);
-                processRequest(request, response);
+                RequestDispatcher view = request.getRequestDispatcher("/Registration/Register.jsp");
+                view.forward(request, response);
             }
-            
-            
-            
         }
-        
     }
-
-
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Helpful functions. Click on the + sign on the left to edit the code.">
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-        // Redirect to Create view
-        RequestDispatcher view = request.getRequestDispatcher("/Registration/Register.jsp");
-        view.forward(request, response);
-    }
-
-    private User getSessionUser(HttpServletRequest request){
-        
-        
-        HttpSession session = request.getSession();
-        
-        // Get user from session
-        User user = (User) session.getAttribute("user");
-        
-        //If user does not exist Create new user
-        if(user == null){
-            user = new User();
-            
-            // Store user in session
-            session.setAttribute("user", user);
-        }
-        return user;
-    }
-    //</editor-fold>
-    
 }

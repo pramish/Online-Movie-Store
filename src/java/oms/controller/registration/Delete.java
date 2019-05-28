@@ -28,15 +28,7 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet(name = "Delete", urlPatterns = {"/myaccount/cancel"})
 public class Delete extends HttpServlet {
-    
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -63,6 +55,4 @@ public class Delete extends HttpServlet {
         RequestDispatcher view = request.getRequestDispatcher("/Registration/CancelRegistration.jsp");
         view.forward(request, response);
     }
-    
-    
 }

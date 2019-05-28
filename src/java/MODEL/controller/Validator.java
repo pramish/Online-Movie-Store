@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 public class Validator implements Serializable {
 
     private String emailPattern = "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$";
-    private String namePattern = "([a-zA-Z])*";
+    private String namePattern = "([a-zA-Z\\s])*";
     private String passwordPattern = "[a-zA-Z0-9]{6,}";
     private String IDPattern = "[a-zA-Z0-9]{32}";
     private String yearsPattern = "([12]+[0-9]+[0-9]+[0-9])";

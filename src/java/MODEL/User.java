@@ -1,7 +1,6 @@
 package MODEL;
 
 import java.io.Serializable;
-import java.util.UUID;
 
 public class User implements Serializable {
 
@@ -22,7 +21,7 @@ public class User implements Serializable {
     }
 
     public User() {
-        this.ID = UUID.randomUUID().toString().replaceAll("-", "");
+        this.ID = "";
         this.email = "";
         this.name = "";
         this.password = "";
@@ -32,6 +31,10 @@ public class User implements Serializable {
 
     public String getID() {
         return ID;
+    }
+    
+    public void setID(String id){
+        this.ID = id;
     }
     
     public String getEmail() {

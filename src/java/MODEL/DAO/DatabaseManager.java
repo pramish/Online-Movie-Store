@@ -18,8 +18,7 @@ public class DatabaseManager {
         st = conn.createStatement();
     }
     
-    // <editor-fold defaultstate="collapsed" desc="User functions. Click on the + sign on the left to edit the code.">
-    
+   
     public void addUser(String id, String email, String name, String password, String phoneNumber) throws SQLException {
         st.executeUpdate("insert into \"USER\" ( "
                 + " id"
@@ -55,7 +54,7 @@ public class DatabaseManager {
         return null;
     }
     
-       public User getUsers(String name, String phoneNumber) throws SQLException {
+    public User getUsers(String name, String phoneNumber) throws SQLException {
         String queryString = "select * from \"USER\" where name = '" + name + "' and phonenumber = '" + phoneNumber + "'";
         ResultSet rs = st.executeQuery(queryString);
         while (rs.next()) {
@@ -70,7 +69,6 @@ public class DatabaseManager {
         }
         return null;
     }
-    
     
     public void updateUser(String id, String email, String name, String password, String phoneNumber, String status) throws SQLException {
         st.executeUpdate("update \"USER\" set "
@@ -184,8 +182,7 @@ public class DatabaseManager {
         return false;
     }
     
-    
-        public Movie findMovie(String ID, String title) throws SQLException {
+    public Movie findMovie(String ID, String title) throws SQLException {
        ResultSet rs = st.executeQuery("SELECT * FROM MOVIE");
         while(rs.next())
         {
@@ -210,7 +207,6 @@ public class DatabaseManager {
         return null;
     }
         
-
     public List<Movie> searchMovie(String title, String genre) throws SQLException {
       ResultSet rs = st.executeQuery("SELECT * FROM MOVIE");
       List<Movie> movielist = new ArrayList<>();
@@ -239,10 +235,28 @@ public class DatabaseManager {
         st.executeUpdate("DELETE FROM MOVIE WHERE ID='"+ID+"'");
     }
     
+    public void addAnonymousUser(String id) throws SQLException{
+        st.executeUpdate("Insert into \"USER\" (id) VALUES('"+ id + "')");
+    }
     
+    public User getUserByEmail(String email) throws SQLException{
+        ResultSet rs = st.executeQuery("select * from \"USER\" where UPPER(EMAIL) = UPPER('" + email + "')");
+        while (rs.next()) {
+            if(email.equals(rs.getString("email")))
+            {
+                return new User(rs.getString("id"), 
+                        rs.getString("email"), 
+                        rs.getString("name"), 
+                        rs.getString("password"), 
+                        rs.getString("phonenumber"), 
+                        rs.getString("status"));
+            }
+        }
+        return null;
+    }
+    
+    public void registerUser(String id, String email, String name, String password, String phoneNumber) throws SQLException{
+        updateUser(id, email, name, password, phoneNumber, "ACTIVE");
+    }
     
 }
-
-
-
-    //</editor-fold>
