@@ -1,8 +1,10 @@
 <%-- 
-    Document   : editMovie
-    Created on : 19/05/2019, 4:21:15 PM
+    Document   : updateMovie
+    Created on : 27/05/2019, 10:03:22 AM
     Author     : luckylau
 --%>
+
+<%@page import="MODEL.Movie"%>
 <%@page import="java.math.BigDecimal"%>
 <%@page import="MODEL.DAO.*"%>
 <%@page import="MODEL.controller.*"%>
@@ -13,7 +15,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Delete Movie</title>
+        <title>Update Movie</title>
     </head>
     
     <%
@@ -24,8 +26,8 @@
     %> 
     
     
-         <h1>Delete Movie</h1>        
-        <form action="/movie/delete" method="post">
+         <h1>Update Movie</h1>        
+        <form action="/movie/update" method="post">
             <table>
                 <tr><td>Movie ID</td><td><%= movie.getID()%></td></tr>
                 <tr><td>Movie Title</td><td><input type="text" value="<%= movie.getTitle()%>" name="title"></td></tr>
@@ -35,15 +37,14 @@
                 
                  
                 
-                <tr>
-                    <td><input class="button" type="submit" value="Delete" name="Deleted"> 
+                 <tr>
+                    <td><input class="button" type="submit" value="Update" name="updated"> 
                         &emsp; 
                         <button class="button" type="button" onclick="location.href = '/movie/list'" > Movie List </button>
                     </td>
                 </tr>
             </table>
         </form>
-        
         
        
         
