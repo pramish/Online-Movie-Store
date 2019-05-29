@@ -4,6 +4,8 @@
     Author     : pramishluitel
 --%>
 
+<%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="MODEL.DAO.DatabaseManager"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="MODEL.controller.*"%>
@@ -14,18 +16,18 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Create User</title>
         <%@include file="/Header.html" %>
+
     </head>
     <body>
+
+        <%@include file="/heading.jsp" %>
         <h1>Create User</h1>
-        <div class="container-fluid">
-            <div class="col-sm-12 text-center">
-                <button class="btn btn-primary btn-lg active" name="home" onclick="location.href = 'index.jsp';">Home</button>
-            </div>
-        </div>
         <br><br>
+
         <form action="/createUser" method="POST">
             <div class="form-row">
                 <div class="col-md-4 mb-3">
+
 
                     <label for="validationDefault01">Full Name</label>
                     <input type="text" class="form-control" id="validationDefault01" placeholder="enter the full name" name="fullName">
@@ -51,7 +53,7 @@
             <br><br><br><br><br><br><br><br>
             <div class="container-fluid">
                 <div class="col-sm-12 text-center">
-                    <button class="btn btn-primary btn-lg active" type="submit" name="submit">Create User</button>
+                    <button  class="btn btn-success" type="submit" name="submit">Create User</button>
                 </div>
             </div>
         </form>

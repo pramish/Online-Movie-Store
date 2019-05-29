@@ -88,7 +88,7 @@ public class readUser extends HttpServlet {
             if (manager.findUser(name, phoneNumber) != null) {
                 User user1 = manager.getUsers(name, phoneNumber);
                 session.setAttribute("user1", user1);
-                response.sendRedirect("listUser.jsp?success=User Found");
+                response.sendRedirect("/UserManagement/listUser.jsp?success=User Found");
             } else {
                 response.sendRedirect("/readUser?failure=User not found");
                 request.getSession().removeAttribute("user1");

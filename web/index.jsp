@@ -28,32 +28,15 @@
         </div>
         <%  }
         %>
-        <h1>Admin Menu</h1>
-        <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
-            <a class="navbar-brand" href="createUser.jsp">Create Users</a>
-            <a class="navbar-brand" href="updateUser.jsp">Update Users</a>
-            <a class="navbar-brand" href="deleteUser.jsp">Delete Users</a>
-            <br><br><br>
-            <div style="text-align: right;">
-                <form class="form-inline my-2 my-lg-0" action="readUserController.jsp" method="post">
-                <input class="form-control mr-sm-2" type="search" name="name" placeholder="enter name">
-                <input class="form-control mr-sm-2" type="search" name="phoneNumber" placeholder="enter phonenumber">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
-            </div>
-        </nav> 
+        <%@include file="heading.jsp" %>
         <jsp:include page="/ConnServlet" flush="true" /> 
-                    
-        
-        
-        
         <div class="container">
             <hr>
             <div class="row">
                 <div class="col-sm-6 col-md-4">
                     <ul class="list-group">
                        
-                        
+                        <li class="list-group-item"><a href="/users">User list</a></li>
                         
                         
                         

@@ -5,13 +5,22 @@
  */
 package oms.controller.usermanagement;
 
+import MODEL.DAO.DatabaseManager;
+import MODEL.User;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -37,7 +46,7 @@ public class updateUser extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet updateUser</title>");            
+            out.println("<title>Servlet updateUser</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet updateUser at " + request.getContextPath() + "</h1>");
@@ -58,21 +67,87 @@ public class updateUser extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
+        // Get user from querystring
+//        String id = request.getParameter("id");
+//        
+//        HttpSession session = request.getSession();
+//        
+//        DatabaseManager manager = (DatabaseManager)session.getAttribute("manager");
+//        
+//        
+//        User user = null;
+//        try {
+//            user = manager.getUserByID(id);
+//        } catch (SQLException ex) {
+//            Logger.getLogger(updateUser.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        
+//        if(user == null){
+//            response.sendRedirect("/users");
+//        }else{
+//            
+//        // Set editMyAccountUser as user
+//        session.setAttribute("editUser", user);
+        RequestDispatcher view = request.getRequestDispatcher("/UserManagement/updateUser.jsp");
+        view.forward(request, response);
+//    }
+
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        HttpSession session = request.getSession();
+        String save = (String) request.getParameter("save");
+        DatabaseManager manager = (DatabaseManager) session.getAttribute("manager");
+        if (save != null) {
+
+            String email = request.getParameter("email");
+            String name = request.getParameter("name");
+            String password = request.getParameter("password");
+            String phone = request.getParameter("phone");
+            String status = request.getParameter("status");
+            System.out.println("My  first status is askdfgksgf" + status);
+            if (status.equals("Deactive")) {
+                System.out.println("My  first status is " + status);
+                User user = (User) session.getAttribute("user");
+                user.setEmail(email);
+                user.setName(name);
+                user.setPassword(password);
+                user.setPhoneNumber(phone);
+                user.setStatus(status);
+                try {
+                    manager.updateUser(user.getID(), user.getEmail(), user.getName(), user.getPassword(), user.getPhoneNumber(), user.getStatus());
+                    User pramish = new User(user.getID(), user.getEmail(), user.getName(), user.getPassword(), user.getPhoneNumber(), user.getStatus());
+                    session.setAttribute("user", pramish);
+                    response.sendRedirect("/index.jsp?success1=User Updated.");
+                    request.getSession().removeAttribute("user");
+                } catch (SQLException ex) {
+                    Logger.getLogger(updateUser.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+            if (status.equals("Active")) {
+                System.out.println("My second status is " + status);
+                User user = (User) session.getAttribute("user");
+                user.setEmail(email);
+                user.setName(name);
+                user.setPassword(password);
+                user.setPhoneNumber(phone);
+                user.setStatus(status);
+                try {
+                    manager.updateUser(user.getID(), user.getEmail(), user.getName(), user.getPassword(), user.getPhoneNumber(), user.getStatus());
+                    User pramish = new User(user.getID(), user.getEmail(), user.getName(), user.getPassword(), user.getPhoneNumber(), user.getStatus());
+                    session.setAttribute("user", pramish);
+                    response.sendRedirect("/index.jsp?success1=User Updated.");
+                    request.getSession().removeAttribute("user");
+                } catch (SQLException ex) {
+                    Logger.getLogger(updateUser.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+        }
     }
 
     /**

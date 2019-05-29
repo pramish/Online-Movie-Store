@@ -81,19 +81,19 @@ public class deleteUser extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         DatabaseManager manager = (DatabaseManager) session.getAttribute("manager");
-        String email = (String) request.getParameter("email");
+        String id = (String) request.getParameter("id");
         try {
-            if (!manager.checkEmail(email)) {
-                response.sendRedirect("index.jsp?failure=User Not found");
+            if (!manager.checkID(id)) {
+                response.sendRedirect("/deleteUser?failure=User Not found");
             }
         } catch (SQLException ex) {
             Logger.getLogger(deleteUser.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-            if (manager.checkEmail(email)) {
-                manager.deleteUser(email);
+            if (manager.checkID(id)) {
+                manager.deleteUser(id);
                 request.getSession().removeAttribute("user1");
-                response.sendRedirect("index.jsp?success=User successfully deleted.");
+                response.sendRedirect("/deleteUser?success=User successfully deleted.");
             }
         } catch (SQLException ex) {
             Logger.getLogger(deleteUser.class.getName()).log(Level.SEVERE, null, ex);
