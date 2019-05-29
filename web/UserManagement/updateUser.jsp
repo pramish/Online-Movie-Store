@@ -38,50 +38,66 @@
     <%  }
     %>
     <body>
-        <br><br>
+        
+        <%@include file="/heading.jsp" %>
+        <h1>Update User details.</h1>
+        <br>
         <div class="container-fluid">
             <div class="col-sm-12 text-center">
-                <button class="btn btn-primary btn-lg active" name="home" onclick="location.href = 'index.jsp';">Home</button>
-            </div>
-        </div>
-        <br>
-        <form class="form-inline" action="updateUserController.jsp" method="post">
+       <form class="form-inline" action="/UserManagement/updateUserController.jsp" method="post">
             <input class="form-control mr-sm-2" type="search" name="ID" placeholder="enter user ID" cc aria-label="Search">
-            <button class="btn btn-primary btn-lg active">Search</button>
+            <button class="btn btn-warning" name="search">Search</button>
             <br><br>
         </form>
-        <pre>
-        
-        <form action="updateUserController.jsp" method="post">
-            <table>
-                    <%
-                        User user = (User) session.getAttribute("user");
-
-                        if (user != null) {%>
-                <tr><td>ID:</td><td><%=user.getID()%></td></tr>
-                <tr><td>Email:</td><td><input size="23" type="text" name="email" value=<%=user.getEmail()%> ></td></tr>
-                <tr><td>Name:</td><td><input size="23" type="text" name="name" value=<%=user.getName()%>></td></tr><br>
-                <tr><td>Password:</td><td><input size="23" type="password" name="password" value=<%= user.getPassword()%> ></td></tr>
-                <tr><td>Phone Number:</td><td><input size="23" type="text" name="phoneNumber" value=<%=user.getPhoneNumber()%> ></td></tr>
-                <tr><td>Deactivate User:</td><td>
-<input type="radio" name="status" value="deactive"> Deactive
-                    </td></tr>
-                    <td>
-                        <input class="button" type="submit" name="save" value="Save"> 
-                        &nbsp; 
-                    </td>
-                    <%} else {%>
-                <tr><td>ID:</td><td></td></tr>
-                <tr><td>Email:</td><td><input size="23" type="text" name="email" value=""></td></tr>
-                <tr><td>Name:</td><td><input size="23" type="text" name="name" value=""></td></tr><br>
-                <tr><td>Password:</td><td><input size="23" type="password" name="password"value=""></td></tr>
-                <tr><td>Phone Number:</td><td><input size="23" type="text" name="phoneNumber"value=""></td></tr>
-                            <%}%>
-                <tr><td></td>
-                    
-                </tr>
-            </table>
-        </form>
-        </pre>
+            </div>
+        </div>
+        <form action="/updateUser" method="post">
+            <% User user = (User) session.getAttribute("user");
+                if (user != null) {%>
+            <div class="container">
+                <h1 class="text-center">Update User</h1>
+                <hr>
+                <div class="row">
+                    <div class="col-md-6 col-md-push-3">
+                        <div class="row">
+                            <div class="col-sm-6 col-sm-push-3">
+                                <div class="form-group">
+                                    <label>User ID</label>
+                                    <input class="form-control" type="text" name="ID" value="<%=user.getID()%>" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input class="form-control" type="email" name="email" value="<%=user.getEmail()%>" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Full Name</label>
+                                    <input class="form-control" type="text" name="name" value="<%=user.getName()%>">
+                                </div>
+                                <div class="form-group">
+                                    <label>Phone No.</label>
+                                    <input class="form-control" type="text" name="phone" value="<%=user.getPhoneNumber()%>">
+                                </div>
+                                <div class="form-group">
+                                    <label>Password</label>
+                                    <input class="form-control" type="password" name="password" value="<%=user.getPassword()%>" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Status</label>
+                                    <input class="form-control" type="text" value="<%=user.getStatus()%>" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <input  type="radio" name="status" value="Active" > Active
+                                    <input  type="radio" name="status" value="Deactive" checked > Deactive
+                                </div>
+                                <hr/>
+                                <a href="/index.jsp" class="btn btn-default">Cancel</a>
+                                <input type="submit" class="btn btn-success pull-right" name="save" value="Save">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr/>
+            </div>
+            <%}%>
     </body>
 </html>

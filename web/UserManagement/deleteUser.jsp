@@ -4,6 +4,10 @@
     Author     : pramishluitel
 --%>
 
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
+<%@page import="MODEL.User"%>
+<%@page import="MODEL.DAO.DatabaseManager"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -29,20 +33,18 @@
         </div>
         <%  }
         %>
-        <h1>Delete User</h1>
         
+
+        <%@include file="/heading.jsp" %>
+        <h1>Delete User</h1>
+        <br><br>
         <div class="container-fluid">
             <div class="col-sm-12 text-center">
-                <button class="btn btn-primary btn-lg active" name="home" onclick="location.href = 'index.jsp';">Home</button>
+        <form class="form-inline" action="/deleteUser" method="post">
+            <input class="form-control mr-sm-2" type="search" required name="id" placeholder="enter user ID" cc aria-label="Search">
+            <button class="btn btn-danger">Delete</button>
+        </form>
             </div>
         </div>
-        <br><br>
-        <pre>
-        <form class="form-inline" action="/deleteUser" method="post">
-            <input class="form-control mr-sm-2" type="search" name="email" placeholder="enter email address" cc aria-label="Search">
-            <br>
-            <button class="btn btn-primary btn-lg active">Delete</button>
-        </form>
-        </pre>
     </body>
 </html>
