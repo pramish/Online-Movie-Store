@@ -121,12 +121,12 @@ public class DatabaseManager {
         return null;
     }
     
-    public List<UserAccessLogs> searchLogsByDate(String search) throws SQLException {
+    public List<UserAccessLogs> searchLogsByDate(String search, String userID) throws SQLException {
         
         String search2 = search;
         
         if (search2 == null) search2 = "";
-        String queryString = "select * from \"USERACCESSLOG\" where upper(timeStamp) like upper('%"+search2+"%')";
+        String queryString = "select * from \"USERACCESSLOG\" where USERID='" + userID + "' and upper(timeStamp) like upper('%"+search2+"%')";
         ResultSet rs = st.executeQuery(queryString);
         
         List<UserAccessLogs> list = new ArrayList<>();
@@ -137,9 +137,7 @@ public class DatabaseManager {
                 rs.getString("accessType"),
                 rs.getString("timeSTamp")));
     }
-    return list;
-                
-                                                            
+    return list;                                              
     }
     
     public User findUser(String email, String phoneNumber) throws SQLException {
@@ -303,6 +301,11 @@ public class DatabaseManager {
     
     public void registerUser(String id, String email, String name, String password, String phoneNumber) throws SQLException{
         updateUser(id, email, name, password, phoneNumber, "ACTIVE");
+    }
+    
+    public void deleteUserAccessLog(String ID) throws SQLException {
+       st.executeUpdate("DELETE FROM USERACCESSLOG WHERE ID='"+ID+"'");
+        
     }
     
 }

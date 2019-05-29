@@ -3,10 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/phoogy/Documents/NetBeansProjects/introduction-to-Software-Development-Assignment/web/index.jsp</file>
-            <file>file:/C:/Users/phoogy/Documents/NetBeansProjects/introduction-to-Software-Development-Assignment/src/java/MODEL/controller/ConnServlet.java</file>
-            <file>file:/C:/Users/phoogy/Documents/NetBeansProjects/introduction-to-Software-Development-Assignment/src/java/MODEL/DAO/DatabaseManager.java</file>
-            <file>file:/C:/Users/phoogy/Documents/NetBeansProjects/introduction-to-Software-Development-Assignment/src/java/oms/controller/movie/listMovie.java</file>
+            <file>file:/C:/Users/jonny/OneDrive/Desktop/Software%20Development/oms/introduction-to-Software-Development-Assignment/web/UserAccessManagement/myAccessLogs.jsp</file>
+            <file>file:/C:/Users/jonny/OneDrive/Desktop/Software%20Development/oms/introduction-to-Software-Development-Assignment/src/java/oms/controller/UAM/searchUserAccessLogs.java</file>
+            <file>file:/C:/Users/jonny/OneDrive/Desktop/Software%20Development/oms/introduction-to-Software-Development-Assignment/src/java/oms/controller/UAM/listAccessLogs.java</file>
+            <file>file:/C:/Users/jonny/OneDrive/Desktop/Software%20Development/oms/introduction-to-Software-Development-Assignment/src/java/MODEL/DAO/DatabaseManager.java</file>
+            <file>file:/C:/Users/jonny/OneDrive/Desktop/Software%20Development/oms/introduction-to-Software-Development-Assignment/src/java/oms/controller/UAM/login.java</file>
+            <file>file:/C:/Users/jonny/OneDrive/Desktop/Software%20Development/oms/introduction-to-Software-Development-Assignment/web/index.jsp</file>
         </group>
     </open-files>
 </project-private>

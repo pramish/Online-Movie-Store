@@ -14,6 +14,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.Random;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -64,7 +65,7 @@ public class logout extends HttpServlet {
             
             
             
-            String logID = UUID.randomUUID().toString().replaceAll("-", "");
+            String logID = ""+((new Random()).nextInt(900000000)+ + 100000000);
             Date date= new Date();
             long time = date.getTime();
             Timestamp isTime = new Timestamp(time);

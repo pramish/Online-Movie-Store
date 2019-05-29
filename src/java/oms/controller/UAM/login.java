@@ -67,7 +67,7 @@ public class login extends HttpServlet {
             
             
             
-            String logID = UUID.randomUUID().toString().replaceAll("-", "");
+            String logID = ""+((new Random()).nextInt(900000000)+ + 100000000);
             Date date= new Date();
             long time = date.getTime();
             Timestamp isTime = new Timestamp(time);
