@@ -24,9 +24,9 @@
                 <tr><td></td>
                     <td>
                         <input class="button" type="submit" value="Add"> 
-                        &nbsp; 
-                        <a href="/movie/list" class="button">Movie List</a>
-                        <button class="button" type="button" onclick="location.href = 'catalogue.jsp'" > Movie List </button>
+                        <button class="button" type="button" onclick="location.href = '/movie/list'" > Movie List </button>
+                        
+                        
                     </td>
                 </tr>
             </table>

@@ -21,20 +21,33 @@
         
        
 
- 
+ <button class="button" type="button" onclick="location.href = '/movie/add'" > Add movie </button>
  
 <table align="center" cellpadding="5" cellspacing="5" border="1">
+            <tr>
+             
+                <th> ID </th>
+                <th> Title </th>
+                <th> Genre </th>
+                <th> Price </th>
+                <th> Stock </th>
+                <th> Delete or Update </th>
+           
+            </tr>
+                
     <%
             for (Movie m : movielist){
                 
                 %>
-                <tr>
+                 <tr>
                     <td><%=m.getID()%></td>
                     <td><%=m.getTitle()%></td>
                     <td><%=m.getGenre()%></td>
                     <td><%=m.getPrice()%></td>
                     <td><%=m.getStock()%></td>
-                    </tr>
+                    <td> <button class="button" type="button" onclick="location.href = '/movie/delete'" > Delete movie </button>
+<button class="button" type="button" onclick="location.href = '/movie/update'"> Update movie </button>                 </td>
+                </tr>
                 <%
 
             }
@@ -42,5 +55,6 @@
 
 </table>
 
-<button class="button" type="button" onclick="location.href = '/movie/add'" > Add movie </button>
+
+
 

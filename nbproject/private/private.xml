@@ -3,10 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/luckylau/Desktop/ISD/introduction-to-Software-Development-Assignment/src/java/MODEL/Movie.java</file>
-            <file>file:/Users/luckylau/Desktop/ISD/introduction-to-Software-Development-Assignment/src/java/MODEL/DAO/DatabaseManager.java</file>
-            <file>file:/Users/luckylau/Desktop/ISD/introduction-to-Software-Development-Assignment/src/java/MODEL/DAO/Database.java</file>
-            <file>file:/Users/luckylau/Desktop/ISD/introduction-to-Software-Development-Assignment/web/Movie/editMovie.jsp</file>
+            <file>file:/Users/luckylau/Desktop/ISD/introduction-to-Software-Development-Assignment/src/java/oms/controller/movie/listMovie.java</file>
+            <file>file:/Users/luckylau/Desktop/ISD/introduction-to-Software-Development-Assignment/src/java/oms/controller/movie/addMovie.java</file>
+            <file>file:/Users/luckylau/Desktop/ISD/introduction-to-Software-Development-Assignment/web/listUser.jsp</file>
+            <file>file:/Users/luckylau/Desktop/ISD/introduction-to-Software-Development-Assignment/web/index.jsp</file>
+            <file>file:/Users/luckylau/Desktop/ISD/introduction-to-Software-Development-Assignment/src/java/MODEL/controller/ConnServlet.java</file>
             <file>file:/Users/luckylau/Desktop/ISD/introduction-to-Software-Development-Assignment/web/Movie/catalogue.jsp</file>
             <file>file:/Users/luckylau/Desktop/ISD/introduction-to-Software-Development-Assignment/web/Movie/addMovie.jsp</file>
         </group>

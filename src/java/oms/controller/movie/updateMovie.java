@@ -66,7 +66,7 @@ public class updateMovie extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        RequestDispatcher view = request.getRequestDispatcher("/Movie/edditMovie.jsp");
+        RequestDispatcher view = request.getRequestDispatcher("/Movie/updateMovie.jsp");
     view.forward(request, response);
     }
 
@@ -85,7 +85,7 @@ public class updateMovie extends HttpServlet {
         //to get session
         HttpSession session = request.getSession();
         
-        Movie movie = (Movie) session.getAttribute("movie");
+        Movie movie = (Movie) session.getAttribute("movies");
         
         DatabaseManager manager = (DatabaseManager)session.getAttribute("manager"); 
         String updated = request.getParameter("updated");

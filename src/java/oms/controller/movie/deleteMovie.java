@@ -93,7 +93,7 @@ public class deleteMovie extends HttpServlet {
 
         
         DatabaseManager manager = (DatabaseManager)session.getAttribute("manager"); 
-            String updated = request.getParameter("updated");
+            String updated = request.getParameter("update");
             if ( updated != null) {
                 
                 if(updated.equals("Deleted")){

@@ -13,7 +13,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Edit Movie</title>
+        <title>Delete Movie</title>
     </head>
     
     <%
@@ -24,8 +24,8 @@
     %> 
     
     
-         <h1>Update Movie</h1>        
-        <form action="editMovie.jsp" method="POST">
+         <h1>Delete Movie</h1>        
+        <form action="/movie/delete" method="post">
             <table>
                 <tr><td>Movie ID</td><td><%= movie.getID()%></td></tr>
                 <tr><td>Movie Title</td><td><input type="text" value="<%= movie.getTitle()%>" name="title"></td></tr>
@@ -35,10 +35,10 @@
                 
                  
                 
-                <tr><td><input class="button" type="submit" value="Deleted" name="updated"></td>
-                    <td><input class="button" type="submit" value="Save" name="updated"> 
+                <tr>
+                    <td><input class="button" type="submit" value="Delete" name="Deleted"> 
                         &emsp; 
-                        <button class="button" type="button" onclick="location.href = 'catalogue.jsp'" > Movie List </button>
+                        <button class="button" type="button" onclick="location.href = '/movie/list'" > Movie List </button>
                     </td>
                 </tr>
             </table>
