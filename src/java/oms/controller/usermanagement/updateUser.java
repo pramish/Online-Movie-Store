@@ -7,11 +7,13 @@ package oms.controller.usermanagement;
 
 import MODEL.DAO.DatabaseManager;
 import MODEL.User;
+import MODEL.controller.Validator;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -21,6 +23,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import oms.controller.registration.Create;
 
 /**
  *
@@ -29,69 +32,36 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "updateUser", urlPatterns = {"/updateUser"})
 public class updateUser extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet updateUser</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet updateUser at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // Get user from querystring
-//        String id = request.getParameter("id");
-//        
-//        HttpSession session = request.getSession();
-//        
-//        DatabaseManager manager = (DatabaseManager)session.getAttribute("manager");
-//        
-//        
-//        User user = null;
-//        try {
-//            user = manager.getUserByID(id);
-//        } catch (SQLException ex) {
-//            Logger.getLogger(updateUser.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        
-//        if(user == null){
-//            response.sendRedirect("/users");
-//        }else{
-//            
-//        // Set editMyAccountUser as user
-//        session.setAttribute("editUser", user);
+        HttpSession session = request.getSession();
+        DatabaseManager manager = (DatabaseManager)session.getAttribute("manager");
+        
+        
+        //Get user from querystring
+        String id = request.getParameter("id");
+        
+        
+        User editUser = null;
+        try {
+            editUser = manager.getUserByID(id);
+        } catch (SQLException ex) {
+            Logger.getLogger(updateUser.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        if(editUser == null){
+            response.sendRedirect("/users");
+        }else{
+            
+        // Set editMyAccountUser as user
+        session.setAttribute("editUser", editUser);
+        session.setAttribute("editUserErrors", new ArrayList<>());
+        
         RequestDispatcher view = request.getRequestDispatcher("/UserManagement/updateUser.jsp");
         view.forward(request, response);
-//    }
+    }
 
     }
 
@@ -99,65 +69,70 @@ public class updateUser extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        String save = (String) request.getParameter("save");
         DatabaseManager manager = (DatabaseManager) session.getAttribute("manager");
-        if (save != null) {
-
-            String email = request.getParameter("email");
-            String name = request.getParameter("name");
-            String password = request.getParameter("password");
-            String phone = request.getParameter("phone");
-            String status = request.getParameter("status");
-            System.out.println("My  first status is askdfgksgf" + status);
-            if (status.equals("Deactive")) {
-                System.out.println("My  first status is " + status);
-                User user = (User) session.getAttribute("user");
-                user.setEmail(email);
-                user.setName(name);
-                user.setPassword(password);
-                user.setPhoneNumber(phone);
-                user.setStatus(status);
-                try {
-                    manager.updateUser(user.getID(), user.getEmail(), user.getName(), user.getPassword(), user.getPhoneNumber(), user.getStatus());
-                    User pramish = new User(user.getID(), user.getEmail(), user.getName(), user.getPassword(), user.getPhoneNumber(), user.getStatus());
-                    session.setAttribute("user", pramish);
-                    response.sendRedirect("/index.jsp?success1=User Updated.");
-                    request.getSession().removeAttribute("user");
-                } catch (SQLException ex) {
-                    Logger.getLogger(updateUser.class.getName()).log(Level.SEVERE, null, ex);
+        
+        // Get User from Attributes
+        User editUser = (User)session.getAttribute("editUser");
+        if(editUser == null){response.sendRedirect("/users");}
+        
+        // get values from form and put into user object
+        editUser.setEmail(request.getParameter("email"));
+        editUser.setName(request.getParameter("name"));
+        editUser.setPassword(request.getParameter("password"));
+        editUser.setPhoneNumber(request.getParameter("phone"));
+        editUser.setStatus(request.getParameter("status"));
+        
+        // Validate values
+        List<String> errors = new ArrayList<>();
+        Validator v = new Validator();
+        if(!v.validateEmail(editUser.getEmail()))       
+            errors.add("Email is not a valid email.");
+        if(!v.validateName(editUser.getName()))         
+            errors.add("Name is not a valid name.");
+        if(!v.validatePhoneNumber(editUser.getPhoneNumber())) 
+            errors.add("Phone number is not valid number.");
+        if(!v.validatePassword(editUser.getPassword())) 
+            errors.add("Password is not valid.");
+        
+        // check if new email already exists in database
+        try {
+            User userEmailCheck = manager.getUser(editUser.getID());
+            
+            if(!userEmailCheck.getEmail().equals(editUser.getEmail())){
+                if(manager.checkEmail(editUser.getEmail())){
+                    errors.add("This email address is registered to another user!");
                 }
-
             }
-            if (status.equals("Active")) {
-                System.out.println("My second status is " + status);
-                User user = (User) session.getAttribute("user");
-                user.setEmail(email);
-                user.setName(name);
-                user.setPassword(password);
-                user.setPhoneNumber(phone);
-                user.setStatus(status);
-                try {
-                    manager.updateUser(user.getID(), user.getEmail(), user.getName(), user.getPassword(), user.getPhoneNumber(), user.getStatus());
-                    User pramish = new User(user.getID(), user.getEmail(), user.getName(), user.getPassword(), user.getPhoneNumber(), user.getStatus());
-                    session.setAttribute("user", pramish);
-                    response.sendRedirect("/index.jsp?success1=User Updated.");
-                    request.getSession().removeAttribute("user");
-                } catch (SQLException ex) {
-                    Logger.getLogger(updateUser.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
+        } catch (SQLException ex) {
+            Logger.getLogger(Create.class.getName()).log(Level.SEVERE, null, ex);
+            //errors.add(ex.getMessage());
+        }
+        
+        
+        if(errors.size() > 0){
+            
+            //Store errors in session
+            session.setAttribute("editUserErrors", errors);
+            
+            // Redirect to Update view
+            RequestDispatcher view = request.getRequestDispatcher("/UserManagement/updateUser.jsp");
+            view.forward(request, response);
+        }else{
+            try {
+                // udate user
+                manager.updateUser(editUser.getID(), editUser.getEmail(), editUser.getName(), editUser.getPassword(), editUser.getPhoneNumber(), editUser.getStatus());
+                session.setAttribute("editUser", null);
+                response.sendRedirect("/users");
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(Create.class.getName()).log(Level.SEVERE, null, ex);
+                errors.add(ex.getMessage());
+                session.setAttribute("editUserErrors", errors);
+                // Redirect to Create view
+                RequestDispatcher view = request.getRequestDispatcher("/UserManagement/updateUser.jsp");
+                view.forward(request, response);
             }
         }
+        
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
 }

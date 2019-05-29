@@ -242,7 +242,8 @@ public class DatabaseManager {
         while(rs.next())
         {
             
-            if (title.equals(rs.getString("title")))
+            if (title.equals(rs.getString("title"))){
+                
                 return new Movie(rs.getString("ID"), rs.getString("title"), rs.getString("genre"), new java.math.BigDecimal(rs.getString("price")),
                         Integer.parseInt(rs.getString("stock")));
             }
