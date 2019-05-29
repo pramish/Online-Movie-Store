@@ -63,7 +63,8 @@
                             %>
                             <li class="list-group-item"><a href="/myaccount">My Account</a></li>
                             <li class="list-group-item"><form method="post" action="/logout"><input type="submit" value="Logout" /></form></li>
-                            <li class="list-group-item"><a href="/myaccesslogs">My Access Logs</a></li>
+                            <li class="list-group-item"><a href="/listAccessLogs">My Access Logs</a></li>
+                            
                             
                             <%
                         }else{
