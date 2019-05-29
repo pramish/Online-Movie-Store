@@ -22,7 +22,10 @@
        
 
  <button class="button" type="button" onclick="location.href = '/movie/add'" > Add movie </button>
- 
+ <form>
+     <input type="text" name="search" placeholder="Enter title or Genre">
+     <input type="submit" value="search">
+ </form>
 <table align="center" cellpadding="5" cellspacing="5" border="1">
             <tr>
              
@@ -45,8 +48,9 @@
                     <td><%=m.getGenre()%></td>
                     <td><%=m.getPrice()%></td>
                     <td><%=m.getStock()%></td>
-                    <td> <button class="button" type="button" onclick="location.href = '/movie/delete'" > Delete movie </button>
-<button class="button" type="button" onclick="location.href = '/movie/update'"> Update movie </button>                 </td>
+                    <td> 
+                        <a href="/movie/update?id=<%=m.getID()%>"> Update Movie</a>
+                    </td>   
                 </tr>
                 <%
 
