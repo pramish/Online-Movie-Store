@@ -67,10 +67,11 @@
                 <td><%=m.getStatus()%></td>
                 <td><%=m.getDate()%></td>
                 <td>
-                    <a href="/order/view?id=<%=m.getID()%>" class="btn btn-xs btn-default">View</a>
-                    <%if("SAVED".equals(m.getStatus())){%>
+                    
+                    <a href="/order/cancel?id=<%=m.getID()%>" class="btn btn-xs btn-danger" onclick="return confirm('Are you sure you want to cancel this order?')">Cancel</a>
+                    <%if(m.getStatus().equals("SAVED")){%>
                         <a href="/order/update?id=<%=m.getID()%>" class="btn btn-xs btn-primary">Update</a>
-                        <a href="/order/delete?id=<%=m.getID()%>" class="btn btn-xs btn-primary" onclick="return confirm('Are you sure you want to cancel this order?')">Cancel</a>
+                        
                     <%}%>
                 </td>
             </tr>

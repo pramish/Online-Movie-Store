@@ -54,9 +54,9 @@ public class creatorder extends HttpServlet {
             DatabaseManager manager = (DatabaseManager) session.getAttribute("manager");
          
             session.setAttribute("orderErrors", new ArrayList<>());
+            session.removeAttribute("order");
             
-            
-            String movieId = request.getParameter("movieId");
+            String movieId = request.getParameter("id");
             
             Movie movie = manager.getMovieByID(movieId);
             
@@ -64,8 +64,8 @@ public class creatorder extends HttpServlet {
                 session.setAttribute("buyMovie", movie);
                 session.setAttribute("orderErrors", new ArrayList<>());
                 
-            RequestDispatcher view = request.getRequestDispatcher("/Order/createorder.jsp");
-            view.forward(request, response);
+                RequestDispatcher view = request.getRequestDispatcher("/Order/createorder.jsp");
+                view.forward(request, response);
             }else{
                 response.sendRedirect("/movie/list");   
             }
@@ -140,7 +140,7 @@ public class creatorder extends HttpServlet {
                                 totalPrice, releaseDate,
                                 "SAVED"
                         );
-                    }else if("Buy Now".equals(action))
+                    }else if("Submit".equals(action))
                     {
                         SimpleDateFormat sp = new SimpleDateFormat("yyyy-MM-dd");
                         LocalDate releaseDate = LocalDate.parse(sp.format(new Date()));
@@ -149,8 +149,12 @@ public class creatorder extends HttpServlet {
                                 movie.getID(), user.getID(),
                                 price, amount,
                                 totalPrice, releaseDate,
-                                "COMPLETED"
+                                "SUBMITTED"
                         );
+                        
+                        movie.setStock(movie.getStock() - amount);
+                        
+                        manager.updateMovieStock(movie.getID(), movie.getStock());
                     }
                     
                     

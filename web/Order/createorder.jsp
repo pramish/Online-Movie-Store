@@ -20,47 +20,47 @@
         <link href="/css/style.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-        <div><span class="time" id="time" ></span></div>
-        <h1>Order Page</h1> 
-        
-        <hr />
-        <table>
-            <tr>
-                <td>Title</td>
-                <td><%=movie.getTitle()%></td>
-            </tr>
-            <tr>
-                <td>Price</td>
-                <td>$<%=movie.getPrice()%></td>
-            </tr>
-            <tr>
-                <td>Stock</td>
-                <td><%=movie.getStock()%></td>
-            </tr>
-        </table>
-        
-        <ul>
-                                    <%for(String error: errors){%><li class="text-danger"><%=error%></li><%}%>
-                                </ul>
-        <form method="post">
-            <table>
-                <tr><td>Amount:</td><td><input size="23" type="text" name="amount" oninput="value=value.replace(/[^\d]/g,'')"></td></tr>
-                <tr><td></td>
-                    <td>
-                        <%if(order == null){%>
-                            <a href="/movie/list" >Back to Movie List</a>    
-                        <%}else{%>
-                            <input type="submit" name="action" value="Cancel" onclick="return confirm('Are you sure you want to cancel this order?')" />
-                        <%}%>
+        <div class="container">
+            <h1>Online Movie Store</h1>
+            <h2>Order Movie</h2>
+            <hr />
+            <div class="row">
+                <div class="col-md-4">
+                    <form method="post">
                         
-                        <input type="submit" name="action" value="Save" />
-                        <input name="action" type="submit" value="Buy Now" /> 
-                    </td>
-                </tr>
-            </table>
-        </form>
+                        <ul>
+                            <%for(String error: errors){%><li class="text-danger"><%=error%></li><%}%>
+                        </ul>
+                        <div class="form-group">
+                            <label>Movie Title</label>
+                            <input class="form-control" type="text" name="title" value="<%=movie.getTitle()%>" readonly>
+                        </div>
+                       <div class="form-group">
+                            <label>Price</label>
+                            <input class="form-control" type="text" name="price" value="$<%=movie.getPrice()%>" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Stock</label>
+                            <input class="form-control" type="text" name="stock" value="<%=movie.getStock()%>" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Amount</label>
+                            <input class="form-control" type="text" name="amount" value="<%=(order != null ? order.getAmount():"")%>" required>
+                        </div>
+                        <hr />
+                        
+                        <%if(order != null){%>
+                            <a href="/order/history" class="btn btn-default">Back to Order History</a> 
+                        <%}else{%>
+                            <a href="/movie/list" class="btn btn-default">Back to Movie List</a> 
+                        <%}%>
+                        <input name="action" type="submit" value="Save" class="btn btn-warning" />
+                        <input name="action" type="submit" value="Submit"  class="btn btn-success pull-right"/> 
 
-        <jsp:include page="/ConnServlet" flush="true" />
+                    </form>
+                </div>
+            </div>
+        </div>
 
     </body>
 

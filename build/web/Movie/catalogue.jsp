@@ -70,7 +70,9 @@
                        <td><%=m.getStock()%></td>
                        <td> 
                            <a href="/movie/update?id=<%=m.getID()%>" class="btn btn-xs btn-primary">Update Movie</a>
-                           <a href="/order/create?id=<%=m.getID()%>" class="btn btn-xs btn-primary">Order Movie</a>
+                           <%if(m.getStock()>0){%>
+                            <a href="/order/create?id=<%=m.getID()%>" class="btn btn-xs btn-primary">Order Movie</a>
+                            <%}%>
                        </td>
                    </tr>
                 <%}%>

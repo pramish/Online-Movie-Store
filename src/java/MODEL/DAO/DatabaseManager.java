@@ -372,12 +372,12 @@ public class DatabaseManager {
         String sql = "SELECT O.*, M.TITLE FROM \"ORDER\" O "
                 + "left join MOVIE M "
                 + "ON O.MOVIEID = M.ID "
-//                + "where O.USERID='" + userID + "' "
+                + "where O.USERID='" + userID + "' "
                 + "";
         
         if(date != null && !"".equals(date))
         {
-            sql += " WHERE O.\"DATE\" = '"+date+"' ";
+            sql += " and O.\"DATE\" = '"+date+"' ";
         }
         
         ResultSet rs = st.executeQuery(sql);
@@ -435,7 +435,9 @@ public class DatabaseManager {
     }
 
     public Order searchOrderById(String orderId) throws SQLException {
-        ResultSet rs = st.executeQuery("SELECT * FROM \"ORDER\" where ID='" + orderId + "'");
+        ResultSet rs = st.executeQuery("SELECT \"ORDER\".*, \"MOVIE\".title, STOCK FROM \"ORDER\" "
+                + "left join \"MOVIE\" ON \"ORDER\".MOVIEID=\"MOVIE\".ID "
+                + " where \"ORDER\".ID='" + orderId + "'");
         while (rs.next()) {
             return new Order(rs.getString("ID"),rs.getString("CustomerID"), rs.getString("MovieID"), rs.getString("UserID"), new java.math.BigDecimal(rs.getString("price")),
                     Integer.parseInt(rs.getString("Amount")), new java.math.BigDecimal(rs.getString("TotalPrice")), rs.getDate("Date").toLocalDate(), rs.getString("Status"), rs.getString("title"));
@@ -443,8 +445,8 @@ public class DatabaseManager {
         return null;
     }
 
-    public void updateOrder(int amount, BigDecimal totalprice, String orderId) throws SQLException {
-        String sql = "UPDATE \"ORDER\" SET AMOUNT = " + amount + ",TOTALPRICE= " + totalprice + " WHERE ID='" + orderId + "'";
+    public void updateOrder(int amount, BigDecimal totalprice, String orderId, String status) throws SQLException {
+        String sql = "UPDATE \"ORDER\" SET AMOUNT = " + amount + ",TOTALPRICE= " + totalprice + ", STATUS = '"+ status+"' WHERE ID='" + orderId + "'";
         st.executeUpdate(sql);
     }
     
@@ -476,7 +478,6 @@ public class DatabaseManager {
         String fetch = "select * from \"MOVIE\" where ID = '" + ID + "'";
         ResultSet rs = st.executeQuery(fetch);
         while (rs.next()) {
-            String userID = rs.getString(1);
             if(ID.equals(rs.getString("ID"))) {
                 return new Movie(rs.getString("id"),
                         rs.getString("title"),
@@ -586,5 +587,10 @@ public class DatabaseManager {
 
         }
         return list;
+    }
+
+    public void updateMovieStock(String id, int stock) throws SQLException {
+        st.executeUpdate("UPDATE MOVIE SET STOCK = "+stock+" WHERE ID = '"+id+"'");
+        
     }
 }

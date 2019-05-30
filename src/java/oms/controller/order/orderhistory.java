@@ -56,12 +56,10 @@ public class orderhistory extends HttpServlet {
         
         
         try {
-                orderlist = manager.getUserOrdersByDate(user.getID(),date);
+            orderlist = manager.getUserOrdersByDate(user.getID(),date);
                 
         } catch (SQLException ex) {
-            Logger.getLogger(orderhistory.class.getName()).log(Level.SEVERE, null, ex);
-            Order order = new Order(ex.getMessage());
-            orderlist.add(order);
+            
         }
         
         session.setAttribute("orderlist", orderlist);
