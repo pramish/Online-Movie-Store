@@ -1,41 +1,58 @@
 <%@page contentType="text/html" import="java.util.*" import="MODEL.*" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
-<%
-    List<UserAccessLogs> logList = (ArrayList)session.getAttribute("logList");
-      
-    
-%>
+<%List<UserAccessLogs> logList = (ArrayList)session.getAttribute("logList");%>
 
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>My Access List</title>
+        <title>OMS</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+        <link href="/css/style.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-        <h1>My Access List</h1>
-        
-        <form>
-            <input class="form-control mr-sm-2" type="search" name="date" placeholder="enter date">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>     
- 
-<table align="center" cellpadding="5" cellspacing="5" border="1">
-    <%
-            for (UserAccessLogs l : logList){
-                
-                %>
-                <tr>
-                    <td><%=l.getID()%></td>
-                    <td><%=l.getUserID()%></td>
-                    <td><%=l.getAccessType()%></td>
-                    <td><%=l.getTimeStamp()%></td>
-                    <td><a <%=l.getID()%>>Delete</a></td>
-                 
+        <div class="container">
+            <h1>Online Movie System</h1>
+            <h2>My Access List</h2>
+            <hr />
+            <form>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <a href="/" class="btn btn-default btn-block">Home</a>
+                    </div>
+                    <div class="col-sm-3">
+                        <input class="form-control" type="search" name="date" placeholder="Enter date search here">        
+                    </div>
+                    <div class="col-sm-2">
+                        <input type="submit" class="btn btn-primary btn-block" value="Search">        
+                    </div>
+                </div>
+            </form>     
+            <hr />
+            <table class="table table-condensed table-bordered">
+                <thead>
+                    <tr>
+                        <th>Timestamp</th>
+                        <th>Access Type</th>
+                        <th></th>
                     </tr>
-                <%
-
-            }
-    %>
-
-</table>
+                </thead>
+                <tbody>
+                    <%for (UserAccessLogs l : logList){%>
+                    <tr>
+                        <td><%=l.getTimeStamp()%></td>
+                        <td><%=l.getAccessType()%></td>
+                        <td>
+                            <form method="post" action="/deleteLogs">
+                                <input type="hidden" name="id" value="<%=l.getID()%>" />
+                                <input type="submit" class="btn btn-xs btn-danger" value="Delete" />
+                            </form>
+                        </td>
+                    </tr>
+                <%}%>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>

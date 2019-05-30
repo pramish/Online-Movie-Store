@@ -17,9 +17,10 @@
     <body onload="startTime()">
         <div><span class="time" id="time" ></span></div>
         <div class="container">
-            <h1>Login</h1>
+            <h1>Online Movie System</h1>
+            <h2>Login</h2>
             <hr />
-            <h2>Enter your details to login: <span class="error"><c:if test="${existErr!=null}"><span class="error"><c:out value="${existErr}"/></span></c:if></span></h2>
+            <h2><span class="error"><c:if test="${existErr!=null}"><span class="error"><c:out value="${existErr}"/></span></c:if></span></h2>
             
             <form method="post">
                 <div class="row">
@@ -35,7 +36,7 @@
                         </div>
                         <hr />
                         <a href="/" class="btn btn-default"> Home</a>
-                        <input class="btn btn-succes pull-right" type="submit" value="Login"> 
+                        <input class="btn btn-success pull-right" type="submit" value="Login"> 
                     </div>
                 </div>
         </form>

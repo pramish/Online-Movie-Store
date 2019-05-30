@@ -7,8 +7,11 @@
 
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <!--<link href="../css/order_tables.css" rel="stylesheet" type="text/css"/>-->
+        <title>OMS</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+        <link href="/css/style.css" rel="stylesheet" type="text/css"/>
 
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <style type="text/css">
@@ -55,7 +58,6 @@
             .modifyDiv p{border:1px solid #ccc;padding:5px;}
 
         </style>
-        <title>Order List</title>
     </head>
     <body>
         <h1>OrderCatalogue</h1>

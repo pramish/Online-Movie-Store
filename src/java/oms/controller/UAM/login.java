@@ -56,16 +56,10 @@ public class login extends HttpServlet {
             throws ServletException, IOException {
         try {
             HttpSession session = request.getSession();
-            
             DatabaseManager manager = (DatabaseManager)session.getAttribute("manager");
+            
             String userEmail = request.getParameter("userEmail");
             String userPassword = request.getParameter("userPassword");
-            
-            DatabaseConnector connector = new DatabaseConnector(); //Create a connection and initialize DB conn-field
-            Connection conn = connector.openConnection(); //Get the protected connection instance from DB superclass to share for the application classes
-            DatabaseManager db = new DatabaseManager(conn); //DBManger instance provide users with access to CRUD operations
-            
-            
             
             String logID = ""+((new Random()).nextInt(900000000)+ + 100000000);
             Date date= new Date();
@@ -75,14 +69,14 @@ public class login extends HttpServlet {
             String acessType = "LOGIN";
             
             User user = manager.findUserLogin(userEmail, userPassword);
-//            Student student = new Student("ID","name","email","password","dob","white");
+            
             if (user != null) {
                 session.setAttribute("user", user);
-                db.addUserLogs(logID, user.getID(), acessType, timeStamp);
+                manager.addUserLogs(logID, user.getID(), acessType, timeStamp);
                 response.sendRedirect("/");
     
             }else{
-                session.setAttribute("existErr", "Student profile does not exist!");
+                session.setAttribute("existErr", "Invalid email or password.");
                 response.sendRedirect("/login");
             }             
 
@@ -90,10 +84,6 @@ public class login extends HttpServlet {
             Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
             PrintWriter out = response.getWriter();
             out.println(ex.getMessage() + "1");
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
-            PrintWriter out = response.getWriter();
-            out.println(ex.getMessage() + "2");
         }
     }
 

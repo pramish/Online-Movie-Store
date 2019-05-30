@@ -16,18 +16,22 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <%@include file="/Header.html" %>
+        <title>OMS</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+        <link href="/css/style.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
         <div class="container">
-            <h1 class="text-center">Online Movie System</h1>
-            <h2 class="text-center">Register</h2>
+            <h1>Online Movie System</h1>
+            <h2>Register</h2>
             <hr>
             <div class="row">
                 <div class="col-md-6 col-md-push-3">
                     <form method="post" action="/register">
                         <div class="row">
-                            <div class="col-sm-6 col-sm-push-3">
+                            <div class="col-sm-4">
                                 <ul>
                                     <%for(String error: errors){%><li class="text-danger"><%=error%></li><%}%>
                                 </ul>

@@ -33,7 +33,7 @@
                     <a href="/myaccount" class="btn btn-primary btn-lg btn-block">My Registration Details</a>
                 </div>
                 <div class="col-sm-4">
-                    <a href="/myaccesslogs" class="btn btn-primary btn-lg btn-block">My Access Logs</a>
+                    <a href="/listAccessLogs" class="btn btn-primary btn-lg btn-block">My Access Logs</a>
                 </div>
                 <div class="col-sm-12">
                     <hr />
@@ -54,6 +54,9 @@
                     <a href="/logout" class="btn btn-default btn-lg btn-block">Logout</a>
                 </div>
                 <%}else{%>
+                <div class="col-sm-4">
+                    <a href="/register" class="btn btn-primary btn-lg btn-block">Register</a>
+                </div>
                 <div class="col-sm-4">
                     <a href="/login" class="btn btn-primary btn-lg btn-block">Login</a>
                 </div>
