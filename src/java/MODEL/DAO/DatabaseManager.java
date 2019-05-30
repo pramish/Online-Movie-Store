@@ -219,6 +219,25 @@ public class DatabaseManager {
         return movielist;
     }
 
+
+    public List<Movie> searchMovieByTG(String search) throws SQLException {
+        String search2 = search;
+            if(search2 == null)
+                search2 = "";
+      ResultSet rs = st.executeQuery("SELECT * FROM MOVIE WHERE upper (title || genre) like upper('%" + search2 + "%')");
+      List<Movie> movielist = new ArrayList<>();
+        while(rs.next())
+        {
+
+            //if ((title != null && title.equals(rs.getString("title"))) || (genre != null && genre.equals(rs.getString("genre"))))
+                movielist.add(new Movie(rs.getString("ID"), rs.getString("title"), rs.getString("genre"), new java.math.BigDecimal(rs.getString("price")), Integer.parseInt(rs.getString("stock"))));
+
+        }
+
+        return movielist;
+    }
+
+
     //add a movie details in the database
     public void addMovie(String ID, String title, String genre, BigDecimal price, int stock) throws SQLException {
         st.executeUpdate("INSERT INTO MOVIE (ID, title, genre, price, stock) values ('" + ID + "','" + title + "','" + genre + "'," + price + "," + stock + ")");
@@ -330,4 +349,24 @@ public class DatabaseManager {
 
         return null;
     }
+}
+
+
+    public Movie getMovieByID(String ID) throws SQLException {
+        String fetch = "select * from \"MOVIE\" where ID = '" + ID + "'";
+        ResultSet rs = st.executeQuery(fetch);
+        while (rs.next()) {
+            String userID = rs.getString(1);
+            if(ID.equals(rs.getString("ID"))) {
+                return new Movie(rs.getString("id"),
+                        rs.getString("title"),
+                        rs.getString("genre"),
+                        new BigDecimal(rs.getString("price")),
+                        Integer.parseInt(rs.getString("stock"))
+                );
+            }
+        }
+        return null;
+    }
+
 }

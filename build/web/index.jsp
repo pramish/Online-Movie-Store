@@ -74,7 +74,7 @@
                             <%
 }
                         %>
-                        
+                        <li class="list-group-item"><a href="/movie/list">Movie Catalogue</a></li>
                     </ul>
                 </div>
             </div>

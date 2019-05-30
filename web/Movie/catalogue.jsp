@@ -21,20 +21,37 @@
         
        
 
- 
- 
+ <button class="button" type="button" onclick="location.href = '/movie/add'" > Add movie </button>
+ <form>
+     <input type="text" name="search" placeholder="Enter title or Genre">
+     <input type="submit" value="search">
+ </form>
 <table align="center" cellpadding="5" cellspacing="5" border="1">
+            <tr>
+             
+                <th> ID </th>
+                <th> Title </th>
+                <th> Genre </th>
+                <th> Price </th>
+                <th> Stock </th>
+                <th> Delete or Update </th>
+           
+            </tr>
+                
     <%
             for (Movie m : movielist){
                 
                 %>
-                <tr>
+                 <tr>
                     <td><%=m.getID()%></td>
                     <td><%=m.getTitle()%></td>
                     <td><%=m.getGenre()%></td>
                     <td><%=m.getPrice()%></td>
                     <td><%=m.getStock()%></td>
-                    </tr>
+                    <td> 
+                        <a href="/movie/update?id=<%=m.getID()%>"> Update Movie</a>
+                    </td>   
+                </tr>
                 <%
 
             }
@@ -42,5 +59,6 @@
 
 </table>
 
-<button class="button" type="button" onclick="location.href = '/movie/add'" > Add movie </button>
+
+
 
