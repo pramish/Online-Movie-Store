@@ -27,7 +27,7 @@
                 </div>
                 <%if (user.isRegistered()){%>
                 <div class="col-sm-4">
-                    <a href="/myorders" class="btn btn-primary btn-lg btn-block">My Orders</a>
+                    <a href="/order/history" class="btn btn-primary btn-lg btn-block">My Orders</a>
                 </div>
                 <div class="col-sm-4">
                     <a href="/myaccount" class="btn btn-primary btn-lg btn-block">My Registration Details</a>

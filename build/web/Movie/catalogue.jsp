@@ -45,8 +45,11 @@
                     <td><%=m.getGenre()%></td>
                     <td><%=m.getPrice()%></td>
                     <td><%=m.getStock()%></td>
-                    <td> <button class="button" type="button" onclick="location.href = '/movie/delete'" > Delete movie </button>
-<button class="button" type="button" onclick="location.href = '/movie/update'"> Update movie </button>                 </td>
+                    <td> 
+                            <button class="button" type="button" onclick="location.href = '/movie/delete'" > Delete movie </button>
+                            <button class="button" type="button" onclick="location.href = '/movie/update'"> Update movie </button>                 
+                            <a href="/order/create?movieId=<%=m.getID()%>">Buy Movie</a>
+                    </td>
                 </tr>
                 <%
 

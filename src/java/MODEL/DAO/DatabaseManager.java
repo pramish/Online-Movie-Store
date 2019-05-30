@@ -388,9 +388,9 @@ public class DatabaseManager {
         String sql = "UPDATE \"ORDER\" SET AMOUNT = " + amount + ",TOTALPRICE= " + totalprice + " WHERE ID='" + orderId + "'";
         st.executeUpdate(sql);
     }
-
+    
     public List<Movie> queryAllMovie() throws SQLException {
-        ResultSet rs = st.executeQuery("SELECT ID , title, genre, price, stock FROM MOVIE where stock>0");
+        ResultSet rs = st.executeQuery("SELECT * FROM MOVIE where stock>0");
         List<Movie> movielist = new ArrayList<>();
         while (rs.next()) {
             movielist.add(new Movie(rs.getString("ID"), rs.getString("title"), rs.getString("genre"), new java.math.BigDecimal(rs.getString("price")), Integer.parseInt(rs.getString("stock"))));

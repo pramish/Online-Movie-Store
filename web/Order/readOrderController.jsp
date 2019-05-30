@@ -19,7 +19,7 @@
         response.sendRedirect("history.jsp?error=yes");
         return;
     }
-    DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     LocalDate date = LocalDate.parse(orderDate, fmt);
 
     DatabaseManager manager = (DatabaseManager) session.getAttribute("manager");
