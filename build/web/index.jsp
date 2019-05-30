@@ -43,6 +43,10 @@
             </div>
         </nav> 
         <jsp:include page="/ConnServlet" flush="true" /> 
+        
+        
+        <a href="/movie/add">add movie</a>
+        
                     
         
         

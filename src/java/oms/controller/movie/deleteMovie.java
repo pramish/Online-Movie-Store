@@ -9,7 +9,6 @@ import MODEL.DAO.DatabaseManager;
 import MODEL.Movie;
 import java.io.IOException;
 import java.io.PrintWriter;
-import static java.lang.System.out;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -90,25 +89,26 @@ public class deleteMovie extends HttpServlet {
         //to get session
         HttpSession session = request.getSession();
         
-        Movie movie = (Movie) session.getAttribute("editMovie");
+        Movie movie = (Movie) session.getAttribute("movie");
 
         
         DatabaseManager manager = (DatabaseManager)session.getAttribute("manager"); 
-            
-            if ( movie != null) {
-                   
+            String updated = request.getParameter("update");
+            if ( updated != null) {
+                
+                if(updated.equals("Deleted")){
+                    
+                       
                     try {
                         
                         manager.deleteMovie(movie.getID());
-                         response.sendRedirect("/movie/list");
+                    response.sendRedirect("/movie/list");    
                              
                     } catch (SQLException ex) {
                         Logger.getLogger(deleteMovie.class.getName()).log(Level.SEVERE, null, ex);
-                        PrintWriter out = response.getWriter();
-                        out.println(ex.getMessage());
                     }
                     
-                
+                }
             }
     }
     

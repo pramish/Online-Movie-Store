@@ -11,9 +11,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -69,25 +66,6 @@ public class updateMovie extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         
-        HttpSession session = request.getSession();
-        DatabaseManager manager = (DatabaseManager)session.getAttribute("manager");
-        
-        String id = request.getParameter("id");
-        Movie editMovie = null;
-        try {
-            editMovie = manager.getMovieByID(id);
-        } catch (SQLException ex) {
-            Logger.getLogger(updateMovie.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        if(editMovie == null)
-            response.sendRedirect("/movie/list");
-        else 
-            session.setAttribute("editMovie", editMovie);
-            session.setAttribute("editMovieErrors", new ArrayList<>());
-
-        
         RequestDispatcher view = request.getRequestDispatcher("/Movie/updateMovie.jsp");
     view.forward(request, response);
     }
@@ -106,42 +84,23 @@ public class updateMovie extends HttpServlet {
        
         //to get session
         HttpSession session = request.getSession();
+        
+        Movie movie = (Movie) session.getAttribute("movies");
+        
         DatabaseManager manager = (DatabaseManager)session.getAttribute("manager"); 
-        
-        Movie movie = (Movie) session.getAttribute("editMovie");
-        if(movie == null)
-            response.sendRedirect("/movie/list");
-        
-         movie.setTitle(request.getParameter("title"));
-         movie.setGenre(request.getParameter("genre"));
-         movie.setPrice(new BigDecimal(request.getParameter("price")));
-        movie.setStock(Integer.parseInt(request.getParameter("stock")));
-        
-        List<String> errors = new ArrayList<>();
-        
-         //compareTo use for big decimal 
-        if (movie.getPrice().compareTo(new BigDecimal(0)) == -1 ){errors.add("Price cannot be negative.");}
-        if (movie.getStock() < 0 ){errors.add("Stock cannot be negative.");}
-        
-        if (errors.size() > 0 ){
-            session.setAttribute("editMovieErrors", errors);
-         RequestDispatcher view = request.getRequestDispatcher("/Movie/updateMovie.jsp");
-            view.forward(request, response);   
-        }
-        else{
+        String updated = request.getParameter("updated");
+        if(updated != null){
+          if(updated.equals("Save")){
             try { 
-                manager.updateMovie(movie.getID(), movie.getTitle(), movie.getGenre(), movie.getPrice(), movie.getStock());
-                session.setAttribute("editMovie", null);
+                manager.updateMovie(movie.getID(), request.getParameter("title"), request.getParameter("genre"),
+                        new BigDecimal(request.getParameter("price")), Integer.parseInt(request.getParameter("stock")));
                 response.sendRedirect("/movie/list"); 
                 
             } catch (SQLException ex) {
                 Logger.getLogger(updateMovie.class.getName()).log(Level.SEVERE, null, ex);
             }
+          }
         }
-        
-        
-        
-        
     }
 
     /**

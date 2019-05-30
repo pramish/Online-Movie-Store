@@ -68,19 +68,16 @@ public class listMovie extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       
         List<Movie> movielist = new ArrayList<>();
         
-        
             HttpSession session = request.getSession();
-            
         session.setAttribute("movielist",movielist);
         try {
-            String search = request.getParameter("search");
-            
+            String title = request.getParameter("title");
+            String genre = request.getParameter("genre");
             
             DatabaseManager manager = (DatabaseManager)session.getAttribute("manager");
-            movielist = manager.searchMovieByTG(search);
+            movielist = manager.searchMovie(title, genre);
             
             session.setAttribute("movielist",movielist);
             RequestDispatcher view = request.getRequestDispatcher("/Movie/catalogue.jsp");

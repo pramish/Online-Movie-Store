@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package MODEL.DAO;
 
 import MODEL.Movie;
@@ -17,6 +22,8 @@ import java.util.List;
 public class DatabaseManager {
 
     private Statement st;
+    
+    
 
     public DatabaseManager(Connection conn) throws SQLException {
         st = conn.createStatement();
@@ -160,6 +167,7 @@ public class DatabaseManager {
                         rs.getString("status"));
             }
         }
+        
         return null;
     }
 
@@ -176,7 +184,6 @@ public class DatabaseManager {
                 String userStatus = rs.getString(6);
                 return new User(userID, userEmail, userName, userPass, userPhone, userStatus);
             }
-        }
         return null;
     }
 
@@ -191,7 +198,8 @@ public class DatabaseManager {
                 return true;
             }
         }
-        return false;
+        
+        return movielist;
     }
 
     public boolean checkEmail(String email) throws SQLException {
