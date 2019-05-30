@@ -37,25 +37,23 @@ public class listAccessLogs extends HttpServlet {
    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
        
         HttpSession session = request.getSession();
         DatabaseManager manager = (DatabaseManager)session.getAttribute("manager");
-        User user = (User) session.getAttribute("user");
+        
         
          String userDate = request.getParameter("date");
          List<UserAccessLogs> logList = new ArrayList<>();
         
         
-      
+        try {
+          
          
            
-       try {
-           logList = manager.searchLogsByDate(userDate,user.getID());
-       } catch (SQLException ex) {
-           Logger.getLogger(listAccessLogs.class.getName()).log(Level.SEVERE, null, ex);
-       }
-       
+           logList = manager.searchLogsByDate(userDate);
+        } catch (SQLException ex) {
+            Logger.getLogger(searchUserAccessLogs.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
           session.setAttribute("logList", logList);
         

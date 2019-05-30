@@ -122,12 +122,12 @@ public class DatabaseManager {
     }
 
     
-    public List<UserAccessLogs> searchLogsByDate(String search, String userID) throws SQLException {
+    public List<UserAccessLogs> searchLogsByDate(String search) throws SQLException {
         
         String search2 = search;
         
         if (search2 == null) search2 = "";
-        String queryString = "select * from \"USERACCESSLOG\" where USERID='" + userID + "' and upper(timeStamp) like upper('%"+search2+"%')";
+        String queryString = "select * from \"USERACCESSLOG\" where upper(timeStamp) like upper('%"+search2+"%')";
         ResultSet rs = st.executeQuery(queryString);
         
         List<UserAccessLogs> list = new ArrayList<>();
@@ -138,7 +138,9 @@ public class DatabaseManager {
                 rs.getString("accessType"),
                 rs.getString("timeSTamp")));
     }
-    return list;                                              
+    return list;
+                
+                                                            
     }
     
     public User findUser(String email, String phoneNumber) throws SQLException {
@@ -227,6 +229,30 @@ public class DatabaseManager {
         return null;
     }
 
+    
+    public List<UserAccessLogs> searchLog(String userID) throws SQLException {
+    ResultSet rs = st.executeQuery("SELECT * FROM USERACCESSLOG where userID='" + userID + "'");
+      List<UserAccessLogs> logList = new ArrayList<>();
+        while(rs.next())
+        {
+            
+            //if ((title != null && title.equals(rs.getString("title"))) || (genre != null && genre.equals(rs.getString("genre"))))
+                logList.add(new UserAccessLogs(rs.getString("id"), rs.getString("userID"), rs.getString("accessType"), rs.getString("timeStamp")));
+        
+        }
+        
+        return logList;
+    }
+    
+    
+    public UserAccessLogs getUserDate(String date) throws SQLException{
+        
+        ResultSet rs = st.executeQuery("SELECT * FROM USERACCESSLOG where timestamp='" + date + "'");
+        while(rs.next()){
+            return new UserAccessLogs(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4));
+        }
+        return null;
+    }
     
     public List<UserAccessLogs> searchLog(String userID) throws SQLException {
     ResultSet rs = st.executeQuery("SELECT * FROM USERACCESSLOG where userID='" + userID + "'");

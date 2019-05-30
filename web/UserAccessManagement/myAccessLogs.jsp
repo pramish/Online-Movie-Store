@@ -21,13 +21,6 @@
         </form>     
  
 <table align="center" cellpadding="5" cellspacing="5" border="1">
-    <tr class"table-success">
-        <th>ID</th>
-        <th>UserID</th>
-        <th>AccessType</th>
-        <th>TimeStamp</th>
-        <th></th>
-    </tr>
     <%
             for (UserAccessLogs l : logList){
                 
@@ -37,20 +30,12 @@
                     <td><%=l.getUserID()%></td>
                     <td><%=l.getAccessType()%></td>
                     <td><%=l.getTimeStamp()%></td>
-                    
-                    <td>
-                        <form method="post" action="/deleteLogs">
-                            <input type="hidden" name="id" value="<%=l.getID()%>" />
-                            <input type="submit" value="Delete" />
-                        </form>
-                    </td>
-                    
+                    <td><a <%=l.getID()%>>Delete</a></td>
                  
                     </tr>
                 <%
 
             }
     %>
-    <br><br>
-    <button type="button" class="btn btn-link">Link</button>
+
 </table>
