@@ -33,6 +33,7 @@
             <a class="navbar-brand" href="createUser.jsp">Create Users</a>
             <a class="navbar-brand" href="updateUser.jsp">Update Users</a>
             <a class="navbar-brand" href="deleteUser.jsp">Delete Users</a>
+            <a class="navbar-brand" onClick="showHistoryList()" href="javascript:void(0);">Order history</a>
             <br><br><br>
             <div style="text-align: right;">
                 <form class="form-inline my-2 my-lg-0" action="readUserController.jsp" method="post">
@@ -82,4 +83,11 @@
         </div>
         
     </body>
+     <script  type="text/javascript">
+        function showHistoryList()
+        {
+            var contex="<%=request.getContextPath()%>";
+            window.location.href = contex + "/order/history";
+        }
+    </script>
 </html>
