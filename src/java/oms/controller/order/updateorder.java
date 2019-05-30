@@ -3,16 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package oms.controller.movie;
+package oms.controller.order;
 
 import MODEL.DAO.DatabaseManager;
 import MODEL.Movie;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.ResultSet;
+import java.math.BigDecimal;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -25,10 +23,10 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author luckylau
+ * @author Ian
  */
-@WebServlet(name = "listMovie", urlPatterns = {"/movie/list"})
-public class listMovie extends HttpServlet {
+@WebServlet(name = "updateorder", urlPatterns = {"/order/update"})
+public class updateorder extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -47,10 +45,10 @@ public class listMovie extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet listMovie</title>");            
+            out.println("<title>Servlet updateorder</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet listMovie at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet updateorder at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -68,26 +66,7 @@ public class listMovie extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       
-        List<Movie> movielist = new ArrayList<>();
-        
-        
-            HttpSession session = request.getSession();
-            
-        session.setAttribute("movielist",movielist);
-        try {
-            String search = request.getParameter("search");
-            
-            
-            DatabaseManager manager = (DatabaseManager)session.getAttribute("manager");
-            movielist = manager.searchMovieByTG(search);
-            
-            session.setAttribute("movielist",movielist);
-            RequestDispatcher view = request.getRequestDispatcher("/Movie/catalogue.jsp");
-            view.forward(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(listMovie.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -101,7 +80,33 @@ public class listMovie extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String orderId = request.getParameter("orderId");
+        String movieId = request.getParameter("movieId");
+        int amount = Integer.parseInt(request.getParameter("amount"));
+        HttpSession session = request.getSession();
+        DatabaseManager manager = (DatabaseManager) session.getAttribute("manager");
+        Movie movie;
+        try {
+            movie = manager.findMovieById(movieId);
+            if (amount > movie.getStock()) {
+                response.sendRedirect("/Order/history.jsp?updateError=yes&&stock=" + movie.getStock());
+                return;
+            }
+            BigDecimal price = movie.getPrice();
+            BigDecimal totalPrice = BigDecimal.valueOf(amount).multiply(price);
+            try {
+                manager.updateOrder(amount, totalPrice, orderId);
+            } catch (SQLException ex) {
+                Logger.getLogger(cancelorder.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            response.sendRedirect("/order/history");
+//            RequestDispatcher view = request.getRequestDispatcher("/order/history");
+//            view.forward(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(updateorder.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     /**
