@@ -1,87 +1,64 @@
+<%@page import="MODEL.Staff"%>
 <%@page import="MODEL.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="MODEL.controller.*"%>
-<%@page import="java.sql.*"%>
+<jsp:include page="/ConnServlet" flush="true" /> 
+<%
+    User user = (User)session.getAttribute("user");
+    Staff staff = (Staff)session.getAttribute("staff");
+%>
+
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Admin Menu</title>
+        <title>OMS</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+        <link href="/css/style.css" rel="stylesheet" type="text/css"/>
     </head>
-    <%@include file="Header.html" %>
     <body>
-        <%
-            
-            String success1 = (String) request.getParameter("success1");
-            String failure1 = (String) request.getParameter("failure1");
-        %>
-        
-        <%if (success1 != null) { %>
-        <div class="alert alert-success">
-            <%out.print(success1);%> 
-        </div>
-        <%  }
-        %>
-         <%if (failure1 != null) { %>
-        <div class="alert alert-success">
-            <%out.print(failure1);%> 
-        </div>
-        <%  }
-        %>
-        <h1>Admin Menu</h1>
-        <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
-            <a class="navbar-brand" href="createUser.jsp">Create Users</a>
-            <a class="navbar-brand" href="updateUser.jsp">Update Users</a>
-            <a class="navbar-brand" href="deleteUser.jsp">Delete Users</a>
-            <br><br><br>
-            <div style="text-align: right;">
-                <form class="form-inline my-2 my-lg-0" action="readUserController.jsp" method="post">
-                <input class="form-control mr-sm-2" type="search" name="name" placeholder="enter name">
-                <input class="form-control mr-sm-2" type="search" name="phoneNumber" placeholder="enter phonenumber">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
-            </div>
-        </nav> 
-        <jsp:include page="/ConnServlet" flush="true" /> 
-        
-        
-        <a href="/movie/add">add movie</a>
-        
-                    
-        
-        
-        
         <div class="container">
-            <hr>
+            <h1>Online Movie System</h1>
+            <hr />
+            
             <div class="row">
-                <div class="col-sm-6 col-md-4">
-                    <ul class="list-group">
-                       
-                        
-                        
-                        
-                        
-                        <%
-                        User user = (User)session.getAttribute("user");
-                        if(user != null && "ACTIVE".equals(user.getStatus())){
-                            %>
-                            <li class="list-group-item"><a href="/myaccount">My Account</a></li>
-                            <li class="list-group-item"><form method="post" action="/logout"><input type="submit" value="Logout" /></form></li>
-                            <li class="list-group-item"><a href="/listAccessLogs">My Access Logs</a></li>
-                            
-                            
-                            <%
-                        }else{
-%>
-                            <li class="list-group-item"><a href="/login">Login</a></li>
-                             <li class="list-group-item"><a href="/register">Register</a></li>
-                            
-                            <%
-}
-                        %>
-                        <li class="list-group-item"><a href="/movie/list">Movie Catalogue</a></li>
-                    </ul>
+                <div class="col-sm-4">
+                    <a href="/movie/list" class="btn btn-primary btn-lg btn-block">Movie Catalogue</a>
                 </div>
+                <%if (user.isRegistered()){%>
+                <div class="col-sm-4">
+                    <a href="/myorders" class="btn btn-primary btn-lg btn-block">My Orders</a>
+                </div>
+                <div class="col-sm-4">
+                    <a href="/myaccount" class="btn btn-primary btn-lg btn-block">My Registration Details</a>
+                </div>
+                <div class="col-sm-4">
+                    <a href="/myaccesslogs" class="btn btn-primary btn-lg btn-block">My Access Logs</a>
+                </div>
+                <div class="col-sm-12">
+                    <hr />
+                </div>
+                
+                <%//if (staff != null){%>
+                    <div class="col-sm-4">
+                        <a href="/users" class="btn btn-warning btn-lg btn-block">User Management</a>
+                    </div>
+                    <div class="col-sm-4">
+                        <a href="/customers" class="btn btn-warning btn-lg btn-block">Customer Management</a>
+                    </div>
+                <%//}%>
+                <div class="col-sm-12">
+                    <hr />
+                </div>
+                <div class="col-sm-4">
+                    <a href="/logout" class="btn btn-default btn-lg btn-block">Logout</a>
+                </div>
+                <%}else{%>
+                <div class="col-sm-4">
+                    <a href="/login" class="btn btn-primary btn-lg btn-block">Login</a>
+                </div>
+                
+                <%}%>
             </div>
             
         </div>

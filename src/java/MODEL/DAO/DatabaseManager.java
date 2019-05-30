@@ -29,6 +29,10 @@ public class DatabaseManager {
         st = conn.createStatement();
     }
 
+    
+    // <editor-fold defaultstate="collapsed" desc="User related functions.">
+    
+    // </editor-fold>
     public void addUser(String id, String email, String name, String password, String phoneNumber) throws SQLException {
         st.executeUpdate("insert into \"USER\" ( "
                 + " id"
@@ -128,7 +132,6 @@ public class DatabaseManager {
         return null;
     }
 
-    
     public List<UserAccessLogs> searchLogsByDate(String search) throws SQLException {
         
         String search2 = search;
@@ -184,9 +187,11 @@ public class DatabaseManager {
                 String userStatus = rs.getString(6);
                 return new User(userID, userEmail, userName, userPass, userPhone, userStatus);
             }
+        
+        }
         return null;
     }
-
+   
     public boolean checkUser(String email, String password) throws SQLException {
 //        String query = "Select * from adminlogin Where Username='" + username + "' and Password='" + password + "'";
         String fetch = "select * from \"USER\" where email='" + email + "'and password='" + password + "'";
@@ -199,7 +204,7 @@ public class DatabaseManager {
             }
         }
         
-        return movielist;
+        return false;
     }
 
     public boolean checkEmail(String email) throws SQLException {
@@ -236,22 +241,6 @@ public class DatabaseManager {
         }
         return null;
     }
-
-    
-    public List<UserAccessLogs> searchLog(String userID) throws SQLException {
-    ResultSet rs = st.executeQuery("SELECT * FROM USERACCESSLOG where userID='" + userID + "'");
-      List<UserAccessLogs> logList = new ArrayList<>();
-        while(rs.next())
-        {
-            
-            //if ((title != null && title.equals(rs.getString("title"))) || (genre != null && genre.equals(rs.getString("genre"))))
-                logList.add(new UserAccessLogs(rs.getString("id"), rs.getString("userID"), rs.getString("accessType"), rs.getString("timeStamp")));
-        
-        }
-        
-        return logList;
-    }
-    
     
     public UserAccessLogs getUserDate(String date) throws SQLException{
         
@@ -263,8 +252,8 @@ public class DatabaseManager {
     }
     
     public List<UserAccessLogs> searchLog(String userID) throws SQLException {
-    ResultSet rs = st.executeQuery("SELECT * FROM USERACCESSLOG where userID='" + userID + "'");
-      List<UserAccessLogs> logList = new ArrayList<>();
+        ResultSet rs = st.executeQuery("SELECT * FROM USERACCESSLOG where userID='" + userID + "'");
+        List<UserAccessLogs> logList = new ArrayList<>();
         while(rs.next())
         {
             
@@ -274,16 +263,6 @@ public class DatabaseManager {
         }
         
         return logList;
-    }
-    
-    
-    public UserAccessLogs getUserDate(String date) throws SQLException{
-        
-        ResultSet rs = st.executeQuery("SELECT * FROM USERACCESSLOG where timestamp='" + date + "'");
-        while(rs.next()){
-            return new UserAccessLogs(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4));
-        }
-        return null;
     }
 
     public List<Movie> searchMovie(String title, String genre) throws SQLException {
@@ -298,7 +277,6 @@ public class DatabaseManager {
 
         return movielist;
     }
-
 
     public List<Movie> searchMovieByTG(String search) throws SQLException {
         String search2 = search;
@@ -316,7 +294,6 @@ public class DatabaseManager {
 
         return movielist;
     }
-
 
     //add a movie details in the database
     public void addMovie(String ID, String title, String genre, BigDecimal price, int stock) throws SQLException {
@@ -435,9 +412,6 @@ public class DatabaseManager {
         
     }
     
-}
-
-
     public Movie getMovieByID(String ID) throws SQLException {
         String fetch = "select * from \"MOVIE\" where ID = '" + ID + "'";
         ResultSet rs = st.executeQuery(fetch);
@@ -454,5 +428,5 @@ public class DatabaseManager {
         }
         return null;
     }
-
+    
 }

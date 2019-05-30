@@ -11,6 +11,7 @@ import MODEL.User;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -18,11 +19,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import oms.controller.registration.Create;
 
-/**
- *
- * @author pramishluitel
- */
+
 public class ConnServlet extends HttpServlet {
 
     private DatabaseConnector db;
@@ -50,24 +49,31 @@ public class ConnServlet extends HttpServlet {
         } catch (SQLException ex) {
             Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //export the DB manager to the view-session (JSPs)
+        
+        //Check if user in session. If not then create user.
         session.setAttribute("manager", manager);
-
+        user = (User)session.getAttribute("user");
+        
+        if(user == null){
+            user = new User();
+            
+            boolean userIDExists = true;
+            try {
+                while(userIDExists)
+                {
+                    user.setID(""+((new Random()).nextInt(900000000)+ + 100000000));
+                    userIDExists = manager.getUser(user.getID()) != null;
+                }
+                manager.addAnonymousUser(user.getID());
+            } catch (SQLException ex) {
+                Logger.getLogger(Create.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            // Store user in session
+            session.setAttribute("user", user);
+        }
     }
     
-//    private void listBook(HttpServletRequest request, HttpServletResponse response)
-//            throws SQLException, IOException, ServletException {
-//        List<Book> listBook = bookDAO.listAllBooks();
-//        request.setAttribute("listBook", listBook);
-//        RequestDispatcher dispatcher = request.getRequestDispatcher("BookList.jsp");
-//        dispatcher.forward(request, response);
-//    }
-    
-    private void listUser(){
-//        List<User> listUser = manager.
-    }
-    
-
     @Override //Destroy the servlet and release the resources of the application
     public void destroy() {
         try {

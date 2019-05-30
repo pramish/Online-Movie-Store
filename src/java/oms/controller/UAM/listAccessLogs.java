@@ -52,7 +52,7 @@ public class listAccessLogs extends HttpServlet {
            
            logList = manager.searchLogsByDate(userDate);
         } catch (SQLException ex) {
-            Logger.getLogger(searchUserAccessLogs.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(listAccessLogs.class.getName()).log(Level.SEVERE, null, ex);
         }
         
           session.setAttribute("logList", logList);

@@ -69,21 +69,21 @@ public class User implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    public void updateDetails(String email, String name, String password, String phoneNumber) {
-
-        this.email = email;
-        this.name = name;
-        this.password = password;
-        this.phoneNumber = phoneNumber;
-    }
-
-    public boolean matchEmail(String email) {
-        return this.email.equals(email);
-    }
-
-    public boolean matchPassword(String password) {
-        return this.password.equals(password.trim());
-    }
+//    public void updateDetails(String email, String name, String password, String phoneNumber) {
+//
+//        this.email = email;
+//        this.name = name;
+//        this.password = password;
+//        this.phoneNumber = phoneNumber;
+//    }
+//
+//    public boolean matchEmail(String email) {
+//        return this.email.equals(email);
+//    }
+//
+//    public boolean matchPassword(String password) {
+//        return this.password.equals(password.trim());
+//    }
 
     public String getStatus() {
         return this.status;
@@ -91,6 +91,10 @@ public class User implements Serializable {
     
     public void setStatus(String status) {
         this.status = status;
+    }
+    
+    public boolean isRegistered(){
+        return "ACTIVE".equals(this.status);
     }
     
 }
