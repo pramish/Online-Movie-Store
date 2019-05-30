@@ -4,6 +4,7 @@
     Author     : Photato
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<jsp:include page="/ConnServlet" flush="true" /> 
 <!DOCTYPE html>
 <html>
     <head>

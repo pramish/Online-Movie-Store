@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<jsp:include page="/ConnServlet" flush="true" /> 
 <!DOCTYPE html>
 <html>
     <head>
@@ -14,27 +15,37 @@
         <link href="/css/bootstrap.css" rel="stylesheet" type="text/css"/>
         <link href="/css/style.css" rel="stylesheet" type="text/css"/>
     </head>
-    <body onload="startTime()">
-        <div><span class="time" id="time" ></span></div>
-        <h1>Enter the movie details:</h1> 
-        <br>
-        <form action="/movie/add" method="post">
-            <table>
-                <tr><td>Title:</td><td><input size="23" type="text" name="title"></td></tr>
-                <tr><td>Genre:</td><td><input size="23" type="text" name="genre"></td></tr>
-                <tr><td>Price</td><td><input size="23" type="text" name="price"></td></tr>
-                <tr><td>Stock:</td><td><input size="23" type="text" name="stock"></td></tr>  
-                <tr><td></td>
-                    <td>
-                        <input class="button" type="submit" value="Add"> 
-                        <button class="button" type="button" onclick="location.href = '/movie/list'" > Movie List </button>
-                        
-                        
-                    </td>
-                </tr>
-            </table>
-        </form>
-        <jsp:include page="/ConnServlet" flush="true" />
-        
+    <body>
+        <div class="container">
+            <h1>Online Movie System</h1>
+            <h2>Add Movie</h2>
+            <hr />
+            <span class="text-danger"><%=request.getParameter("failure1") == null ? "":request.getParameter("failure1")%></span>
+            <div class="row">
+                <div class="col-sm-4">
+                    <form method="post">
+                        <div class="form-group">
+                            <label>Title</label>
+                            <input type="text" class="form-control" name="title" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Genre</label>
+                            <input type="text" class="form-control" name="genre" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Price</label>
+                            <input type="number" step="0.01" class="form-control" name="price" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Stock</label>
+                            <input type="number" step="1" class="form-control" name="stock" required>
+                        </div>
+                        <hr />
+                        <a href="/movie/list" class="btn btn-default">Cancel</a>
+                        <input type="submit" value="Add Movie" class="btn btn-success pull-right" />
+                    </form>
+                </div>
+            </div>
+        </div>
     </body>
 </html>

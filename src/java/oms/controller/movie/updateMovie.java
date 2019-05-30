@@ -66,8 +66,26 @@ public class updateMovie extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        RequestDispatcher view = request.getRequestDispatcher("/Movie/updateMovie.jsp");
-    view.forward(request, response);
+        try {
+            HttpSession session = request.getSession();
+            DatabaseManager manager = (DatabaseManager) session.getAttribute("manager");
+            
+            String id = request.getParameter("id");
+            
+            
+            Movie movie = manager.getMovieByID(id);
+            
+            if(movie != null){
+                session.setAttribute("movie", movie);
+                RequestDispatcher view = request.getRequestDispatcher("/Movie/updateMovie.jsp");
+                view.forward(request, response);    
+            }else{
+                response.sendRedirect("/movie/list");
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(updateMovie.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -85,22 +103,24 @@ public class updateMovie extends HttpServlet {
         //to get session
         HttpSession session = request.getSession();
         
-        Movie movie = (Movie) session.getAttribute("movies");
+        Movie movie = (Movie) session.getAttribute("movie");
         
         DatabaseManager manager = (DatabaseManager)session.getAttribute("manager"); 
-        String updated = request.getParameter("updated");
-        if(updated != null){
-          if(updated.equals("Save")){
-            try { 
-                manager.updateMovie(movie.getID(), request.getParameter("title"), request.getParameter("genre"),
-                        new BigDecimal(request.getParameter("price")), Integer.parseInt(request.getParameter("stock")));
-                response.sendRedirect("/movie/list"); 
-                
+        
+        if(movie != null){
+            try {
+                manager.updateMovie(movie.getID(), 
+                        request.getParameter("title"), 
+                        request.getParameter("genre"), 
+                        new BigDecimal(request.getParameter("price")), 
+                        Integer.parseInt(request.getParameter("stock"))
+                );
             } catch (SQLException ex) {
                 Logger.getLogger(updateMovie.class.getName()).log(Level.SEVERE, null, ex);
             }
-          }
+                
         }
+        response.sendRedirect("/movie/list"); 
     }
 
     /**

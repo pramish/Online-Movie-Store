@@ -4,10 +4,9 @@
     Author     : pramishluitel
 --%>
 
-<%@page import="MODEL.DAO.DatabaseManager"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="MODEL.controller.*"%>
-<%@page import="java.sql.*"%>
+<jsp:include page="/ConnServlet" flush="true" /> 
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -18,45 +17,37 @@
         <link href="/css/style.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-        <h1>Create User</h1>
-        <div class="container-fluid">
-            <div class="col-sm-12 text-center">
-                <button class="btn btn-primary btn-lg active" name="home" onclick="location.href = 'index.jsp';">Home</button>
+        <div class="container">
+            <h1>Online Movie System</h1>
+            <h2>Create User</h2>
+            <hr />
+            <span class="text-danger"><%=request.getParameter("failure1") == null ? "":request.getParameter("failure1")%></span>
+            <div class="row">
+                <div class="col-sm-4">
+                    <form method="post">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" class="form-control" placeholder="Enter the full name" name="fullName">
+                </div>
+                <div class="form-group">
+                    <label >Email Address</label>
+                    <input type="text" class="form-control" placeholder="Enter the email address" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" class="form-control" placeholder="Enter the password" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="text" class="form-control" placeholder="Enter the phone number" name="phoneNumber">
+                </div>
+                <hr />
+                <a href="/users" class="btn btn-default">Cancel</a>
+                <input type="submit" value="Create User" class="btn btn-success pull-right" />
+            </form>
+                </div>
             </div>
+            
         </div>
-        <br><br>
-        <form action="/createUser" method="POST">
-            <div class="form-row">
-                <div class="col-md-4 mb-3">
-
-                    <label for="validationDefault01">Full Name</label>
-                    <input type="text" class="form-control" id="validationDefault01" placeholder="enter the full name" name="fullName">
-                </div>
-                <div class="col-md-4 mb-3">
-
-                    <label for="validationDefault02">Email Address</label>
-                    <input type="text" class="form-control" id="validationDefault02" placeholder="enter the email address" name="email">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="col-md-6 mb-3">
-
-                    <label for="validationDefault03">Password</label>
-                    <input type="password" class="form-control" id="validationDefault03" placeholder="enter the password" name="password">
-                </div>
-                <div class="col-md-3 mb-3">
-
-                    <label for="validationDefault05">Phone Number</label>
-                    <input type="text" class="form-control" id="validationDefault05" placeholder="enter the phone number" name="phoneNumber">
-                </div>
-            </div>
-            <br><br><br><br><br><br><br><br>
-            <div class="container-fluid">
-                <div class="col-sm-12 text-center">
-                    <button class="btn btn-primary btn-lg active" type="submit" name="submit">Create User</button>
-                </div>
-            </div>
-        </form>
-
     </body>
 </html>

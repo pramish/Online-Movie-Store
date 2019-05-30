@@ -2,12 +2,11 @@ package MODEL;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Date;
 
 public class Order {
 
     private String ID;
-//    private String CustomerID;   
+    private String CustomerID;   
     private String MovieID;
     private String UserID;
     private BigDecimal Price;
@@ -16,8 +15,14 @@ public class Order {
     private LocalDate Date;
     private String Status;
     private String title;
-    private Integer stock=0;
 
+    
+    public Order(){}
+    
+    public Order(String ID){
+        this.ID = ID;
+    }
+    
     /**
      *
      * @param ID
@@ -30,18 +35,17 @@ public class Order {
      * @param Date
      * @param Status
      */
-    public Order(String ID, String MovieID, String UserID, BigDecimal Price, Integer Amount, BigDecimal TotalPrice, LocalDate Date, String Status, String title, Integer stock) {
+    public Order(String ID, String CustomerID, String MovieID, String UserID, BigDecimal Price, Integer Amount, BigDecimal TotalPrice, LocalDate date, String Status, String title) {
         this.ID = ID;
-//       this.CustomerID = CustomerID;
+        this.CustomerID = CustomerID;
         this.MovieID = MovieID;
         this.UserID = UserID;
         this.Price = Price;
         this.Amount = Amount;
         this.TotalPrice = TotalPrice;
-        this.Date = Date;
+        this.Date = date;
         this.Status = Status;
         this.title = title;
-        this.stock = stock;
     }
 
     public String getID() {
@@ -50,6 +54,14 @@ public class Order {
 
     public void setID(String ID) {
         this.ID = ID;
+    }
+    
+    public String getCustomerID() {
+        return CustomerID;
+    }
+
+    public void setCustomerID(String CustomerID) {
+        this.CustomerID = CustomerID;
     }
 
     public String getMovieID() {
@@ -96,8 +108,8 @@ public class Order {
         return Date;
     }
 
-    public void setDate(LocalDate Date) {
-        this.Date = Date;
+    public void setDate(LocalDate date) {
+        this.Date = date;
     }
 
     public String getStatus() {
@@ -116,12 +128,6 @@ public class Order {
         this.title = title;
     }
 
-    public Integer getStock() {
-        return stock;
-    }
-
-    public void setStock(Integer stock) {
-        this.stock = stock;
-    }
+    
 
 }

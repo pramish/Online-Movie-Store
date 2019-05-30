@@ -73,11 +73,11 @@ public class listMovie extends HttpServlet {
             HttpSession session = request.getSession();
         session.setAttribute("movielist",movielist);
         try {
-            String title = request.getParameter("title");
-            String genre = request.getParameter("genre");
+            
+            String search = request.getParameter("search");
             
             DatabaseManager manager = (DatabaseManager)session.getAttribute("manager");
-            movielist = manager.searchMovie(title, genre);
+            movielist = manager.searchMovieByTG(search);
             
             session.setAttribute("movielist",movielist);
             RequestDispatcher view = request.getRequestDispatcher("/Movie/catalogue.jsp");

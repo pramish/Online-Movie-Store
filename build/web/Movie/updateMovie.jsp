@@ -1,17 +1,16 @@
 <%-- 
     Document   : updateMovie
-    Created on : 27/05/2019, 10:03:22 AM
+    Created on : 19/05/2019, 4:21:15 PM
     Author     : luckylau
 --%>
 
 <%@page import="MODEL.Movie"%>
-<%@page import="java.math.BigDecimal"%>
-<%@page import="MODEL.DAO.*"%>
-<%@page import="MODEL.controller.*"%>
-<%@page import="java.sql.*"%>
-<%@page contentType="text/html" import="java.util.*" import="MODEL.*" pageEncoding="UTF-8"%>
-
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<jsp:include page="/ConnServlet" flush="true" /> 
+<%Movie movie = (Movie) session.getAttribute("movie");%> 
 <!DOCTYPE html>
+
+
 <html>
     <head>
         <title>OMS</title>
@@ -20,40 +19,47 @@
         <link href="/css/bootstrap.css" rel="stylesheet" type="text/css"/>
         <link href="/css/style.css" rel="stylesheet" type="text/css"/>
     </head>
-    
-    <%
-       
-        Movie movie = (Movie) session.getAttribute("movie");
-
-       
-    %> 
-    
-    
-         <h1>Update Movie</h1>        
-        <form action="/movie/update" method="post">
-            <table>
-                <tr><td>Movie ID</td><td><%= movie.getID()%></td></tr>
-                <tr><td>Movie Title</td><td><input type="text" value="<%= movie.getTitle()%>" name="title"></td></tr>
-                <tr><td>Movie Genre</td><td><input type="text" value="<%= movie.getGenre()%>" name="genre"></td></tr> 
-                <tr><td>Movie Price</td><td><input type="text" value="<%= movie.getPrice()%>" name="title"></td></tr>
-                <tr><td>Movie Stock</td><td><input type="text" value="<%= movie.getStock()%>" name="stock"></td></tr> 
-                
-                 
-                
-                 <tr>
-                    <td><input class="button" type="submit" value="Update" name="updated"> 
-                        &emsp; 
-                        <button class="button" type="button" onclick="location.href = '/movie/list'" > Movie List </button>
-                    </td>
-                </tr>
-            </table>
-        </form>
-        
-       
-        
-        
-        
-        
-             <jsp:include page="/ConnServlet" flush="true" />
-    
+    <body>
+        <div class="container">
+            <h1>Online Movie System</h1>
+            <h2>Add Movie</h2>
+            <hr />
+            <span class="text-danger"><%=request.getParameter("failure1") == null ? "":request.getParameter("failure1")%></span>
+            <div class="row">
+                <div class="col-sm-4">
+                    <form method="post">
+                        <div class="form-group">
+                            <label>ID</label>
+                            <input type="text" class="form-control" value="<%=movie.getID()%>" readOnly>
+                        </div>
+                        <div class="form-group">
+                            <label>Title</label>
+                            <input type="text" class="form-control" name="title" value="<%=movie.getTitle()%>" required />
+                        </div>
+                        <div class="form-group">
+                            <label>Genre</label>
+                            <input type="text" class="form-control" name="genre" value="<%=movie.getGenre()%>" required />
+                        </div>
+                        <div class="form-group">
+                            <label>Price</label>
+                            <input type="text" class="form-control" value="<%=movie.getPrice()%>" name="price" required />
+                        </div>
+                        <div class="form-group">
+                            <label>Stock</label>
+                            <input type="text" class="form-control" value="<%=movie.getStock()%>" name="stock" required />
+                        </div>
+                        <hr />
+                        <a href="/movie/list" class="btn btn-default">Cancel</a>
+                        
+                        <input type="submit" value="Save" class="btn btn-success pull-right" />
+                    </form>
+                    <form method="post" action="/movie/delete">
+                        <input class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this movie?')" type="submit" value="Delete" />     
+                    </form>    
+                </div>
+            </div>
+        </div>
+    </body>
 </html>
+
+

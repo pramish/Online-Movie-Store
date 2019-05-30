@@ -3,6 +3,7 @@
 <%@page import="java.util.List"%>
 <%@page import="MODEL.Movie"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<jsp:include page="/ConnServlet" flush="true" /> 
 <!DOCTYPE html>
 <%
     //List<Movie> movielist = (ArrayList) session.getAttribute("movieAlllist");

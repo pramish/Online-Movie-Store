@@ -1,4 +1,8 @@
-<%@page contentType="text/html" import="java.util.*" import="MODEL.*" pageEncoding="UTF-8"%>
+<%@page import="MODEL.UserAccessLogs"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<jsp:include page="/ConnServlet" flush="true" /> 
 <!DOCTYPE html>
 
 <%List<UserAccessLogs> logList = (ArrayList)session.getAttribute("logList");%>
@@ -16,21 +20,28 @@
             <h1>Online Movie System</h1>
             <h2>My Access List</h2>
             <hr />
+            
+            <div class="row">
+                <div class="col-sm-4">
+                    <a href="/" class="btn btn-default btn-block">Home</a>
+                </div>
+
+            </div>
+            <br />
             <form>
                 <div class="row">
-                    <div class="col-sm-4">
-                        <a href="/" class="btn btn-default btn-block">Home</a>
-                    </div>
+                   
                     <div class="col-sm-3">
                         <input class="form-control" type="search" name="date" placeholder="Enter date search here">        
                     </div>
                     <div class="col-sm-2">
                         <input type="submit" class="btn btn-primary btn-block" value="Search">        
                     </div>
-                </div>
-            </form>     
+                </div> 
+            </form>
+                
             <hr />
-            <table class="table table-condensed table-bordered">
+            <table class="table table-condensed table-bordered table-striped table-hover">
                 <thead>
                     <tr>
                         <th>Timestamp</th>

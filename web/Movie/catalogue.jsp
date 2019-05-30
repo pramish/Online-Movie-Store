@@ -4,7 +4,11 @@
     Author     : luckylau
 --%>
 
-<%@page contentType="text/html" import="java.util.*" import="MODEL.*" pageEncoding="UTF-8"%>
+<%@page import="MODEL.Movie"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<jsp:include page="/ConnServlet" flush="true" /> 
 <!DOCTYPE html>
 
 <%
@@ -20,46 +24,65 @@
         <link href="/css/style.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-        <h1>Catalogue</h1>
-        
-       
+        <div class="container">
+            <h1>Online Movie System</h1>
+            <h2>Movie Catalogue</h2>
+            <hr />
+            <div class="row">
+                <div class="col-sm-4">
+                    <a href="/" class="btn btn-default btn-block">Home</a>
+                </div>
+                <div class="col-sm-4">
+                    <a class="btn btn-primary btn-block" href="/movie/add">Add Movie</a>
+                </div>
+            </div>
+            <br />
+            <form>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <input class="form-control" type="search" name="search" placeholder="Search title or genre" />        
+                    </div>
+                    <div class="col-sm-2">
+                        <input type="submit" class="btn btn-primary btn-block" value="Search" />
+                    </div>
+                </div>
+            </form>
+            <hr />
+            <table class="table table-condensed table-bordered table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th> ID </th>
+                        <th> Title </th>
+                        <th> Genre </th>
+                        <th> Price </th>
+                        <th> Stock </th>
+                        <th></th>
+                    </tr>
+                </thead>
 
- <button class="button" type="button" onclick="location.href = '/movie/add'" > Add movie </button>
- 
-<table align="center" cellpadding="5" cellspacing="5" border="1">
-            <tr>
-             
-                <th> ID </th>
-                <th> Title </th>
-                <th> Genre </th>
-                <th> Price </th>
-                <th> Stock </th>
-                <th> Delete or Update </th>
-           
-            </tr>
-                
-    <%
-            for (Movie m : movielist){
-                
-                %>
-                 <tr>
-                    <td><%=m.getID()%></td>
-                    <td><%=m.getTitle()%></td>
-                    <td><%=m.getGenre()%></td>
-                    <td><%=m.getPrice()%></td>
-                    <td><%=m.getStock()%></td>
-                    <td> 
-                            <button class="button" type="button" onclick="location.href = '/movie/delete'" > Delete movie </button>
-                            <button class="button" type="button" onclick="location.href = '/movie/update'"> Update movie </button>                 
-                            <a href="/order/create?movieId=<%=m.getID()%>">Buy Movie</a>
-                    </td>
-                </tr>
-                <%
+                <tbody>            
+                <%for (Movie m : movielist){%>
+                    <tr>
+                       <td><%=m.getID()%></td>
+                       <td><%=m.getTitle()%></td>
+                       <td><%=m.getGenre()%></td>
+                       <td><%=m.getPrice()%></td>
+                       <td><%=m.getStock()%></td>
+                       <td> 
+                           <a href="/movie/update?id=<%=m.getID()%>" class="btn btn-xs btn-primary">Update Movie</a>
+                           <a href="/order/create?id=<%=m.getID()%>" class="btn btn-xs btn-primary">Order Movie</a>
+                       </td>
+                   </tr>
+                <%}%>
+                </tbody>
+            </table>
+            
+            
+        </div>
+    
 
-            }
-    %>
+  
 
-</table>
 
 
 

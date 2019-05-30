@@ -12,7 +12,12 @@ import MODEL.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,40 +39,33 @@ import oms.controller.movie.listMovie;
     @WebInitParam(name = "Name", value = "Value")})
 public class orderhistory extends HttpServlet {
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet orderhistory</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet orderhistory at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
 
-    // FIXME
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<Order> orderlist = new ArrayList<>();
+        
+        
         HttpSession session = request.getSession();
+        DatabaseManager manager = (DatabaseManager) session.getAttribute("manager");
+        
         User user = (User) session.getAttribute("user");
-        session.setAttribute("orderlist", orderlist);
-        if (user != null) {
-            try {
-                DatabaseManager manager = (DatabaseManager) session.getAttribute("manager");
-                orderlist = manager.searchOrder(user.getID());//FIXME
-                session.setAttribute("orderlist", orderlist);
-            } catch (SQLException ex) {
-                Logger.getLogger(listMovie.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        
+        List<Order> orderlist = new ArrayList<>();
+   
+        String date = request.getParameter("date");
+        
+        
+        try {
+                orderlist = manager.getUserOrdersByDate(user.getID(),date);
+                
+        } catch (SQLException ex) {
+            Logger.getLogger(orderhistory.class.getName()).log(Level.SEVERE, null, ex);
+            Order order = new Order(ex.getMessage());
+            orderlist.add(order);
         }
+        
+        session.setAttribute("orderlist", orderlist);
+        
         RequestDispatcher view = request.getRequestDispatcher("/Order/history.jsp");
         view.forward(request, response);
 

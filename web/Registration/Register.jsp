@@ -8,11 +8,12 @@
 <%@page import="java.sql.Array"%>
 <%@page import="java.util.List"%>
 <%@page import="MODEL.User"%>
-<jsp:include page="/ConnServlet" flush="true" />
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<jsp:include page="/ConnServlet" flush="true" /> 
 
 <%User user = (User)session.getAttribute("registerUser");%>
 <%List<String> errors =(ArrayList)session.getAttribute("registerErrors");%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
     <head>

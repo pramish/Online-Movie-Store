@@ -1,10 +1,13 @@
-<%@page import="java.util.ArrayList"%>
-<%@page import="MODEL.Customer"%>
 <%@page import="java.util.List"%>
-<%@page import="MODEL.DAO.DatabaseManager"%>
+<%@page import="MODEL.Customer"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="MODEL.controller.*"%>
-<%@page import="java.sql.*"%>
+<jsp:include page="/ConnServlet" flush="true" /> 
+
+<% 
+    List<String> errors = (List<String>)request.getAttribute("errors");
+    Customer customer = (Customer)request.getAttribute("customer");
+%>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -15,29 +18,21 @@
         <link href="/css/style.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-        <h1>Customer Management</h1>
-        <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
-            <a class="navbar-brand" href="/index.jsp">HOME</a>
-            <a class="navbar-brand" href="list">SEARCH CUSTOMER</a>
-        </nav> 
-        <% List<String> errors = (List<String>)request.getAttribute("errors");
-           Customer customer = (Customer)request.getAttribute("customer");
-        %>
         <div class="container">
-        <caption><h2>Update Customer</h2></caption>
-        <div class="row">
-                <div class="col-md-6 col-md-push-3">
-                    <form action="/customer/edit" method="POST">
+            <h1>Online Movie System</h1>
+            <h2>Edit Customer</h2>
+            <hr />
+            <form method="POST" action="/customer/edit">
+                <div class="row">
+                    <div class="col-sm-4">
                         <ul>
                             <%for(String error: errors){%><li class="text-danger"><%=error%></li><%}%>
                         </ul>
-                        <div class="row">
-                            <div class="col-sm-8 col-sm-push-2">
-                            <div class="form-group">
-                                <label for="validationDefault01">ID</label>
-                                <input type="text" class="form-control" id="validationDefault01" placeholder="enter the id" name="id" value="<%=customer.getId()%>" readOnly>
-                            </div>
-                            <div class="form-group">
+                        <div class="form-group">
+                            <label for="validationDefault01">ID</label>
+                            <input type="text" class="form-control" id="validationDefault01" placeholder="enter the id" name="id" value="<%=customer.getId()%>" readOnly>
+                        </div>
+                        <div class="form-group">
                                 <label for="validationDefault02">NAME</label>
                                 <input type="text" class="form-control" id="validationDefault02" placeholder="enter the name" name="name" value="<%=customer.getName()%>" required>
                             </div>
@@ -59,18 +54,13 @@
                                 <label for="validationDefault05">STATUS</label>
                                 <input type="radio" name="status" value="ACTIVE" <% if(customer.getStatus().equals("ACTIVE")||customer.getStatus().equals("")){ %> checked<%}%>> ACTIVE
                                 <input type="radio" name="status" value="DEACTIVE" <% if(customer.getStatus().equals("DEACTIVE")){ %> checked<%}%>> DEACTIVE
-                                <input type="radio" name="status" value="CANCELLED" <% if(customer.getStatus().equals("CANCELLED")){ %> checked<%}%>> CANCELLED
                             </div>
-                            </div>
-                        </div>
-                        <div class="container-fluid">
-                            <div class="col-sm-12 text-right">
-                                <button class="btn btn-primary btn-lg active" type="submit" name="submit">Update User</button>
-                            </div>
-                        </div>
-                    </form>
+                        <hr />
+                        <a href="/customer/list" class="btn btn-default">Cancel</a>
+                        <input type="submit" value="Save" class="btn btn-success pull-right" />
+                    </div>
                 </div>
-        </div>
+            </form>
         </div>
     </body>
 </html>

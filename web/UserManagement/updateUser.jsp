@@ -4,8 +4,15 @@
     Author     : pramishluitel
 --%>
 
+<%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="MODEL.User"%>
+<%User user = (User) session.getAttribute("editUser");%>
+<%List<String> errors =(ArrayList)session.getAttribute("editUserErrors");%>
+
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<jsp:include page="/ConnServlet" flush="true" /> 
 <!DOCTYPE html>
 <html>
     <head>
@@ -15,75 +22,63 @@
         <link href="/css/bootstrap.css" rel="stylesheet" type="text/css"/>
         <link href="/css/style.css" rel="stylesheet" type="text/css"/>
     </head>
-    <%
-        String failure = (String) request.getParameter("failure");
-        String success = (String) request.getParameter("success");
-        String success1 = (String) request.getParameter("success1");
-    %>
-    <%if (success != null) { %>
-    <div class="alert alert-success">
-        <%out.print(success);%> 
-    </div>
-    <%  }
-    %>
-
-    <%if (failure != null) { %>
-    <div class="alert alert-success">
-        <%out.print(failure);%> 
-    </div>
-    <%  }
-    %>
-    <%if (success1 != null) { %>
-    <div class="alert alert-success">
-        <%out.print(success1);%> 
-    </div>
-    <%  }
-    %>
     <body>
-        <br><br>
-        <div class="container-fluid">
-            <div class="col-sm-12 text-center">
-                <button class="btn btn-primary btn-lg active" name="home" onclick="location.href = 'index.jsp';">Home</button>
-            </div>
-        </div>
-        <br>
-        <form class="form-inline" action="updateUserController.jsp" method="post">
-            <input class="form-control mr-sm-2" type="search" name="ID" placeholder="enter user ID" cc aria-label="Search">
-            <button class="btn btn-primary btn-lg active">Search</button>
-            <br><br>
-        </form>
-        <pre>
         
-        <form action="updateUserController.jsp" method="post">
-            <table>
-                    <%
-                        User user = (User) session.getAttribute("user");
+        <div class="container">
+            <h1>Online Movie System</h1>
+            <h2>Update User</h2>
+            <hr />
+            
+            
+                <div class="row">
+                    <div class="col-sm-4">
+                        <ul>
+                            <%for(String error: errors){%><li class="text-danger"><%=error%></li><%}%>
+                        </ul>
+                           
+                        <form method="post">
+                            <div class="form-group">
+                                <label>User ID</label>
+                                <input class="form-control" type="text" name="ID" value="<%=user.getID()%>" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input class="form-control" type="email" name="email" value="<%=user.getEmail()%>" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Full Name</label>
+                                <input class="form-control" type="text" name="name" value="<%=user.getName()%>">
+                            </div>
+                            <div class="form-group">
+                                <label>Phone No.</label>
+                                <input class="form-control" type="tel" name="phone" value="<%=user.getPhoneNumber()%>">
+                            </div>
+                            <div class="form-group">
+                                <label>Password</label>
+                                <input class="form-control" type="password" name="password" value="<%=user.getPassword()%>" required>
+                            </div>
 
-                        if (user != null) {%>
-                <tr><td>ID:</td><td><%=user.getID()%></td></tr>
-                <tr><td>Email:</td><td><input size="23" type="text" name="email" value=<%=user.getEmail()%> ></td></tr>
-                <tr><td>Name:</td><td><input size="23" type="text" name="name" value=<%=user.getName()%>></td></tr><br>
-                <tr><td>Password:</td><td><input size="23" type="password" name="password" value=<%= user.getPassword()%> ></td></tr>
-                <tr><td>Phone Number:</td><td><input size="23" type="text" name="phoneNumber" value=<%=user.getPhoneNumber()%> ></td></tr>
-                <tr><td>Deactivate User:</td><td>
-<input type="radio" name="status" value="deactive"> Deactive
-                    </td></tr>
-                    <td>
-                        <input class="button" type="submit" name="save" value="Save"> 
-                        &nbsp; 
-                    </td>
-                    <%} else {%>
-                <tr><td>ID:</td><td></td></tr>
-                <tr><td>Email:</td><td><input size="23" type="text" name="email" value=""></td></tr>
-                <tr><td>Name:</td><td><input size="23" type="text" name="name" value=""></td></tr><br>
-                <tr><td>Password:</td><td><input size="23" type="password" name="password"value=""></td></tr>
-                <tr><td>Phone Number:</td><td><input size="23" type="text" name="phoneNumber"value=""></td></tr>
-                            <%}%>
-                <tr><td></td>
-                    
-                </tr>
-            </table>
-        </form>
-        </pre>
+                            <div class="form-group">
+                                <label>Status</label>
+                                <br />
+                                <input  type="radio" name="status" value="ACTIVE" <%= "ACTIVE".equals(user.getStatus()) ? "checked":""%> /> Active
+                                <br />
+                                <input  type="radio" name="status" value="CANCELLED" <%= "CANCELLED".equals(user.getStatus()) ? "checked":""%> > Cancelled
+                            </div>
+                            <hr/>
+                            <a href="/users" class="btn btn-default">Cancel</a>
+                            <input type="submit" class="btn btn-success pull-right" name="save" value="Save">
+
+                        </form>
+                        <hr />
+                        <form method='post' action='/deleteUser'>
+                            <input type='submit' class='btn btn-danger' value='DELETE' onclick='return confirm("Are you sure you want to delete this user?")'/>
+                        </form>
+                    </div>
+                </div>
+            
+            
+        </div>
+        
     </body>
 </html>

@@ -93,23 +93,12 @@ public class deleteMovie extends HttpServlet {
 
         
         DatabaseManager manager = (DatabaseManager)session.getAttribute("manager"); 
-            String updated = request.getParameter("update");
-            if ( updated != null) {
-                
-                if(updated.equals("Deleted")){
-                    
-                       
-                    try {
-                        
-                        manager.deleteMovie(movie.getID());
-                    response.sendRedirect("/movie/list");    
-                             
-                    } catch (SQLException ex) {
-                        Logger.getLogger(deleteMovie.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    
-                }
-            }
+        try {
+            manager.deleteMovie(movie.getID());
+        } catch (SQLException ex) {
+            Logger.getLogger(deleteMovie.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        response.sendRedirect("/movie/list");    
     }
     
 

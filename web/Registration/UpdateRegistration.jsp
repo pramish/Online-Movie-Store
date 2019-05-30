@@ -8,10 +8,13 @@
 <%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="MODEL.User"%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<jsp:include page="/ConnServlet" flush="true" /> 
+
 <%User user = (User)session.getAttribute("editMyAccountUser");%>
 <%List<String> errors =(ArrayList)session.getAttribute("editMyAccountErrors");%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>

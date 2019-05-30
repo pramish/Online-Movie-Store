@@ -6,6 +6,7 @@
 
 <%@page import="MODEL.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<jsp:include page="/ConnServlet" flush="true" /> 
 <%User user = (User)session.getAttribute("user");%>
 
 <!DOCTYPE html>

@@ -51,24 +51,22 @@ public class AddCustomer extends HttpServlet {
             DatabaseManager db = new DatabaseManager(conn);
             
             String id = ""+((new Random()).nextInt(900000000)+ + 100000000);
-            while(db.checkId(id)) id = ""+((new Random()).nextInt(900000000)+ + 100000000);
+            while(db.isCustomerIdExist(id)) id = ""+((new Random()).nextInt(900000000)+ + 100000000);
             
             String name = request.getParameter("name");
             String email = request.getParameter("email");
             String type = request.getParameter("type");
             String address = request.getParameter("address");
-            String status = request.getParameter("status");
+            String status = "ACTIVE";
             customer.setId(id);
             customer.setName(name);
             customer.setEmail(email);
             customer.setType(type);
             customer.setAddress(address);
             customer.setStatus(status);
-            boolean checkId = db.checkId(id);
+
             Validator v = new Validator();
-            if (checkId) {
-                errors.add("This customer already exists.");
-            }
+
             if (!v.validateEmail(email)) {
                 errors.add("Email is not a valid email.");
             }
@@ -80,7 +78,6 @@ public class AddCustomer extends HttpServlet {
                 db.addCustomer(id, name, email, type, address, status);
                 response.sendRedirect("list");
             }
-            
             
         } catch (ClassNotFoundException | SQLException | ServletException | IOException ex) {
             ex.printStackTrace();

@@ -6,9 +6,12 @@
 package oms.controller.usermanagement;
 
 import MODEL.DAO.DatabaseManager;
+import MODEL.controller.Validator;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -66,6 +69,7 @@ public class createUser extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         RequestDispatcher view = request.getRequestDispatcher("/UserManagement/createUser.jsp");
+
         view.forward(request, response);
     }
 
@@ -81,6 +85,7 @@ public class createUser extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
+
         DatabaseManager manager = (DatabaseManager) session.getAttribute("manager");
         String name = (String) request.getParameter("fullName");
         String password = (String) request.getParameter("password");
@@ -90,20 +95,24 @@ public class createUser extends HttpServlet {
         String ID = "" + key;
         try {
             if (manager.checkEmail(email)) {
-                response.sendRedirect("index.jsp?failure1=User is already registered..");
+
+                response.sendRedirect("/createUser?failure1=User is already registered..");
             }
+
         } catch (SQLException ex) {
             Logger.getLogger(createUser.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
+
             if (!manager.checkEmail(email)) {
                 try {
                     manager.addUser(ID, email, name, password, phoneNumber);
                 } catch (SQLException ex) {
                     Logger.getLogger(createUser.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                response.sendRedirect("index.jsp?success1=User Added.");
+                response.sendRedirect("/users?search="+name);
             }
+
         } catch (SQLException ex) {
             Logger.getLogger(createUser.class.getName()).log(Level.SEVERE, null, ex);
         }

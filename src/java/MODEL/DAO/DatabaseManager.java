@@ -15,6 +15,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -340,32 +341,90 @@ public class DatabaseManager {
         st.executeUpdate(sql);
     }
 
-    public List<Order> searchOrder(String userID) throws SQLException {
-        String sql = "SELECT \"ORDER\".ID, MOVIEID, USERID, \"ORDER\".PRICE, AMOUNT, TOTALPRICE, DATE, \"ORDER\".STATUS,title,STOCK FROM \"ORDER\" "
+    public List<Order> getUserOrders(String userID) throws SQLException {
+        String sql = "SELECT \"ORDER\".*,\"MOVIE\".title,STOCK FROM \"ORDER\" "
                 + "left join \"MOVIE\" ON \"ORDER\".MOVIEID=\"MOVIE\".ID "
-                + " where \"ORDER\".USERID='" + userID + "'";
-        System.out.println("===================================" + sql);
+//                + " where \"ORDER\".USERID='" + userID + "'"
+                + "";
+        
         ResultSet rs = st.executeQuery(sql);
         List<Order> orderlist = new ArrayList<>();
         while (rs.next()) {
-            orderlist.add(new Order(rs.getString("ID"), rs.getString("MovieID"), rs.getString("UserID"), new java.math.BigDecimal(rs.getString("price")),
-                    Integer.parseInt(rs.getString("Amount")), new java.math.BigDecimal(rs.getString("TotalPrice")), rs.getDate("Date").toLocalDate(), rs.getString("Status"), rs.getString("title"), Integer.parseInt(rs.getString("stock"))));
+            orderlist.add(
+                new Order(
+                    rs.getString("ID"), 
+                    rs.getString("CustomerID"), 
+                    rs.getString("MovieID"), 
+                    rs.getString("UserID"), 
+                    new java.math.BigDecimal(rs.getString("price")),
+                    Integer.parseInt(rs.getString("Amount")), 
+                    new java.math.BigDecimal(rs.getString("TotalPrice")), 
+                    rs.getDate("Date").toLocalDate(), 
+                    rs.getString("Status"), 
+                    rs.getString("title")
+                )
+            );
         }
-
         return orderlist;
     }
+    
+    public List<Order> getUserOrdersByDate(String userID, String date) throws SQLException {
+        String sql = "SELECT O.*, M.TITLE FROM \"ORDER\" O "
+                + "left join MOVIE M "
+                + "ON O.MOVIEID = M.ID "
+//                + "where O.USERID='" + userID + "' "
+                + "";
+        
+        if(date != null && !"".equals(date))
+        {
+            sql += " WHERE O.\"DATE\" = '"+date+"' ";
+        }
+        
+        ResultSet rs = st.executeQuery(sql);
+        List<Order> orderlist = new ArrayList<>();
+        
+        
+        while (rs.next()) {
+            orderlist.add(
+                new Order(
+                    rs.getString("ID"), 
+                    rs.getString("CustomerID"), 
+                    rs.getString("MovieID"), 
+                    rs.getString("UserID"), 
+                    new java.math.BigDecimal(rs.getString("price")),
+                    Integer.parseInt(rs.getString("Amount")), 
+                    new java.math.BigDecimal(rs.getString("TotalPrice")), 
+                    rs.getDate("Date").toLocalDate(), 
+                    rs.getString("Status"), 
+                    rs.getString("title")
+                )
+            );
+        }
+        return orderlist;
+    }
+    
 
     public Order findOrder(String orderId, LocalDate orderDay) throws SQLException {
 //        String fetch = "select * from \"ORDER\" where ID = '" + orderId + "' and Date = '" + orderDay + "'";
-        String fetch = "SELECT \"ORDER\".ID, MOVIEID, USERID, \"ORDER\".PRICE, AMOUNT, TOTALPRICE, DATE, \"ORDER\".STATUS,title,STOCK FROM \"ORDER\" "
+        String fetch = "SELECT \"ORDER\".*, \"MOVIE\".title, STOCK FROM \"ORDER\" "
                 + "left join \"MOVIE\" ON \"ORDER\".MOVIEID=\"MOVIE\".ID "
                 + " where \"ORDER\".ID='" + orderId + "' and Date = '" + orderDay + "'";
         ResultSet rs = st.executeQuery(fetch);
         while (rs.next()) {
 //            if ( rs.getString("title"), Integer.parseInt(rs.getString("stock"))) {
 //            }
-            return new Order(rs.getString("ID"), rs.getString("MovieID"), rs.getString("UserID"), new java.math.BigDecimal(rs.getString("price")),
-                    Integer.parseInt(rs.getString("Amount")), new java.math.BigDecimal(rs.getString("TotalPrice")), rs.getDate("Date").toLocalDate(), rs.getString("Status"), rs.getString("title"), Integer.parseInt(rs.getString("stock")));
+            return new Order(
+                    rs.getString("ID"), 
+                    rs.getString("CustomerID"), 
+                    rs.getString("MovieID"), 
+                    rs.getString("UserID"), 
+                    new java.math.BigDecimal(rs.getString("price")),
+                    Integer.parseInt(rs.getString("Amount")), 
+                    new java.math.BigDecimal(rs.getString("TotalPrice")), 
+                    rs.getDate("Date").toLocalDate(), 
+                    rs.getString("Status"), 
+                    rs.getString("title")
+                );
         }
         return null;
     }
@@ -378,8 +437,8 @@ public class DatabaseManager {
     public Order searchOrderById(String orderId) throws SQLException {
         ResultSet rs = st.executeQuery("SELECT * FROM \"ORDER\" where ID='" + orderId + "'");
         while (rs.next()) {
-            return new Order(rs.getString("ID"), rs.getString("MovieID"), rs.getString("UserID"), new java.math.BigDecimal(rs.getString("price")),
-                    Integer.parseInt(rs.getString("Amount")), new java.math.BigDecimal(rs.getString("TotalPrice")), rs.getDate("Date").toLocalDate(), rs.getString("Status"), rs.getString("title"), Integer.parseInt(rs.getString("stock")));
+            return new Order(rs.getString("ID"),rs.getString("CustomerID"), rs.getString("MovieID"), rs.getString("UserID"), new java.math.BigDecimal(rs.getString("price")),
+                    Integer.parseInt(rs.getString("Amount")), new java.math.BigDecimal(rs.getString("TotalPrice")), rs.getDate("Date").toLocalDate(), rs.getString("Status"), rs.getString("title"));
         }
         return null;
     }
@@ -437,7 +496,7 @@ public class DatabaseManager {
     
     // Customer
     
-    public boolean checkId(String id) throws SQLException {
+    public boolean isCustomerIdExist(String id) throws SQLException {
         String fetch = "select id from CUSTOMER where id='" + id + "'";
         ResultSet rs = st.executeQuery(fetch);
         while (rs.next()) {
@@ -503,6 +562,28 @@ public class DatabaseManager {
             customer.setAddress(rs.getString(5));
             customer.setStatus(rs.getString(6));
             list.add(customer);
+        }
+        return list;
+    }
+
+    public List<User> searchUsersByNameAndPhone(String search) throws SQLException {
+        String search2 = search;
+
+        if (search2 == null) {
+            search2 = "";
+        }
+        String queryString = "select * from \"USER\" where upper(name || phonenumber) like upper('%" + search2 + "%')";
+        ResultSet rs = st.executeQuery(queryString);
+
+        List<User> list = new ArrayList<>();
+        while (rs.next()) {
+            list.add(new User(rs.getString("id"),
+                    rs.getString("email"),
+                    rs.getString("name"),
+                    rs.getString("password"),
+                    rs.getString("phonenumber"),
+                    rs.getString("status")));
+
         }
         return list;
     }
