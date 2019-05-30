@@ -18,7 +18,7 @@
     <body onload="startTime()">
         <div><span class="time" id="time" ></span></div>
         <div class="container">
-            <h1>Online Movie System</h1>
+            <h1><a href="/">Online Movie System</a></h1>
             <h2>Login</h2>
             <hr />
             <h2><span class="error"><c:if test="${existErr!=null}"><span class="error"><c:out value="${existErr}"/></span></c:if></span></h2>

@@ -16,7 +16,8 @@
     </head>
     <body>
         <div class="container">
-            <h1 class="text-center">Online Movie System</h1>
+            <h1><a href="/">Online Movie System</a></h1>
+            <hr />
             <h2 class="text-center">Your Account has been cancelled!</h1>
             <hr />
             <p class="text-center"><a href="/index.jsp">Click here to go back to the home page.</a></p>

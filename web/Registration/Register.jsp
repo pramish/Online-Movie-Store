@@ -25,7 +25,7 @@
     </head>
     <body>
         <div class="container">
-            <h1>Online Movie System</h1>
+            <h1><a href="/">Online Movie System</a></h1>
             <h2>Register</h2>
             <hr>
             <div class="row">

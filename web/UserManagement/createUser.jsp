@@ -18,7 +18,7 @@
     </head>
     <body>
         <div class="container">
-            <h1>Online Movie System</h1>
+            <h1><a href="/">Online Movie System</a></h1>
             <h2>Create User</h2>
             <hr />
             <span class="text-danger"><%=request.getParameter("failure1") == null ? "":request.getParameter("failure1")%></span>
