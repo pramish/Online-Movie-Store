@@ -5,13 +5,21 @@
  */
 package oms.controller.order;
 
+import MODEL.DAO.DatabaseManager;
+import MODEL.Movie;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -37,7 +45,7 @@ public class updateorder extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet updateorder</title>");            
+            out.println("<title>Servlet updateorder</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet updateorder at " + request.getContextPath() + "</h1>");
@@ -72,7 +80,33 @@ public class updateorder extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String orderId = request.getParameter("orderId");
+        String movieId = request.getParameter("movieId");
+        int amount = Integer.parseInt(request.getParameter("amount"));
+        HttpSession session = request.getSession();
+        DatabaseManager manager = (DatabaseManager) session.getAttribute("manager");
+        Movie movie;
+        try {
+            movie = manager.findMovieById(movieId);
+            if (amount > movie.getStock()) {
+                response.sendRedirect("/Order/history.jsp?updateError=yes&&stock=" + movie.getStock());
+                return;
+            }
+            BigDecimal price = movie.getPrice();
+            BigDecimal totalPrice = BigDecimal.valueOf(amount).multiply(price);
+            try {
+                manager.updateOrder(amount, totalPrice, orderId);
+            } catch (SQLException ex) {
+                Logger.getLogger(cancelorder.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            response.sendRedirect("/order/history");
+//            RequestDispatcher view = request.getRequestDispatcher("/order/history");
+//            view.forward(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(updateorder.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     /**
