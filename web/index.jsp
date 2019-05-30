@@ -44,7 +44,7 @@
                         <a href="/users" class="btn btn-warning btn-lg btn-block">User Management</a>
                     </div>
                     <div class="col-sm-4">
-                        <a href="/customers" class="btn btn-warning btn-lg btn-block">Customer Management</a>
+                        <a href="/customer/list" class="btn btn-warning btn-lg btn-block">Customer Management</a>
                     </div>
                 <%//}%>
                 <div class="col-sm-12">
