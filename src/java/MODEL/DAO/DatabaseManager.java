@@ -1,6 +1,7 @@
 package MODEL.DAO;
 
 import MODEL.Movie;
+import MODEL.Staff;
 import MODEL.User;
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -37,6 +38,17 @@ public class DatabaseManager {
         );
     }
 
+    public void addStaff(String id, String email, String name, String position, String address) throws SQLException {
+        st.executeUpdate("insert into \"STAFF\" ( "
+                + " id"
+                + " ,email"
+                + " ,name"
+                + " ,position"
+                + " ,address) "
+                + " VALUES(" + " '" + id + "'" + " ,'" + email + "'" + " ,'" + name + "'" + " ,'" + position + "'" + " ,'" + address + "')"
+        );
+    }
+
     public User getUser(String id) throws SQLException {
         String queryString = "select * from \"USER\" where id = '" + id + "'";
         ResultSet rs = st.executeQuery(queryString);
@@ -48,6 +60,21 @@ public class DatabaseManager {
                         rs.getString("password"),
                         rs.getString("phonenumber"),
                         rs.getString("status"));
+            }
+        }
+        return null;
+    }
+
+    public Staff getStaff(String id) throws SQLException {
+        String queryString = "select * from \"STAFF\" where id = '" + id + "'";
+        ResultSet rs = st.executeQuery(queryString);
+        while (rs.next()) {
+            if (id.equals(rs.getString("id"))) {
+                return new Staff(rs.getString("id"),
+                        rs.getString("email"),
+                        rs.getString("name"),
+                        rs.getString("position"),
+                        rs.getString("address"));
             }
         }
         return null;
@@ -92,6 +119,28 @@ public class DatabaseManager {
         return list;
     }
 
+    public List<Staff> searchStaffByNameAndPosition(String search) throws SQLException {
+
+        String search2 = search;
+
+        if (search2 == null) {
+            search2 = "";
+        }
+        String queryString = "select * from \"STAFF\" where upper(name || position) like upper('%" + search2 + "%')";
+        ResultSet rs = st.executeQuery(queryString);
+
+        List<Staff> list = new ArrayList<>();
+        while (rs.next()) {
+            list.add(new Staff(rs.getString("id"),
+                    rs.getString("email"),
+                    rs.getString("name"),
+                    rs.getString("position"),
+                    rs.getString("address")));
+
+        }
+        return list;
+    }
+
     public List<User> getUserByNameAndPhone(String search) throws SQLException {
         String search2 = search;
 
@@ -115,8 +164,8 @@ public class DatabaseManager {
     }
 
     public void updateUser(String id, String email, String name, String password, String phoneNumber, String status) throws SQLException {
-       
-        System.out.println("mero id ho"+id);
+
+        System.out.println("mero id ho" + id);
         st.executeUpdate("update \"USER\" set "
                 + " email           = '" + email + "'"
                 + " ,name           = '" + name + "'"
@@ -126,9 +175,25 @@ public class DatabaseManager {
                 + " where id        = '" + id + "'"
         );
     }
+    
+    public void updateStaff(String id, String email, String name, String position, String address) throws SQLException {
+
+        System.out.println("mero id ho" + id);
+        st.executeUpdate("update \"USER\" set "
+                + " email           = '" + email + "'"
+                + " ,name           = '" + name + "'"
+                + " ,password       = '" + position + "'"
+                + " ,status         = '" + address + "'"
+                + " where id        = '" + id + "'"
+        );
+    }
 
     public void deleteUser(String id) throws SQLException {
         st.executeUpdate("delete from \"USER\" where id = '" + id + "'");
+    }
+
+    public void deleteStaff(String id) throws SQLException {
+        st.executeUpdate("delete from \"STAFF\" where id = '" + id + "'");
     }
 
     public void addUserLogs(String ID, String userID, String accessType, String timeStamp) throws SQLException {
@@ -200,6 +265,22 @@ public class DatabaseManager {
         return null;
     }
 
+    public Staff getStaffByID(String ID) throws SQLException {
+        String fetch = "select * from \"STAFF\" where ID = '" + ID + "'";
+        ResultSet rs = st.executeQuery(fetch);
+        while (rs.next()) {
+            String staffID = rs.getString(1);
+            if (staffID.equals(ID)) {
+                String staffEmail = rs.getString(2);
+                String staffName = rs.getString(3);
+                String staffPosition = rs.getString(4);
+                String staffAddress = rs.getString(5);
+                return new Staff(staffID, staffEmail, staffName, staffPosition, staffAddress);
+            }
+        }
+        return null;
+    }
+
     public boolean checkUser(String email, String password) throws SQLException {
 //        String query = "Select * from adminlogin Where Username='" + username + "' and Password='" + password + "'";
         String fetch = "select * from \"USER\" where email='" + email + "'and password='" + password + "'";
@@ -224,9 +305,20 @@ public class DatabaseManager {
         }
         return false;
     }
-    
+
     public boolean checkEmail(String email) throws SQLException {
         String fetch = "select email from \"USER\" where email='" + email + "'";
+        ResultSet rs = st.executeQuery(fetch);
+        while (rs.next()) {
+            if (email.equals(rs.getString(1))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean checkStaffEmail(String email) throws SQLException {
+        String fetch = "select email from staff where email='" + email + "'";
         ResultSet rs = st.executeQuery(fetch);
         while (rs.next()) {
             if (email.equals(rs.getString(1))) {

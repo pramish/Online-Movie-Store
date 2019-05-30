@@ -53,10 +53,8 @@ public class userList extends HttpServlet {
         } catch (SQLException ex) {
             Logger.getLogger(userList.class.getName()).log(Level.SEVERE, null, ex);
             userlisterror = ex.getMessage();
-            session.setAttribute("userlisterror", userlisterror);
-            
+            session.setAttribute("userlisterror", userlisterror);   
         }
-        
         session.setAttribute("userList", list);
                 
         

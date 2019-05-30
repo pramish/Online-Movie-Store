@@ -20,6 +20,7 @@
             <a class="navbar-brand" href="/users">Read User</a>
             <a class="navbar-brand" href="/updateUser">Update Users</a>
             <a class="navbar-brand" href="/deleteUser">Delete Users</a>
+            <a class="navbar-brand" href="/staffMenu.jsp">Staff Page</a>
             
             <br><br><br>
             

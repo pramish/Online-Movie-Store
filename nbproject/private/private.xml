@@ -3,8 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/Users/pramishluitel/Desktop/UTS/Assignment/introduction-to-Software-Development-Assignment/src/java/oms/controller/usermanagement/userList.java</file>
             <file>file:/Users/pramishluitel/Desktop/UTS/Assignment/introduction-to-Software-Development-Assignment/web/UserManagement/updateUser.jsp</file>
-            <file>file:/Users/pramishluitel/Desktop/UTS/Assignment/introduction-to-Software-Development-Assignment/src/java/oms/controller/usermanagement/updateUser.java</file>
+            <file>file:/Users/pramishluitel/Desktop/UTS/Assignment/introduction-to-Software-Development-Assignment/web/UserManagement/listUser.jsp</file>
+            <file>file:/Users/pramishluitel/Desktop/UTS/Assignment/introduction-to-Software-Development-Assignment/web/index.jsp</file>
+            <file>file:/Users/pramishluitel/Desktop/UTS/Assignment/introduction-to-Software-Development-Assignment/src/java/MODEL/DAO/DatabaseManager.java</file>
+            <file>file:/Users/pramishluitel/Desktop/UTS/Assignment/introduction-to-Software-Development-Assignment/web/UserManagement/userlist.jsp</file>
         </group>
     </open-files>
 </project-private>
