@@ -34,9 +34,11 @@
                 <div class="col-sm-4">
                     <a href="/" class="btn btn-default btn-block">Home</a>
                 </div>
-                <div class="col-sm-4">
-                    <a class="btn btn-primary btn-block" href="/movie/add">Add Movie</a>
-                </div>
+                <%if(user.isRegistered()){%>
+                    <div class="col-sm-4">
+                        <a class="btn btn-primary btn-block" href="/movie/add">Add Movie</a>
+                    </div>
+                <%}%>
             </div>
             <br />
             <form>

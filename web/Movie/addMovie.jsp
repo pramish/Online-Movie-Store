@@ -26,19 +26,19 @@
                     <form method="post">
                         <div class="form-group">
                             <label>Title</label>
-                            <input type="text" class="form-control" name="title" required>
+                            <input type="text" class="form-control" name="title" >
                         </div>
                         <div class="form-group">
                             <label>Genre</label>
-                            <input type="text" class="form-control" name="genre" required>
+                            <input type="text" class="form-control" name="genre" >
                         </div>
                         <div class="form-group">
                             <label>Price</label>
-                            <input type="number" step="0.01" class="form-control" name="price" required>
+                            <input type="number" step="0.01" class="form-control" name="price" >
                         </div>
                         <div class="form-group">
                             <label>Stock</label>
-                            <input type="number" step="1" class="form-control" name="stock" required>
+                            <input type="number" step="1" class="form-control" name="stock" >
                         </div>
                         <hr />
                         <a href="/movie/list" class="btn btn-default">Cancel</a>

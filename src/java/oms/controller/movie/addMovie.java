@@ -7,6 +7,7 @@ package oms.controller.movie;
 
 import MODEL.DAO.DatabaseManager;
 import MODEL.Movie;
+import MODEL.controller.Validator;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
@@ -92,28 +93,42 @@ public class addMovie extends HttpServlet {
         
         String title = request.getParameter("title");
         String genre = request.getParameter("genre");
-        BigDecimal price = new java.math.BigDecimal(request.getParameter("price"));
-        int stock = Integer.parseInt(request.getParameter("stock"));
+        BigDecimal price = new BigDecimal(0);
+        try{
+        price = new java.math.BigDecimal(request.getParameter("price"));}
+        catch(Exception e){}
+        int stock = -1; 
+        try{Integer.parseInt(request.getParameter("stock"));}catch(Exception e){}
         
         
         
-        
-        int key = (new Random()).nextInt(999999);
-        String ID = "" + key;
-        
-        DatabaseManager manager = (DatabaseManager)session.getAttribute("manager");
-            Movie movie = new Movie(ID, title, genre, price, stock);
-        try {
-            manager.addMovie(ID, title, genre, price,stock);
-            response.sendRedirect("/movie/list");
-        } catch (SQLException ex) {
-            Logger.getLogger(addMovie.class.getName()).log(Level.SEVERE, null, ex);
+        // Validation
+        if(title == null || title.equals(""))
+            session.setAttribute("failure1", "You must enter a title.");
+        else if(genre == null || genre.equals(""))
+            session.setAttribute("failure1", "You must enter a genre.");
+        else if(price.compareTo(new BigDecimal(0)) != 1)
+            session.setAttribute("failure1", "Price must be bigger than 0.");
+        else if(stock < 0)
+            session.setAttribute("failure1", "Stock must 0 or greater.");
+        else{
+            int key = (new Random()).nextInt(999999);
+            String ID = "" + key;
+
+            DatabaseManager manager = (DatabaseManager)session.getAttribute("manager");
+                Movie movie = new Movie(ID, title, genre, price, stock);
+            try {
+                manager.addMovie(ID, title, genre, price,stock);
+                response.sendRedirect("/movie/list");
+            } catch (SQLException ex) {
+                Logger.getLogger(addMovie.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            session.setAttribute("movie",movie);    
         }
         
         
-            session.setAttribute("movie",movie);
-            
-            
+        response.sendRedirect("/movie/add");
+        
     }
 
     /**
