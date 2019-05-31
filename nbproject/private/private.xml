@@ -2,6 +2,25 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/Photato/source/repos/introduction-to-Software-Development-Assignment/web/CustomerManagement/editCustomer.jsp</file>
+            <file>file:/C:/Users/Photato/source/repos/introduction-to-Software-Development-Assignment/web/CustomerManagement/listCustomer.jsp</file>
+            <file>file:/C:/Users/Photato/source/repos/introduction-to-Software-Development-Assignment/web/Order/history.jsp</file>
+            <file>file:/C:/Users/Photato/source/repos/introduction-to-Software-Development-Assignment/web/UserAccessManagement/login.jsp</file>
+            <file>file:/C:/Users/Photato/source/repos/introduction-to-Software-Development-Assignment/web/Registration/CancelRegistration.jsp</file>
+            <file>file:/C:/Users/Photato/source/repos/introduction-to-Software-Development-Assignment/web/Registration/ViewRegistration.jsp</file>
+            <file>file:/C:/Users/Photato/source/repos/introduction-to-Software-Development-Assignment/web/CustomerManagement/createCustomer.jsp</file>
+            <file>file:/C:/Users/Photato/source/repos/introduction-to-Software-Development-Assignment/web/Movie/updateMovie.jsp</file>
+            <file>file:/C:/Users/Photato/source/repos/introduction-to-Software-Development-Assignment/web/Order/createorder.jsp</file>
+            <file>file:/C:/Users/Photato/source/repos/introduction-to-Software-Development-Assignment/web/Registration/UpdateRegistration.jsp</file>
+            <file>file:/C:/Users/Photato/source/repos/introduction-to-Software-Development-Assignment/web/UserManagement/updateUser.jsp</file>
+            <file>file:/C:/Users/Photato/source/repos/introduction-to-Software-Development-Assignment/web/Movie/addMovie.jsp</file>
+            <file>file:/C:/Users/Photato/source/repos/introduction-to-Software-Development-Assignment/web/Movie/catalogue.jsp</file>
+            <file>file:/C:/Users/Photato/source/repos/introduction-to-Software-Development-Assignment/web/UserAccessManagement/myAccessLogs.jsp</file>
+            <file>file:/C:/Users/Photato/source/repos/introduction-to-Software-Development-Assignment/web/UserManagement/createUser.jsp</file>
+            <file>file:/C:/Users/Photato/source/repos/introduction-to-Software-Development-Assignment/web/Registration/Register.jsp</file>
+            <file>file:/C:/Users/Photato/source/repos/introduction-to-Software-Development-Assignment/web/UserManagement/userlist.jsp</file>
+            <file>file:/C:/Users/Photato/source/repos/introduction-to-Software-Development-Assignment/web/index.jsp</file>
+        </group>
     </open-files>
 </project-private>

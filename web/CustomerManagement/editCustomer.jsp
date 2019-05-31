@@ -19,7 +19,7 @@
     </head>
     <body>
         <div class="container">
-            <h1>Online Movie System</h1>
+            <h1><a href="/">Online Movie Store</a></h1>
             <h2>Edit Customer</h2>
             <hr />
             <form method="POST" action="/customer/edit">

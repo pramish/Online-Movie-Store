@@ -25,7 +25,7 @@
     </head>
     <body>
         <div class="container">
-            <h1><a href="/">Online Movie System</a></h1>
+            <h1><a href="/">Online Movie Store</a></h1>
             <h2>Create User</h2>
             <hr />
             <ul>

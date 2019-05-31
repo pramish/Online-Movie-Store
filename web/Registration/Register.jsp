@@ -25,11 +25,11 @@
     </head>
     <body>
         <div class="container">
-            <h1><a href="/">Online Movie System</a></h1>
+            <h1><a href="/">Online Movie Store</a></h1>
             <h2>Register</h2>
             <hr>
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-sm-4">
                     <form method="post" action="/register">
                         
                         <ul>
