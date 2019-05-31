@@ -8,6 +8,7 @@ package oms.controller.UAM;
 import MODEL.DAO.DatabaseConnector;
 import MODEL.DAO.DatabaseManager;
 import MODEL.User;
+import MODEL.controller.Validator;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -69,21 +70,32 @@ public class login extends HttpServlet {
             String acessType = "LOGIN";
             
             
-            
-            
-            
-            User user = manager.findUserLogin(userEmail, userPassword);
-            
-            if (user != null) {
-                session.setAttribute("user", user);
-                manager.addUserLogs(logID, user.getID(), acessType, timeStamp);
-                response.sendRedirect("/");
-    
-            }else{
-                session.setAttribute("existErr", "Invalid email or password.");
+            Validator v = new Validator();
+            if (!v.validateEmail(userEmail)){
+                session.setAttribute("existErr", "Invalid email.");
                 response.sendRedirect("/login");
+            }else if (!v.validatePassword(userPassword)){
+                session.setAttribute("existErr", "Invalid password.");
+                response.sendRedirect("/login");
+            }else {
+              
+                User user = manager.findUserLogin(userEmail, userPassword);
+
+                if (user != null) {
+                    session.setAttribute("user", user);
+                    manager.addUserLogs(logID, user.getID(), acessType, timeStamp);
+                    response.sendRedirect("/");
+
+                }else{
+                    session.setAttribute("existErr", "This account does not exist.");
+                    response.sendRedirect("/login");
             }             
 
+            }
+            
+            
+                
+          
         } catch (SQLException ex) {
             Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
             PrintWriter out = response.getWriter();
