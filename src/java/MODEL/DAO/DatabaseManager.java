@@ -304,7 +304,7 @@ public class DatabaseManager {
 
     //update a movie details in the database
     public void updateMovie(String ID, String title, String genre, BigDecimal price, int stock) throws SQLException {
-        st.executeUpdate("UPDATE MOVIE SET ID = '" + ID + "', title = '" + title + "', genre = '" + genre + "', price = " + price + ", stock = " + stock + " WHERE ID = '" + ID + "'");
+        st.executeUpdate("UPDATE MOVIE SET title = '" + title + "', genre = '" + genre + "', price = " + price + ", stock = " + stock + " WHERE ID = '" + ID + "'");
     }
 
     //delete a moive from the database

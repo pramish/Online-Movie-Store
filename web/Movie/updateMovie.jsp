@@ -4,10 +4,13 @@
     Author     : luckylau
 --%>
 
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
 <%@page import="MODEL.Movie"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:include page="/ConnServlet" flush="true" /> 
 <%Movie movie = (Movie) session.getAttribute("movie");%> 
+<%List<String> errors =(ArrayList)session.getAttribute("movieErrors");%>
 <!DOCTYPE html>
 
 
@@ -24,7 +27,9 @@
             <h1><a href="/">Online Movie System</a></h1>
             <h2>Update Movie</h2>
             <hr />
-            <span class="text-danger"><%=request.getParameter("failure1") == null ? "":request.getParameter("failure1")%></span>
+            <ul>
+                <%for(String error: errors){%><li class="text-danger"><%=error%></li><%}%>
+            </ul>
             <div class="row">
                 <div class="col-sm-4">
                     <form method="post">
@@ -34,19 +39,19 @@
                         </div>
                         <div class="form-group">
                             <label>Title</label>
-                            <input type="text" class="form-control" name="title" value="<%=movie.getTitle()%>" required />
+                            <input type="text" class="form-control" name="title" value="<%=movie.getTitle()%>"  />
                         </div>
                         <div class="form-group">
                             <label>Genre</label>
-                            <input type="text" class="form-control" name="genre" value="<%=movie.getGenre()%>" required />
+                            <input type="text" class="form-control" name="genre" value="<%=movie.getGenre()%>"  />
                         </div>
                         <div class="form-group">
                             <label>Price</label>
-                            <input type="text" class="form-control" value="<%=movie.getPrice()%>" name="price" required />
+                            <input type="text" class="form-control" value="<%=movie.getPrice()%>" name="price"  />
                         </div>
                         <div class="form-group">
                             <label>Stock</label>
-                            <input type="text" class="form-control" value="<%=movie.getStock()%>" name="stock" required />
+                            <input type="text" class="form-control" value="<%=movie.getStock()%>" name="stock"  />
                         </div>
                         <hr />
                         <a href="/movie/list" class="btn btn-default">Cancel</a>

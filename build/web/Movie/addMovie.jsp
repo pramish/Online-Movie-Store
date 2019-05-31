@@ -3,6 +3,9 @@
     Created on : 19/05/2019, 4:21:04 PM
     Author     : luckylau
 --%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
+<%List<String> errors =(ArrayList)session.getAttribute("movieErrors");%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:include page="/ConnServlet" flush="true" /> 
@@ -20,7 +23,9 @@
             <h1><a href="/">Online Movie System</a></h1>
             <h2>Add Movie</h2>
             <hr />
-            <span class="text-danger"><%=request.getParameter("failure1") == null ? "":request.getParameter("failure1")%></span>
+            <ul>
+                <%for(String error: errors){%><li class="text-danger"><%=error%></li><%}%>
+            </ul>
             <div class="row">
                 <div class="col-sm-4">
                     <form method="post">

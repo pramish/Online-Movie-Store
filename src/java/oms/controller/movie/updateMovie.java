@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -28,31 +30,7 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "updateMovie", urlPatterns = {"/movie/update"})
 public class updateMovie extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet updateMovie</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet updateMovie at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
+
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -71,10 +49,11 @@ public class updateMovie extends HttpServlet {
             DatabaseManager manager = (DatabaseManager) session.getAttribute("manager");
             
             String id = request.getParameter("id");
-            
+            // Clear errors list
+            session.setAttribute("movieErrors", new ArrayList<>());
             
             Movie movie = manager.getMovieByID(id);
-            
+            session.removeAttribute("failure1");
             if(movie != null){
                 session.setAttribute("movie", movie);
                 RequestDispatcher view = request.getRequestDispatcher("/Movie/updateMovie.jsp");
@@ -106,21 +85,50 @@ public class updateMovie extends HttpServlet {
         Movie movie = (Movie) session.getAttribute("movie");
         
         DatabaseManager manager = (DatabaseManager)session.getAttribute("manager"); 
+        List<String> errors = new ArrayList<>();
+        session.setAttribute("movieErrors", errors);
         
         if(movie != null){
-            try {
-                manager.updateMovie(movie.getID(), 
-                        request.getParameter("title"), 
-                        request.getParameter("genre"), 
-                        new BigDecimal(request.getParameter("price")), 
-                        Integer.parseInt(request.getParameter("stock"))
-                );
-            } catch (SQLException ex) {
-                Logger.getLogger(updateMovie.class.getName()).log(Level.SEVERE, null, ex);
-            }
-                
-        }
-        response.sendRedirect("/movie/list"); 
+            
+            String title = request.getParameter("title");
+            String genre = request.getParameter("genre");
+            BigDecimal price = new BigDecimal(0);
+            try{
+            price = new java.math.BigDecimal(request.getParameter("price"));}
+            catch(Exception e){}
+            int stock = -1; 
+            try{
+                stock = Integer.parseInt(request.getParameter("stock"));
+            }catch(Exception e){}
+            
+            
+            // Validation
+            if(title == null || title.equals(""))
+                errors.add("You must enter a title.");
+            if(genre == null || genre.equals(""))
+                errors.add("You must enter a genre.");
+            if(price.compareTo(new BigDecimal(0)) != 1)
+                errors.add("Price must be bigger than 0.");
+            if(stock < 0)
+                errors.add("Stock must 0 or greater.");
+            if(errors.size() == 0){
+                try {
+
+                    manager.updateMovie(movie.getID(), 
+                            title, 
+                            genre, 
+                            price, 
+                            stock
+                    );
+                    response.sendRedirect("/movie/list");
+                } catch (SQLException ex) {
+                    Logger.getLogger(updateMovie.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }else{
+                RequestDispatcher view = request.getRequestDispatcher("/Movie/addMovie.jsp");
+                view.forward(request, response);
+            }  
+        }    
     }
 
     /**

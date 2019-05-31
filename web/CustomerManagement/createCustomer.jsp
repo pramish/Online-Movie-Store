@@ -48,7 +48,7 @@
                         </div>
                         <hr />
                         <a href="/customer/list" class="btn btn-default">Cancel</a>
-                        <input type="submit" value="Create User" class="btn btn-success pull-right" />
+                        <input type="submit" value="Create Customer" class="btn btn-success pull-right" />
                     </div>
                 </div>
             </form>
