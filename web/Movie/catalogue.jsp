@@ -4,6 +4,7 @@
     Author     : luckylau
 --%>
 
+<%@page import="MODEL.User"%>
 <%@page import="MODEL.Movie"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
@@ -12,6 +13,7 @@
 <!DOCTYPE html>
 
 <%
+    User user = (User)session.getAttribute("user");
     List<Movie> movielist = (ArrayList)session.getAttribute("movielist");
 %>
 
@@ -69,17 +71,18 @@
                        <td><%=m.getPrice()%></td>
                        <td><%=m.getStock()%></td>
                        <td> 
-                           <a href="/movie/update?id=<%=m.getID()%>" class="btn btn-xs btn-primary">Update Movie</a>
-                           <%if(m.getStock()>0){%>
-                            <a href="/order/create?id=<%=m.getID()%>" class="btn btn-xs btn-primary">Order Movie</a>
+                            <%if(user.isRegistered()){%>
+                                <a href="/movie/update?id=<%=m.getID()%>" class="btn btn-xs btn-primary">Update Movie</a>
+                            <%}%>
+                           
+                            <%if(m.getStock()>0){%>
+                                <a href="/order/create?id=<%=m.getID()%>" class="btn btn-xs btn-primary">Order Movie</a>
                             <%}%>
                        </td>
                    </tr>
                 <%}%>
                 </tbody>
             </table>
-            
-            
         </div>
     
 

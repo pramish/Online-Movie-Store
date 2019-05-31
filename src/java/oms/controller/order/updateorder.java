@@ -93,10 +93,17 @@ public class updateorder extends HttpServlet {
         List<String> errors = new ArrayList<>();
         session.setAttribute("orderErrors", errors);
         
+        // Get amount
+        order.setAmount(Integer.parseInt(request.getParameter("amount")));
+        
         if(movie.getStock()<=0){
             errors.add("There is no stock left for this movie.");
-        }else{
-            order.setAmount(Integer.parseInt(request.getParameter("amount")));
+        }else if(order.getAmount() <= 0){
+                errors.add("The amount must be greater than 0");
+        }else if(order.getAmount() > movie.getStock()){
+            errors.add("There is not enough stock for this amount.");
+        } else{
+            
             if(order.getAmount() > movie.getStock())
             {
                 errors.add("There is not enough stock for this amount.");

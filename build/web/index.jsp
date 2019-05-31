@@ -1,10 +1,9 @@
-<%@page import="MODEL.Staff"%>
+
 <%@page import="MODEL.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:include page="/ConnServlet" flush="true" /> 
 <%
     User user = (User)session.getAttribute("user");
-    Staff staff = (Staff)session.getAttribute("staff");
 %>
 
 <!DOCTYPE html>

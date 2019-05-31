@@ -37,15 +37,6 @@ import javax.servlet.http.HttpSession;
 public class creatorder extends HttpServlet {
 
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -70,22 +61,12 @@ public class creatorder extends HttpServlet {
                 response.sendRedirect("/movie/list");   
             }
                 
-          
-            
-            
         } catch (SQLException ex) {
             Logger.getLogger(creatorder.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -95,73 +76,65 @@ public class creatorder extends HttpServlet {
         
         // Get movie
         Movie movie = (Movie) session.getAttribute("buyMovie");
+        Order order = new Order();
+        
         
         // Check if movie in session
         if(movie == null)response.sendRedirect("/");
+        
         List<String> errors = new ArrayList<>();
+        
         session.setAttribute("orderErrors", errors);
+        
+        order.setAmount(Integer.parseInt(request.getParameter("amount")));
         
         if(movie.getStock()<=0){
             errors.add("There is no stock left for this movie.");
         }else{
+            try{
             
-            int amount = Integer.parseInt(request.getParameter("amount"));
+            }catch (Exception e){
+                errors.add("Please enter a valid number.");
+            }
             
-            if(amount > movie.getStock())
-            {
+            // validate
+            if(order.getAmount() <= 0){
+                errors.add("The amount must be greater than 0");
+            }else if(order.getAmount() > movie.getStock()){
                 errors.add("There is not enough stock for this amount.");
             }else{
-                
                 try {
                     BigDecimal price = movie.getPrice();
-                    BigDecimal totalPrice = BigDecimal.valueOf(amount).multiply(price);
+                    BigDecimal totalPrice = BigDecimal.valueOf(order.getAmount()).multiply(price);
                     User user = (User) session.getAttribute("user");
                     
-                    
-                    
-                    boolean orderIDExists = true;
                     String ID = "" + (new Random()).nextInt(999999);
                     
                     while (manager.searchOrderById(ID) != null) {
                         ID = "" + (new Random()).nextInt(999999);
                     }
                     
+                    SimpleDateFormat sp = new SimpleDateFormat("yyyy-MM-dd");
+                    LocalDate releaseDate = LocalDate.parse(sp.format(new Date()));
+                    
                     String action = request.getParameter("action");
                     
-                    
-                    if("Save".equals(action))
-                    {
-                        SimpleDateFormat sp = new SimpleDateFormat("yyyy-MM-dd");
-                        LocalDate releaseDate = LocalDate.parse(sp.format(new Date()));
-                        
-                        manager.addOrder(ID,
-                                movie.getID(), user.getID(),
-                                price, amount,
-                                totalPrice, releaseDate,
-                                "SAVED"
-                        );
-                    }else if("Submit".equals(action))
-                    {
-                        SimpleDateFormat sp = new SimpleDateFormat("yyyy-MM-dd");
-                        LocalDate releaseDate = LocalDate.parse(sp.format(new Date()));
-                        
-                        manager.addOrder(ID,
-                                movie.getID(), user.getID(),
-                                price, amount,
-                                totalPrice, releaseDate,
-                                "SUBMITTED"
-                        );
-                        
-                        movie.setStock(movie.getStock() - amount);
-                        
-                        manager.updateMovieStock(movie.getID(), movie.getStock());
+                    if("Save".equals(action)){
+                        order.setStatus("SAVED");
+                    }else if("Submit".equals(action)){
+                        order.setStatus("SUBMITTED");
                     }
+                    
+                    order.setPrice(price);
+                    order.setTotalPrice(totalPrice);
+                    order.setUserID(user.getID());
+                    order.setID(ID);
+                    order.setDate(releaseDate);
                     
                     
                 } catch (SQLException ex) {
                     Logger.getLogger(creatorder.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
             }
         }
         
@@ -170,11 +143,31 @@ public class creatorder extends HttpServlet {
             RequestDispatcher view = request.getRequestDispatcher("/Order/createorder.jsp");
             view.forward(request, response);
         }else{
+            try {
+                manager.addOrder(order.getID(),
+                        movie.getID(),
+                        order.getUserID(),
+                        order.getPrice(),
+                        order.getAmount(),
+                        order.getTotalPrice(),
+                        order.getDate(),
+                        order.getStatus()
+                );
+            } catch (SQLException ex) {
+                Logger.getLogger(creatorder.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            if("SUBMITTED".equals(order.getStatus())){
+                try {
+                    movie.setStock(movie.getStock() - order.getAmount());
+                    manager.updateMovieStock(movie.getID(), movie.getStock());
+                } catch (SQLException ex) {
+                    Logger.getLogger(creatorder.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+                  
             response.sendRedirect("/order/history");
         }
-        
-        
-
     }
 
     /**

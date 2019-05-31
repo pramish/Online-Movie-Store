@@ -593,4 +593,6 @@ public class DatabaseManager {
         st.executeUpdate("UPDATE MOVIE SET STOCK = "+stock+" WHERE ID = '"+id+"'");
         
     }
+	
+	
 }

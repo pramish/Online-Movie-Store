@@ -1,6 +1,8 @@
 package oms.controller.order;
 
 import MODEL.DAO.DatabaseManager;
+import MODEL.Movie;
+import MODEL.Order;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -24,7 +26,20 @@ public class cancelorder extends HttpServlet {
         HttpSession session = request.getSession();
         DatabaseManager manager = (DatabaseManager) session.getAttribute("manager");
         try {
-            manager.deleteOrder(orderId);
+            Order order = manager.searchOrderById(orderId);
+            if(order != null)
+            {
+                manager.deleteOrder(orderId);
+                if("SUBMITTED".equals(order.getStatus()))
+                {
+                    Movie movie = manager.getMovieByID(order.getMovieID());
+                    if(movie != null)
+                    {
+                        manager.updateMovieStock(movie.getID(), movie.getStock()+order.getAmount());
+                    }
+                }
+            }
+            
         } catch (SQLException ex) {
             Logger.getLogger(cancelorder.class.getName()).log(Level.SEVERE, null, ex);
         }
