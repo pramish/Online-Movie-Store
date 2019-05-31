@@ -30,6 +30,9 @@
             <form>
                 <div class="row">
                     <div class="col-sm-3">
+                        <input class="form-control" type="search" name="id" placeholder="Enter ID">        
+                    </div>
+                    <div class="col-sm-3">
                         <input class="form-control" type="date" name="date" placeholder="Enter a date">        
                     </div>
                     <div class="col-sm-2">
@@ -38,9 +41,7 @@
                 </div>
             </form>
             <hr />
-            
-            
-           
+         
         <table class="table table-condensed table-bordered table-striped table-hover"> 
             <thead>
                 <tr>

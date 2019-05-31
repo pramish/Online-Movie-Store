@@ -6,21 +6,12 @@
 package oms.controller.order;
 
 import MODEL.DAO.DatabaseManager;
-import MODEL.Movie;
 import MODEL.Order;
 import MODEL.User;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,7 +20,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import oms.controller.movie.listMovie;
 
 /**
  *
@@ -54,9 +44,10 @@ public class orderhistory extends HttpServlet {
    
         String date = request.getParameter("date");
         
+        String id = request.getParameter("id");
         
         try {
-            orderlist = manager.getUserOrdersByDate(user.getID(),date);
+            orderlist = manager.getUserOrdersByDateOrID(user.getID(),date, id);
                 
         } catch (SQLException ex) {
             

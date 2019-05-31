@@ -125,7 +125,7 @@ public class updateMovie extends HttpServlet {
                     Logger.getLogger(updateMovie.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }else{
-                RequestDispatcher view = request.getRequestDispatcher("/Movie/addMovie.jsp");
+                RequestDispatcher view = request.getRequestDispatcher("/Movie/updateMovie.jsp");
                 view.forward(request, response);
             }  
         }    

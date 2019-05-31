@@ -37,7 +37,7 @@
                         </ul>
                         <div class="form-group">
                             <label>Email</label>
-                            <input class="form-control" type="email" name="email" value="<%=user.getEmail()%>" required>
+                            <input class="form-control" type="email" name="email" value="<%=user.getEmail()%>" >
                         </div>
                         <div class="form-group">
                             <label>Full Name</label>
@@ -49,7 +49,7 @@
                         </div>
                         <div class="form-group">
                             <label>Password</label>
-                            <input class="form-control" type="password" name="password" value="<%=user.getPassword()%>" required>
+                            <input class="form-control" type="password" name="password" value="<%=user.getPassword()%>" >
                         </div>
                         <hr />
                         <a href="/index.jsp" class="btn btn-default">Cancel</a>

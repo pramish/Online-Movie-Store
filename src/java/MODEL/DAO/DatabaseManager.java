@@ -403,6 +403,46 @@ public class DatabaseManager {
         return orderlist;
     }
     
+    public List<Order> getUserOrdersByDateOrID(String userID, String date, String id) throws SQLException {
+        String sql = "SELECT O.*, M.TITLE FROM \"ORDER\" O "
+                + "left join MOVIE M "
+                + "ON O.MOVIEID = M.ID "
+                + "where O.USERID='" + userID + "' "
+                + "";
+        
+        if(date != null && !"".equals(date))
+        {
+            sql += " and O.\"DATE\" = '"+date+"' ";
+        }
+        
+        if(id != null && !"".equals(id))
+        {
+            sql += " and O.\"ID\" like '%"+id+"%' ";
+        }
+        
+        ResultSet rs = st.executeQuery(sql);
+        List<Order> orderlist = new ArrayList<>();
+        
+        
+        while (rs.next()) {
+            orderlist.add(
+                new Order(
+                    rs.getString("ID"), 
+                    rs.getString("CustomerID"), 
+                    rs.getString("MovieID"), 
+                    rs.getString("UserID"), 
+                    new java.math.BigDecimal(rs.getString("price")),
+                    Integer.parseInt(rs.getString("Amount")), 
+                    new java.math.BigDecimal(rs.getString("TotalPrice")), 
+                    rs.getDate("Date").toLocalDate(), 
+                    rs.getString("Status"), 
+                    rs.getString("title")
+                )
+            );
+        }
+        return orderlist;
+    }
+    
 
     public Order findOrder(String orderId, LocalDate orderDay) throws SQLException {
 //        String fetch = "select * from \"ORDER\" where ID = '" + orderId + "' and Date = '" + orderDay + "'";

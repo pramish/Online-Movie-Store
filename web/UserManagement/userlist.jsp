@@ -26,7 +26,7 @@
     <body>
         <div class="container">
             <h1><a href="/">Online Movie System</a></h1>
-            <h2>Staff Management</h2>
+            <h2>User Management</h2>
             <hr />
             <div class="row">
                 <div class="col-sm-4">
