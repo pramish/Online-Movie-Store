@@ -86,13 +86,13 @@ public class updateUser extends HttpServlet {
         List<String> errors = new ArrayList<>();
         Validator v = new Validator();
         if(!v.validateEmail(editUser.getEmail()))       
-            errors.add("Email is not a valid email.");
+            errors.add("Please enter a valid email.");
         if(!v.validateName(editUser.getName()))         
-            errors.add("Name is not a valid name.");
+            errors.add("Please enter a valid name.");
         if(!v.validatePhoneNumber(editUser.getPhoneNumber())) 
-            errors.add("Phone number is not valid number.");
+            errors.add("Please enter a valid phonenumber.");
         if(!v.validatePassword(editUser.getPassword())) 
-            errors.add("Password is not valid.");
+            errors.add("Please enter a valid password.");
         
         // check if new email already exists in database
         try {

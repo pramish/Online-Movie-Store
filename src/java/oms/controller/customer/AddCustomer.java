@@ -68,8 +68,17 @@ public class AddCustomer extends HttpServlet {
             Validator v = new Validator();
 
             if (!v.validateEmail(email)) {
-                errors.add("Email is not a valid email.");
+                errors.add("Email is not valid.");
             }
+            
+            if(!v.validateAddress(address)){
+                errors.add("Address is not valid.");
+            }
+            
+            if(!v.validateName(name)){
+                errors.add("Name format is not valid");
+            }
+            
             if (errors.size() > 0) {
                 request.setAttribute("errors", errors);
                 request.setAttribute("customer", customer);

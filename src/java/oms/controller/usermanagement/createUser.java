@@ -68,8 +68,9 @@ public class createUser extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        session.setAttribute("createUserErrors", new ArrayList<>());
         RequestDispatcher view = request.getRequestDispatcher("/UserManagement/createUser.jsp");
-
         view.forward(request, response);
     }
 
@@ -93,29 +94,56 @@ public class createUser extends HttpServlet {
         String phoneNumber = (String) request.getParameter("phoneNumber");
         int key = (new Random()).nextInt(999999);
         String ID = "" + key;
+        List<String> errors = new ArrayList<>();
+        Validator valid = new Validator();
         try {
-            if (manager.checkEmail(email)) {
 
-                response.sendRedirect("/createUser?failure1=User is already registered..");
+            if (manager.checkEmail(email)) {
+                errors.add("User is already registered.");
+            }
+            if (!valid.validateEmail(email)) {
+                errors.add("Email address is not valid.");
+            }
+            if (!valid.validateName(name)) {
+                errors.add("Name format is not valid.");
+            }
+            if (!valid.validatePassword(password)) {
+                errors.add("Password format is not valid.");
+            }
+            if (!valid.validatePhoneNumber(phoneNumber)) {
+                errors.add("Phone Number is not valid.");
             }
 
-        } catch (SQLException ex) {
-            Logger.getLogger(createUser.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
+            if (errors.size() > 0) {
+                session.setAttribute("createUserErrors", errors);
+                RequestDispatcher view = request.getRequestDispatcher("/UserManagement/createUser.jsp");
+                view.forward(request, response);
+            } else {
 
-            if (!manager.checkEmail(email)) {
                 try {
-                    manager.addUser(ID, email, name, password, phoneNumber);
+
+                    if (!manager.checkEmail(email)) {
+                        try {
+                            manager.addUser(ID, email, name, password, phoneNumber);
+                        } catch (SQLException ex) {
+                            Logger.getLogger(createUser.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        response.sendRedirect("/users?search=" + name);
+                    }
+
                 } catch (SQLException ex) {
                     Logger.getLogger(createUser.class.getName()).log(Level.SEVERE, null, ex);
+                    errors.add(ex.getMessage());
+                    session.setAttribute("createUserErrors", errors);
+                    RequestDispatcher view = request.getRequestDispatcher("/UserManagement/createUser.jsp");
+                    view.forward(request, response);
                 }
-                response.sendRedirect("/users?search="+name);
             }
 
         } catch (SQLException ex) {
             Logger.getLogger(createUser.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 
     @Override

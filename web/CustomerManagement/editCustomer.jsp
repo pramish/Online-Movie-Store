@@ -34,11 +34,11 @@
                         </div>
                         <div class="form-group">
                                 <label for="validationDefault02">NAME</label>
-                                <input type="text" class="form-control" id="validationDefault02" placeholder="enter the name" name="name" value="<%=customer.getName()%>" required>
+                                <input type="text" class="form-control" id="validationDefault02" placeholder="enter the name" name="name" value="<%=customer.getName()%>">
                             </div>
                             <div class="form-group">
                                 <label for="validationDefault03">EMAIL</label>
-                                <input type="text" class="form-control" id="validationDefault03" placeholder="enter the email" name="email" value="<%=customer.getEmail()%>" required>
+                                <input type="text" class="form-control" id="validationDefault03" placeholder="enter the email" name="email" value="<%=customer.getEmail()%>">
                             </div>
                             <div class="form-group">
                                 <label for="validationDefault05">TYPE</label>
