@@ -71,7 +71,7 @@ public class ResetDB {
         query[count++] = "create table \"USER\" ( \"ID\" VARCHAR(50) NOT NULL, \"EMAIL\" VARCHAR(50), \"NAME\" VARCHAR(50), \"PASSWORD\" VARCHAR(50), \"PHONENUMBER\" VARCHAR(50), \"STATUS\" VARCHAR(50), PRIMARY KEY (\"ID\"))";
         query[count++] = "create table \"CUSTOMER\" ( \"ID\" VARCHAR(50) NOT NULL, \"NAME\" VARCHAR(50), \"EMAIL\" VARCHAR(50), \"TYPE\" VARCHAR(50), \"ADDRESS\" VARCHAR(100), \"STATUS\" VARCHAR(50), PRIMARY KEY (\"ID\"))";
         query[count++] = "create table \"MOVIE\" ( \"ID\" VARCHAR(50) NOT NULL, \"TITLE\" VARCHAR(50), \"GENRE\" VARCHAR(50), \"PRICE\" DECIMAL(19,2),\"STOCK\" INT, \"STATUS\" VARCHAR(50), PRIMARY KEY (\"ID\") )";
-        query[count++] = "create table \"STAFF\" ( \"ID\" VARCHAR(50) NOT NULL, \"USERID\" VARCHAR(50) NOT NULL, \"EMAIL\" VARCHAR(50), \"NAME\" VARCHAR(50), \"POSITION\" VARCHAR(50), \"ADDRESS\" VARCHAR(100), \"STATUS\" VARCHAR(50), PRIMARY KEY (\"ID\"), FOREIGN KEY (\"USERID\") REFERENCES \"USER\" (\"ID\")  on delete set null )";
+        query[count++] = "create table \"STAFF\" ( \"ID\" VARCHAR(50) NOT NULL, \"USERID\" VARCHAR(50), \"EMAIL\" VARCHAR(50), \"NAME\" VARCHAR(50), \"POSITION\" VARCHAR(50), \"ADDRESS\" VARCHAR(100), \"STATUS\" VARCHAR(50), PRIMARY KEY (\"ID\"), FOREIGN KEY (\"USERID\") REFERENCES \"USER\" (\"ID\")  on delete set null )";
         query[count++] = "create table \"USERACCESSLOG\" ( \"ID\" VARCHAR(50) NOT NULL, \"USERID\" VARCHAR(50), \"ACCESSTYPE\" VARCHAR(50), \"TIMESTAMP\" TIMESTAMP, PRIMARY KEY (\"ID\"), FOREIGN KEY (\"USERID\") REFERENCES \"USER\" (\"ID\")  on delete set null )";
         query[count++] = "create table \"ORDER\" ( \"ID\" VARCHAR(50) NOT NULL, \"CUSTOMERID\" VARCHAR(50), \"MOVIEID\" VARCHAR(50), \"USERID\" VARCHAR(50), \"PRICE\" DECIMAL(19,2), \"AMOUNT\" INT, \"TOTALPRICE\" DECIMAL(19,2), \"DATE\" DATE, \"STATUS\" VARCHAR(50), PRIMARY KEY (\"ID\"), FOREIGN KEY (\"CUSTOMERID\") REFERENCES \"CUSTOMER\" (\"ID\") on delete set null , FOREIGN KEY (\"MOVIEID\") REFERENCES \"MOVIE\" (\"ID\") on delete set null, FOREIGN KEY (\"USERID\") REFERENCES \"USER\" (\"ID\") on delete set null  )";
         
@@ -83,6 +83,7 @@ public class ResetDB {
                 st.execute(query[i]);    
             } catch (SQLException e){}
         }
+        
     }
     
     private static void addData(Statement st) throws SQLException{

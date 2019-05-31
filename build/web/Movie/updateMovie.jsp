@@ -22,7 +22,7 @@
     <body>
         <div class="container">
             <h1><a href="/">Online Movie System</a></h1>
-            <h2>Add Movie</h2>
+            <h2>Update Movie</h2>
             <hr />
             <span class="text-danger"><%=request.getParameter("failure1") == null ? "":request.getParameter("failure1")%></span>
             <div class="row">

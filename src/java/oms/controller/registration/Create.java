@@ -110,6 +110,7 @@ public class Create extends HttpServlet {
         // Validate variables
         List<String> errors = new ArrayList<>();
         Validator v = new Validator();
+        
         if(!v.validateEmail(registerUser.getEmail()))       
             errors.add("Email is not a valid email.");
         if(!v.validateName(registerUser.getName()))         

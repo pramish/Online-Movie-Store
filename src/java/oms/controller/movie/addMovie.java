@@ -94,6 +94,10 @@ public class addMovie extends HttpServlet {
         String genre = request.getParameter("genre");
         BigDecimal price = new java.math.BigDecimal(request.getParameter("price"));
         int stock = Integer.parseInt(request.getParameter("stock"));
+        
+        
+        
+        
         int key = (new Random()).nextInt(999999);
         String ID = "" + key;
         
@@ -108,6 +112,8 @@ public class addMovie extends HttpServlet {
         
         
             session.setAttribute("movie",movie);
+            
+            
     }
 
     /**

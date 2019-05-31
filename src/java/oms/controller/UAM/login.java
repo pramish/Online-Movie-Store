@@ -68,6 +68,10 @@ public class login extends HttpServlet {
             String timeStamp = "" + isTime;
             String acessType = "LOGIN";
             
+            
+            
+            
+            
             User user = manager.findUserLogin(userEmail, userPassword);
             
             if (user != null) {
