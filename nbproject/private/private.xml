@@ -2,13 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/phoogy/Documents/NetBeansProjects/introduction-to-Software-Development-Assignment/src/java/oms/controller/movie/updateMovie.java</file>
-            <file>file:/C:/Users/phoogy/Documents/NetBeansProjects/introduction-to-Software-Development-Assignment/web/Movie/addMovie.jsp</file>
-            <file>file:/C:/Users/phoogy/Documents/NetBeansProjects/introduction-to-Software-Development-Assignment/src/java/oms/controller/movie/addMovie.java</file>
-            <file>file:/C:/Users/phoogy/Documents/NetBeansProjects/introduction-to-Software-Development-Assignment/src/java/MODEL/DAO/DatabaseManager.java</file>
-            <file>file:/C:/Users/phoogy/Documents/NetBeansProjects/introduction-to-Software-Development-Assignment/src/java/MODEL/controller/ConnServlet.java</file>
-            <file>file:/C:/Users/phoogy/Documents/NetBeansProjects/introduction-to-Software-Development-Assignment/web/Movie/updateMovie.jsp</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
